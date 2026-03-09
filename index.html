@@ -217,7 +217,6 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
       <h3>📈 Return Metrics</h3>
       <table class="inv-table">
         <tr><td>Total Return (2025)</td><td id="d-roi">—</td></tr>
-        <tr><td>Annualized Return (2025)</td><td id="d-roi-ann">—</td></tr>
         <tr><td>IRR (since inception)</td><td id="d-irr">—</td></tr>
         <tr><td>Net Return ($)</td><td id="d-net-return">—</td></tr>
         <tr><td>Distributions to Date</td><td id="d-distrib-total">—</td></tr>
@@ -294,42 +293,42 @@ const INVESTORS = {
   "AUP-2025": {
     name:"Au Passage Ltd.", subscribed:1229200.44, distrib:32281.14, netBalance:1196919.30,
     begin2025:1232281.14, nav2025:1342909.53, participation:0.0849, netReturn:110628.39,
-    roi:0.08978, roiAnn:0.08978, irr:0.08707, distribApproved:"N", distribAmt:0, begin2026:1342909.53
+    roi:0.08978, roiAnn:0.08978, irr:0.087071, distribApproved:"N", distribAmt:0, begin2026:1342909.53
   },
   "BLO-2025": {
     name:"Bank Lombard Odier & Co. Ltd.", subscribed:4097334.78, distrib:107603.82, netBalance:3989730.96,
     begin2025:4107603.82, nav2025:4476366.22, participation:0.2829, netReturn:368762.40,
-    roi:0.08978, roiAnn:0.08978, irr:0.08707, distribApproved:"N", distribAmt:0, begin2026:4476366.22
+    roi:0.08978, roiAnn:0.08978, irr:0.087068, distribApproved:"N", distribAmt:0, begin2026:4476366.22
   },
   "ESC-2025": {
     name:"ESCARPAS Ltd.", subscribed:498750, distrib:0, netBalance:498750,
     begin2025:498750, nav2025:519833.96, participation:0.03285, netReturn:21083.96,
-    roi:0.04227, roiAnn:0.08455, irr:0.08310, distribApproved:"N", distribAmt:0, begin2026:519833.96
+    roi:0.04227, roiAnn:0.08455, irr:0.08630, distribApproved:"N", distribAmt:0, begin2026:519833.96
   },
   "FND-2025": {
     name:"Fundo BLP BGT Real Estate", subscribed:150000, distrib:0, netBalance:150000,
     begin2025:150000, nav2025:152864.00, participation:0.00966, netReturn:2864.00,
-    roi:0.01909, roiAnn:0.07637, irr:0.07589, distribApproved:"N", distribAmt:0, begin2026:152864.00
+    roi:0.01909, roiAnn:0.07637, irr:0.07860, distribApproved:"N", distribAmt:0, begin2026:152864.00
   },
   "GPJ-2025": {
     name:"GPJET Corp.", subscribed:498750, distrib:13450.45, netBalance:485299.55,
     begin2025:500000, nav2025:545366.47, participation:0.03446, netReturn:45366.47,
-    roi:0.09073, roiAnn:0.09073, irr:0.08716, distribApproved:"N", distribAmt:0, begin2026:545366.47
+    roi:0.09073, roiAnn:0.09073, irr:0.09070, distribApproved:"N", distribAmt:0, begin2026:545366.47
   },
   "HAW-2025": {
     name:"Hawi, Ltd.", subscribed:498750, distrib:0, netBalance:498750,
     begin2025:498750, nav2025:519833.96, participation:0.03285, netReturn:21083.96,
-    roi:0.04227, roiAnn:0.08455, irr:0.08310, distribApproved:"N", distribAmt:0, begin2026:519833.96
+    roi:0.04227, roiAnn:0.08455, irr:0.08630, distribApproved:"N", distribAmt:0, begin2026:519833.96
   },
   "VIS-2025": {
     name:"inVista US Real Estate Private Credit Fund Ltd.", subscribed:498750, distrib:19451.01, netBalance:479298.99,
     begin2025:500000, nav2025:544821.50, participation:0.03443, netReturn:44821.50,
-    roi:0.08964, roiAnn:0.08964, irr:0.08616, distribApproved:"Y", distribAmt:44821.50, begin2026:500000
+    roi:0.08964, roiAnn:0.08964, irr:0.08620, distribApproved:"Y", distribAmt:44821.50, begin2026:500000
   },
   "LIV-2025": {
     name:"LIV Fund SPC - Real Estate Lending SP", subscribed:750000, distrib:0, netBalance:750000,
     begin2025:750000, nav2025:764320.00, participation:0.04830, netReturn:14320.00,
-    roi:0.01909, roiAnn:0.07637, irr:0.07589, distribApproved:"Y", distribAmt:14319.99, begin2026:750000
+    roi:0.01909, roiAnn:0.07637, irr:0.07590, distribApproved:"Y", distribAmt:14319.99, begin2026:750000
   },
   "MIL-2025": {
     name:"Milmax Investments Ltd.", subscribed:498750, distrib:0, netBalance:498750,
@@ -339,22 +338,22 @@ const INVESTORS = {
   "OCN-2025": {
     name:"Ocean Investing Corp.", subscribed:1197000, distrib:13450.45, netBalance:1183549.55,
     begin2025:1200000, nav2025:1283296.03, participation:0.08110, netReturn:83296.03,
-    roi:0.06941, roiAnn:0.08750, irr:0.08445, distribApproved:"Y", distribAmt:83296.03, begin2026:1200000
+    roi:0.06941, roiAnn:0.08750, irr:0.08450, distribApproved:"Y", distribAmt:83296.03, begin2026:1200000
   },
   "PAI-2025": {
     name:"Paissandu Ltd.", subscribed:3990000, distrib:23358.32, netBalance:3966641.68,
     begin2025:4000000, nav2025:4326379.26, participation:0.27340, netReturn:326379.26,
-    roi:0.08159, roiAnn:0.08750, irr:0.08616, distribApproved:"N", distribAmt:0, begin2026:4326379.26
+    roi:0.08159, roiAnn:0.08750, irr:0.08620, distribApproved:"N", distribAmt:0, begin2026:4326379.26
   },
   "PIR-2025": {
     name:"Pirita Ltd.", subscribed:257500, distrib:8187.76, netBalance:249312.24,
     begin2025:260000, nav2025:283307.20, participation:0.01790, netReturn:23307.20,
-    roi:0.08964, roiAnn:0.08964, irr:0.08616, distribApproved:"Y", distribAmt:23307.20, begin2026:260000
+    roi:0.08964, roiAnn:0.08964, irr:0.08620, distribApproved:"Y", distribAmt:23307.20, begin2026:260000
   },
   "QUE-2025": {
     name:"Quepar Ltd.", subscribed:498750, distrib:13450.45, netBalance:485299.55,
     begin2025:500000, nav2025:545366.47, participation:0.03446, netReturn:45366.47,
-    roi:0.09073, roiAnn:0.09073, irr:0.08716, distribApproved:"N", distribAmt:0, begin2026:545366.47
+    roi:0.09073, roiAnn:0.09073, irr:0.08720, distribApproved:"N", distribAmt:0, begin2026:545366.47
   }
 };
 const ADMIN_PASS = "2405586";
@@ -417,11 +416,10 @@ function __render(pass) {
     set('inv-subscribed', fmt$(inv.subscribed));
     set('inv-nav', fmt$(inv.nav2025));
     set('inv-return', fmt$(inv.netReturn));
-    set('inv-roi-sub', 'ROI ' + fmtPct(inv.roi) + '  ·  Ann. ' + fmtPct(inv.roiAnn));
+    set('inv-roi-sub', 'ROI ' + fmtPct(inv.roi));
     set('inv-distrib', fmt$(inv.distrib));
 
     set('d-roi',       fmtPct(inv.roi));
-    set('d-roi-ann',   fmtPct(inv.roiAnn));
     set('d-irr',       fmtPct(inv.irr));
     set('d-net-return',fmt$(inv.netReturn));
     set('d-distrib-total', fmt$(inv.distrib));
