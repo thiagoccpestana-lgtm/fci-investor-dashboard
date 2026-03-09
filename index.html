@@ -5,6 +5,108 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BGT Real Estate Opp Fund Portfolio — Investor Dashboard</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+<style>
+/* ── Password Gate ─────────────────────────────────────────────────────── */
+#gate {
+  position: fixed; inset: 0; z-index: 9999;
+  background: linear-gradient(135deg, #0f1e35 0%, #1a3a6e 100%);
+  display: flex; align-items: center; justify-content: center;
+}
+#gate-box {
+  background: #ffffff; border-radius: 18px;
+  padding: 48px 44px 40px; width: 100%; max-width: 400px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.45);
+  text-align: center;
+}
+#gate-logo { margin-bottom: 24px; display: flex; justify-content: center; }
+#gate-title {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 1.15rem; font-weight: 700; color: #1a2e4a;
+  margin-bottom: 4px;
+}
+#gate-sub {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 0.78rem; color: #64748b; margin-bottom: 28px;
+}
+#gate-label {
+  display: block; text-align: left;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 0.72rem; font-weight: 600; color: #374151;
+  text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px;
+}
+#gate-input {
+  width: 100%; padding: 13px 16px; border-radius: 10px;
+  border: 1.5px solid #d1d5db; font-size: 1rem;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  outline: none; transition: border 0.2s;
+  text-align: center; letter-spacing: 4px;
+  color: #1a2e4a; background: #f8fafc;
+}
+#gate-input:focus { border-color: #2563eb; background: #fff; }
+#gate-input.shake {
+  animation: shake 0.4s ease;
+  border-color: #dc2626 !important;
+}
+@keyframes shake {
+  0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)}
+  40%{transform:translateX(8px)} 60%{transform:translateX(-6px)}
+  80%{transform:translateX(6px)}
+}
+#gate-btn {
+  margin-top: 18px; width: 100%; padding: 14px;
+  background: linear-gradient(135deg, #1a2e4a 0%, #2563eb 100%);
+  color: #fff; border: none; border-radius: 10px;
+  font-size: 0.92rem; font-weight: 700; cursor: pointer;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  letter-spacing: 0.5px; transition: opacity 0.2s;
+}
+#gate-btn:hover { opacity: 0.9; }
+#gate-err {
+  margin-top: 12px; font-size: 0.78rem; color: #dc2626;
+  font-family: 'Segoe UI', Arial, sans-serif; min-height: 18px;
+}
+#gate-footer {
+  margin-top: 24px; font-size: 0.68rem; color: #9ca3af;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+</style>
+
+<script>
+// ── Password Gate Logic ───────────────────────────────────────────────────
+(function() {
+  const PASS = "2405586";
+  const KEY  = "bgt_auth";
+  // Already authenticated this session?
+  if (sessionStorage.getItem(KEY) === "ok") return;
+  // Hide body until auth
+  document.addEventListener('DOMContentLoaded', function() {
+    document.body.style.visibility = 'hidden';
+    const gate = document.getElementById('gate');
+    if (gate) gate.style.display = 'flex';
+    document.body.style.visibility = 'visible';
+  });
+  window.__checkPass = function() {
+    const val = document.getElementById('gate-input').value;
+    const inp = document.getElementById('gate-input');
+    const err = document.getElementById('gate-err');
+    if (val === PASS) {
+      sessionStorage.setItem(KEY, "ok");
+      document.getElementById('gate').style.display = 'none';
+    } else {
+      inp.classList.remove('shake');
+      void inp.offsetWidth; // reflow
+      inp.classList.add('shake');
+      err.textContent = 'Incorrect password. Please try again.';
+      inp.value = '';
+      inp.focus();
+    }
+  };
+  window.__gateKeydown = function(e) {
+    if (e.key === 'Enter') window.__checkPass();
+  };
+})();
+</script>
 <style>
   :root {
     --navy:   #1a2e4a;
@@ -147,6 +249,30 @@
 </style>
 </head>
 <body>
+
+<!-- PASSWORD GATE -->
+<div id="gate" style="display:none;">
+  <div id="gate-box">
+    <div id="gate-logo">
+      <svg width="72" height="72" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" style="border-radius:6px;">
+        <rect width="64" height="64" fill="#000000"/>
+        <polygon points="32,7 52,38 12,38" fill="none" stroke="#ffffff" stroke-width="1.8"/>
+        <polygon points="32,15 44,34 20,34" fill="none" stroke="#ffffff" stroke-width="1.4"/>
+        <line x1="9" y1="43" x2="55" y2="43" stroke="#ffffff" stroke-width="1"/>
+        <text x="32" y="52" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#ffffff" letter-spacing="1.5">BGT Capital</text>
+        <line x1="9" y1="57" x2="55" y2="57" stroke="#ffffff" stroke-width="1"/>
+      </svg>
+    </div>
+    <div id="gate-title">BGT Real Estate Opp Fund</div>
+    <div id="gate-sub">Investor Dashboard &nbsp;·&nbsp; Confidential Access</div>
+    <label id="gate-label" for="gate-input">Enter Password</label>
+    <input id="gate-input" type="password" placeholder="••••••••"
+           onkeydown="__gateKeydown(event)" autocomplete="off"/>
+    <div id="gate-err"></div>
+    <button id="gate-btn" onclick="__checkPass()">Access Dashboard →</button>
+    <div id="gate-footer">Authorized investors only. Contact BGT Capital for access.</div>
+  </div>
+</div>
 
 <!-- HEADER -->
 <div class="header">
