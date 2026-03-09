@@ -115,6 +115,20 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
 .disclaimer{margin-top:28px;padding:14px 18px;background:#f8fafc;border:1px solid var(--border);border-radius:10px;font-size:0.7rem;color:var(--gray);line-height:1.6;}
 .footer{text-align:center;padding:18px;font-size:0.7rem;color:#94a3b8;border-top:1px solid var(--border);margin-top:28px;}
 .divider{height:1px;background:var(--border);margin:28px 0;}
+/* ── ADMIN INVESTOR TABLE ── */
+.all-inv-tbl{width:100%;border-collapse:collapse;font-size:0.78rem;}
+.all-inv-tbl thead tr{background:linear-gradient(135deg,var(--navy) 0%,#1e3a6e 100%);}
+.all-inv-tbl thead th{color:#e2e8f0;font-weight:600;padding:10px 12px;text-align:right;font-size:0.68rem;letter-spacing:0.4px;white-space:nowrap;}
+.all-inv-tbl thead th:first-child{text-align:left;}
+.all-inv-tbl tbody tr{border-bottom:1px solid var(--border);transition:background .15s;}
+.all-inv-tbl tbody tr:hover{background:var(--sky);}
+.all-inv-tbl tbody td{padding:9px 12px;text-align:right;color:#1e293b;}
+.all-inv-tbl tbody td:first-child{text-align:left;font-weight:600;color:var(--navy);}
+.all-inv-tbl tfoot tr{background:#f8fafc;border-top:2px solid var(--navy);}
+.all-inv-tbl tfoot td{padding:9px 12px;text-align:right;font-weight:700;color:var(--navy);font-size:0.78rem;}
+.all-inv-tbl tfoot td:first-child{text-align:left;}
+.distrib-yes{background:#dcfce7;color:#15803d;padding:2px 8px;border-radius:20px;font-size:0.67rem;font-weight:700;}
+.distrib-no{color:#94a3b8;font-size:0.72rem;}
 
 @media(max-width:900px){
   .inv-grid,.kpi-grid{grid-template-columns:repeat(2,1fr);}
@@ -243,6 +257,31 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
 <!-- ══ FUND PORTFOLIO OVERVIEW (visible to all) ══════════════════════════ -->
 <div id="fund-section">
   <div id="admin-label" class="section-label">BGT Real Estate Opp Fund — Full Portfolio Overview</div>
+
+  <!-- ADMIN: All Investors Positions -->
+  <div id="all-investors-section" style="display:none;margin-bottom:28px;">
+    <div class="section-label">Investor Positions — As of December 31, 2025</div>
+    <div class="card" style="overflow-x:auto;">
+      <table class="all-inv-tbl">
+        <thead>
+          <tr>
+            <th style="text-align:left;">#</th>
+            <th style="text-align:left;">Investor</th>
+            <th>Amt. Invested</th>
+            <th>NAV (Dec 31)</th>
+            <th>Net Return</th>
+            <th>ROI</th>
+            <th>IRR (Jan 2025)</th>
+            <th>Distributions</th>
+            <th>Distrib. Approved</th>
+            <th>Balance Begin 2026</th>
+          </tr>
+        </thead>
+        <tbody id="all-inv-tbody"></tbody>
+        <tfoot id="all-inv-tfoot"></tfoot>
+      </table>
+    </div>
+  </div>
 
   <div class="kpi-grid">
     <div class="kpi navy"><div class="kpi-label">Total Loans</div><div class="kpi-value" id="kpi-total"></div><div class="kpi-sub">in portfolio</div></div>
@@ -430,6 +469,44 @@ function __render(pass) {
     set('d-participation', fmtPct(inv.participation,2) + ' of fund');
     set('d-distrib-app', inv.distribApproved === 'Y' ? '✅ Approved' : '—');
     set('d-distrib-amt', inv.distribAmt > 0 ? fmt$(inv.distribAmt) : '—');
+  }
+
+  // ── ADMIN: ALL INVESTORS TABLE ──────────────────────────────────────────
+  if(pass === ADMIN_PASS) {
+    document.getElementById('all-investors-section').style.display = 'block';
+    const tbody = document.getElementById('all-inv-tbody');
+    const tfoot = document.getElementById('all-inv-tfoot');
+    const keys = Object.keys(INVESTORS);
+    let totSubscribed=0,totNav=0,totReturn=0,totDistrib=0,totBegin2026=0;
+    keys.forEach((k,i) => {
+      const p = INVESTORS[k];
+      totSubscribed+=p.subscribed; totNav+=p.nav2025; totReturn+=p.netReturn;
+      totDistrib+=p.distrib; totBegin2026+=p.begin2026;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td style="text-align:left;color:#94a3b8;font-weight:400">${i+1}</td>
+        <td style="text-align:left;font-weight:600;color:var(--navy)">${p.name}</td>
+        <td>${fmt$(p.subscribed)}</td>
+        <td style="font-weight:700">${fmt$(p.nav2025)}</td>
+        <td style="color:var(--green)">${fmt$(p.netReturn)}</td>
+        <td>${fmtPct(p.roi)}</td>
+        <td>${fmtPct(p.irr)}</td>
+        <td>${p.distrib>0?fmt$(p.distrib):'—'}</td>
+        <td style="text-align:center">${p.distribApproved==='Y'?'<span class="distrib-yes">✓ Yes</span>':'<span class="distrib-no">—</span>'}</td>
+        <td style="font-weight:700;color:var(--navy)">${fmt$(p.begin2026)}</td>`;
+      tbody.appendChild(tr);
+    });
+    const tf = document.createElement('tr');
+    tf.innerHTML = `
+      <td></td><td style="text-align:left">Total (${keys.length} investors)</td>
+      <td>${fmt$(totSubscribed)}</td>
+      <td>${fmt$(totNav)}</td>
+      <td style="color:var(--green)">${fmt$(totReturn)}</td>
+      <td>—</td><td>—</td>
+      <td>${fmt$(totDistrib)}</td>
+      <td></td>
+      <td>${fmt$(totBegin2026)}</td>`;
+    tfoot.appendChild(tf);
   }
 
   // ── FUND KPIs (always shown) ─────────────────────────────────────────────
