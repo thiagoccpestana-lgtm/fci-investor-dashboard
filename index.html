@@ -154,16 +154,16 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
 
 /* ── MOBILE (≤600px) ── */
 @media(max-width:600px){
-  /* Header: compact single row */
-  .header{padding:12px 14px;flex-direction:row;align-items:center;justify-content:space-between;flex-wrap:nowrap;}
-  .header-left{gap:10px;flex:1;min-width:0;}
-  .header-left svg{width:36px;height:36px;flex-shrink:0;}
-  .header-left h1{font-size:0.9rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .header-left p{display:none;}
-  .header-right{gap:7px;flex-shrink:0;}
-  .badge{padding:5px 8px;font-size:0.65rem;gap:5px;}
-  .badge .dot{width:6px;height:6px;}
-  .logout-btn{padding:5px 10px;font-size:0.68rem;}
+  /* Header: tight single row — logo + title + sign out only */
+  .header{padding:10px 12px;flex-direction:row;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:8px;}
+  .header-left{gap:8px;flex:1;min-width:0;overflow:hidden;}
+  .header-left > div{min-width:0;overflow:hidden;}
+  .header-left svg{width:32px;height:32px;flex-shrink:0;}
+  .header-left h1{font-size:0.82rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  #header-sub, .header-left p{display:none !important;}
+  .header-right{gap:6px;flex-shrink:0;}
+  .badge{display:none !important;}   /* hide "Data as of" — saves space */
+  .logout-btn{padding:6px 12px;font-size:0.72rem;white-space:nowrap;flex-shrink:0;}
 
   /* Main content */
   .main{padding:14px 12px;}
@@ -188,13 +188,14 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
   .inv-card-label{font-size:0.63rem;}
   .inv-card-sub{font-size:0.63rem;}
 
-  /* Investor detail panels: single column */
-  .inv-detail-grid{grid-template-columns:1fr;gap:12px;margin-bottom:14px;}
-  .inv-detail{padding:16px;border-radius:12px;margin-bottom:14px;}
+  /* Investor detail panels: single column, no overflow */
+  .inv-detail-grid{grid-template-columns:1fr !important;gap:12px;margin-bottom:14px;}
+  .inv-detail{padding:16px;border-radius:12px;margin-bottom:0;width:100%;box-sizing:border-box;}
   .inv-detail h3{font-size:0.78rem;margin-bottom:12px;}
-  .inv-table{font-size:0.78rem;}
-  .inv-table td{padding:7px 8px;}
-  .inv-table td:first-child{width:58%;}
+  .inv-table{font-size:0.78rem;table-layout:fixed;width:100%;}
+  .inv-table td{padding:7px 8px;word-break:break-word;}
+  .inv-table td:first-child{width:55%;}
+  .inv-table td:last-child{width:45%;}
 
   /* Fund KPI grid: 2 columns */
   .kpi-grid{grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px;}
