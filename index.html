@@ -567,7 +567,7 @@ function __render(pass) {
     keys.forEach((k,i) => {
       const p = INVESTORS[k];
       totSubscribed+=p.subscribed; totNav+=p.nav2025; totReturn+=p.netReturn;
-      totDistrib+=p.distrib; totBegin2026+=p.begin2026;
+      totDistrib+=(p.distribApproved==='Y'?p.distribAmt:0); totBegin2026+=p.begin2026;
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td style="text-align:left;color:#94a3b8;font-weight:400">${i+1}</td>
@@ -577,7 +577,7 @@ function __render(pass) {
         <td style="color:var(--green)">${fmt$(p.netReturn)}</td>
         <td>${fmtPct(p.roi)}</td>
         <td>${fmtPct(p.irr)}</td>
-        <td>${p.distrib>0?fmt$(p.distrib):'—'}</td>
+        <td>${p.distribApproved==='Y'?fmt$(p.distribAmt):'—'}</td>
         <td style="text-align:center">${p.distribApproved==='Y'?'<span class="distrib-yes">✓ Yes</span>':'<span class="distrib-no">—</span>'}</td>
         <td style="font-weight:700;color:var(--navy)">${fmt$(p.begin2026)}</td>`;
       tbody.appendChild(tr);
