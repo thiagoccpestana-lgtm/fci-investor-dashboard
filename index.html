@@ -543,12 +543,12 @@ function __render(pass) {
     set('inv-nav', fmt$(inv.nav2025));
     set('inv-return', fmt$(inv.netReturn));
     set('inv-roi-sub', 'ROI ' + fmtPct(inv.roi));
-    set('inv-distrib', fmt$(inv.distrib));
+    set('inv-distrib', inv.distribApproved === 'Y' ? fmt$(inv.distribAmt) : '—');
 
     set('d-roi',       fmtPct(inv.roi));
     set('d-irr',       fmtPct(inv.irr));
     set('d-net-return',fmt$(inv.netReturn));
-    set('d-distrib-total', fmt$(inv.distrib));
+    set('d-distrib-total', inv.distribApproved === 'Y' ? fmt$(inv.distribAmt) : '—');
     set('d-begin2026', fmt$(inv.begin2026));
     set('d-subscribed', fmt$(inv.subscribed));
     set('d-begin2025', fmt$(inv.begin2025));
