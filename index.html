@@ -287,10 +287,6 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
       <h2 id="inv-name">Welcome</h2>
       <p>Your personal investment summary &nbsp;·&nbsp; BGT Real Estate Opportunity Fund</p>
     </div>
-    <div class="fund-badge">
-      <strong id="inv-participation">—</strong>
-      Fund Participation
-    </div>
   </div>
 
   <!-- Position KPI cards -->
@@ -336,7 +332,6 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
         <tr><td>Amount Subscribed</td><td id="d-subscribed">—</td></tr>
         <tr><td>Balance Beginning 2025</td><td id="d-begin2025">—</td></tr>
         <tr><td>NAV as of Dec 31, 2025</td><td id="d-nav2025">—</td></tr>
-        <tr><td>Fund Participation</td><td id="d-participation">—</td></tr>
         <tr><td>Distribution Approved</td><td id="d-distrib-app">—</td></tr>
         <tr><td>Distribution Amount</td><td id="d-distrib-amt">—</td></tr>
       </table>
@@ -425,12 +420,12 @@ const INVESTORS = {
   "AUP-2025": {
     name:"Au Passage Ltd.", subscribed:1229200.44, distrib:32281.14, netBalance:1196919.30,
     begin2025:1232281.14, nav2025:1342909.53, participation:0.0849, netReturn:110628.39,
-    roi:0.08978, roiAnn:0.08978, irr:0.087071, distribApproved:"N", distribAmt:0, begin2026:1342909.53
+    roi:0.08978, roiAnn:0.08978, irr:0.0871, distribApproved:"N", distribAmt:0, begin2026:1342909.53
   },
   "BLO-2025": {
     name:"Bank Lombard Odier & Co. Ltd.", subscribed:4097334.78, distrib:107603.82, netBalance:3989730.96,
     begin2025:4107603.82, nav2025:4476366.22, participation:0.2829, netReturn:368762.40,
-    roi:0.08978, roiAnn:0.08978, irr:0.087068, distribApproved:"N", distribAmt:0, begin2026:4476366.22
+    roi:0.08978, roiAnn:0.08978, irr:0.0871, distribApproved:"N", distribAmt:0, begin2026:4476366.22
   },
   "ESC-2025": {
     name:"ESCARPAS Ltd.", subscribed:498750, distrib:0, netBalance:498750,
@@ -544,7 +539,6 @@ function __render(pass) {
     document.getElementById('inv-section').style.display = 'block';
 
     set('inv-name', 'Welcome, ' + inv.name);
-    set('inv-participation', fmtPct(inv.participation,2));
     set('inv-subscribed', fmt$(inv.subscribed));
     set('inv-nav', fmt$(inv.nav2025));
     set('inv-return', fmt$(inv.netReturn));
@@ -559,7 +553,6 @@ function __render(pass) {
     set('d-subscribed', fmt$(inv.subscribed));
     set('d-begin2025', fmt$(inv.begin2025));
     set('d-nav2025',   fmt$(inv.nav2025));
-    set('d-participation', fmtPct(inv.participation,2) + ' of fund');
     set('d-distrib-app', inv.distribApproved === 'Y' ? '✅ Approved' : '—');
     set('d-distrib-amt', inv.distribAmt > 0 ? fmt$(inv.distribAmt) : '—');
   }
