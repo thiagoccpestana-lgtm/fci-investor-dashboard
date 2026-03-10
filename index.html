@@ -484,6 +484,7 @@ const INVESTORS = {
   }
 };
 const ADMIN_PASS = "2405586";
+const GUEST_PASS = "GUEST";
 
 // ══ FUND DATA ═════════════════════════════════════════════════════════════════
 const D = {
@@ -512,7 +513,7 @@ window.__login = function() {
   const inp = document.getElementById('gate-input');
   const err = document.getElementById('gate-err');
   const inv = INVESTORS[val];
-  if(val === ADMIN_PASS || inv) {
+  if(val === ADMIN_PASS || val === GUEST_PASS || inv) {
     sessionStorage.setItem(KEY, val);
     document.getElementById('gate').style.display = 'none';
     __render(val);
@@ -531,6 +532,12 @@ window.__logout = function() {
 function __render(pass) {
   const inv = INVESTORS[pass];
   set('asOf', D.asOf);
+
+  if(pass === GUEST_PASS) {
+    // ── GUEST / PRESENTATION VIEW ─────────────────────────────────────────
+    document.getElementById('header-sub').textContent = 'BGT Real Estate Opp Fund  ·  Fund Overview';
+    document.getElementById('admin-label').style.display = 'none';
+  }
 
   if(inv) {
     // ── INVESTOR VIEW ──────────────────────────────────────────────────────
@@ -651,7 +658,7 @@ function __render(pass) {
 // ══ INIT ══════════════════════════════════════════════════════════════════════
 (function(){
   const saved = sessionStorage.getItem(KEY);
-  if(saved && (saved === ADMIN_PASS || INVESTORS[saved])) {
+  if(saved && (saved === ADMIN_PASS || saved === GUEST_PASS || INVESTORS[saved])) {
     document.getElementById('gate').style.display = 'none';
     __render(saved);
   }
