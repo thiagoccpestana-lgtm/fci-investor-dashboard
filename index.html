@@ -77,6 +77,9 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
 .inv-card.navy{border-top:3px solid var(--navy);}
 .inv-card.purple{border-top:3px solid #7c3aed;}
 
+/* ── INVESTOR DETAIL GRID ── */
+.inv-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:28px;}
+
 /* ── INVESTOR DETAIL CARD ── */
 .inv-detail{background:#fff;border-radius:14px;padding:24px;border:1px solid var(--border);box-shadow:0 1px 6px rgba(0,0,0,.05);margin-bottom:28px;}
 .inv-detail h3{font-size:0.82rem;font-weight:700;color:var(--navy);margin-bottom:18px;display:flex;align-items:center;gap:8px;}
@@ -139,11 +142,91 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
 .distrib-yes{background:#dcfce7;color:#15803d;padding:2px 8px;border-radius:20px;font-size:0.67rem;font-weight:700;}
 .distrib-no{color:#94a3b8;font-size:0.72rem;}
 
+/* ── TABLET (≤900px) ── */
 @media(max-width:900px){
-  .inv-grid,.kpi-grid{grid-template-columns:repeat(2,1fr);}
+  .kpi-grid{grid-template-columns:repeat(3,1fr);}
+  .inv-grid{grid-template-columns:repeat(2,1fr);}
   .charts-grid,.charts-grid-2{grid-template-columns:1fr;}
-  .header{flex-direction:column;gap:12px;align-items:flex-start;}
   .main{padding:18px 14px;}
+  .header{padding:16px 20px;}
+  .header-left h1{font-size:1.1rem;}
+}
+
+/* ── MOBILE (≤600px) ── */
+@media(max-width:600px){
+  /* Header: compact single row */
+  .header{padding:12px 14px;flex-direction:row;align-items:center;justify-content:space-between;flex-wrap:nowrap;}
+  .header-left{gap:10px;flex:1;min-width:0;}
+  .header-left svg{width:36px;height:36px;flex-shrink:0;}
+  .header-left h1{font-size:0.9rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .header-left p{display:none;}
+  .header-right{gap:7px;flex-shrink:0;}
+  .badge{padding:5px 8px;font-size:0.65rem;gap:5px;}
+  .badge .dot{width:6px;height:6px;}
+  .logout-btn{padding:5px 10px;font-size:0.68rem;}
+
+  /* Main content */
+  .main{padding:14px 12px;}
+  .section-label{font-size:0.65rem;margin-bottom:8px;}
+
+  /* Gate / login screen */
+  #gate-box{padding:32px 22px 26px;border-radius:14px;margin:16px;}
+  #gate-title{font-size:1rem;}
+  #gate-sub{font-size:0.73rem;margin-bottom:20px;}
+
+  /* Investor welcome banner */
+  #inv-banner{padding:18px 16px;border-radius:12px;margin-bottom:18px;flex-direction:column;align-items:flex-start;gap:12px;}
+  #inv-banner .welcome-text h2{font-size:1.05rem;}
+  #inv-banner .welcome-text p{font-size:0.74rem;}
+  #inv-banner .fund-badge{width:100%;display:flex;align-items:center;justify-content:space-between;padding:8px 14px;}
+  #inv-banner .fund-badge strong{display:inline;font-size:1rem;margin-bottom:0;margin-right:6px;}
+
+  /* Investor KPI cards: 2 columns */
+  .inv-grid{grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px;}
+  .inv-card{padding:14px 12px;border-radius:12px;}
+  .inv-card-value{font-size:1.15rem;}
+  .inv-card-label{font-size:0.63rem;}
+  .inv-card-sub{font-size:0.63rem;}
+
+  /* Investor detail panels: single column */
+  .inv-detail-grid{grid-template-columns:1fr;gap:12px;margin-bottom:14px;}
+  .inv-detail{padding:16px;border-radius:12px;margin-bottom:14px;}
+  .inv-detail h3{font-size:0.78rem;margin-bottom:12px;}
+  .inv-table{font-size:0.78rem;}
+  .inv-table td{padding:7px 8px;}
+  .inv-table td:first-child{width:58%;}
+
+  /* Fund KPI grid: 2 columns */
+  .kpi-grid{grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px;}
+  .kpi{padding:14px 12px;border-radius:12px;}
+  .kpi-value{font-size:1.15rem;}
+  .kpi-label{font-size:0.63rem;}
+  .kpi-sub{font-size:0.63rem;}
+
+  /* Status pills: full width stack */
+  .status-row{flex-direction:column;gap:8px;margin-bottom:18px;}
+  .status-pill{min-width:unset;width:100%;padding:12px 14px;}
+  .status-pill .ico{font-size:1.2rem;}
+  .status-pill .num{font-size:1.1rem;}
+
+  /* Charts */
+  .charts-grid,.charts-grid-2{grid-template-columns:1fr;gap:12px;margin-bottom:14px;}
+  .card{padding:14px 14px;border-radius:12px;}
+  .card-title{font-size:0.74rem;margin-bottom:12px;}
+
+  /* Metrics table */
+  .metrics-tbl{font-size:0.72rem;}
+  .metrics-tbl thead th{padding:7px 8px;font-size:0.63rem;}
+  .metrics-tbl tbody td{padding:6px 8px;}
+
+  /* Admin investor table: scrollable */
+  .all-inv-tbl{font-size:0.7rem;}
+  .all-inv-tbl thead th{padding:7px 8px;font-size:0.6rem;}
+  .all-inv-tbl tbody td{padding:6px 8px;}
+
+  /* Disclaimer & footer */
+  .disclaimer{font-size:0.65rem;padding:10px 12px;}
+  .footer{font-size:0.65rem;padding:14px;}
 }
 </style>
 </head>
@@ -235,7 +318,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
   </div>
 
   <!-- Return metrics detail -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:28px;">
+  <div class="inv-detail-grid">
     <div class="inv-detail">
       <h3>📈 Return Metrics</h3>
       <table class="inv-table">
