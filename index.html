@@ -365,30 +365,9 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
   <!-- ══ TAB 1: MY POSITION + CASH FLOW ══ -->
   <div id="tab-content-myview">
 
-    <!-- Position KPI cards -->
+    <!-- KPI cards (from cashflow section — best format) -->
     <div class="section-label">Your Position — As of December 31, 2025</div>
-    <div class="inv-grid">
-      <div class="inv-card navy">
-        <div class="inv-card-label">Amount Invested</div>
-        <div class="inv-card-value" id="inv-subscribed">—</div>
-        <div class="inv-card-sub">net of initial fee</div>
-      </div>
-      <div class="inv-card blue">
-        <div class="inv-card-label">Current NAV</div>
-        <div class="inv-card-value" id="inv-nav">—</div>
-        <div class="inv-card-sub">value end of 2025</div>
-      </div>
-      <div class="inv-card green">
-        <div class="inv-card-label">Net Return</div>
-        <div class="inv-card-value" id="inv-return">—</div>
-        <div class="inv-card-sub" id="inv-roi-sub">—</div>
-      </div>
-      <div class="inv-card amber">
-        <div class="inv-card-label">Distributions Received</div>
-        <div class="inv-card-value" id="inv-distrib">—</div>
-        <div class="inv-card-sub">total paid to date</div>
-      </div>
-    </div>
+    <div class="inv-grid" id="cf-kpi-row" style="margin-bottom:22px;"></div>
 
     <!-- Return metrics detail -->
     <div class="inv-detail-grid">
@@ -417,9 +396,6 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
     <!-- Divider into Cash Flow section -->
     <div class="divider" style="margin:20px 0;"></div>
     <div class="section-label">💰 Cash Flow &amp; Distributions — Fiscal Year 2025</div>
-
-    <!-- CF KPI cards -->
-    <div class="inv-grid" id="cf-kpi-row" style="margin-bottom:22px;"></div>
 
     <!-- Timeline -->
     <div class="card" style="margin-bottom:22px;">
