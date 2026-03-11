@@ -358,66 +358,65 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
 
   <!-- TABS -->
   <div class="inv-tabs">
-    <button class="inv-tab active" id="tab-position" onclick="__switchTab('position')">📊 My Position</button>
-    <button class="inv-tab" id="tab-cashflow" onclick="__switchTab('cashflow')">💰 Cash Flow &amp; Distributions</button>
+    <button class="inv-tab active" id="tab-myview" onclick="__switchTab('myview')">📊 My Position &amp; Cash Flow</button>
+    <button class="inv-tab" id="tab-fundoverview" onclick="__switchTab('fundoverview')">🏦 Fund Overview</button>
   </div>
 
-  <!-- ══ TAB: MY POSITION ══ -->
-  <div id="tab-content-position">
-  <!-- Position KPI cards -->
-  <div class="section-label">Your Position — As of December 31, 2025</div>
-  <div class="inv-grid">
-    <div class="inv-card navy">
-      <div class="inv-card-label">Amount Invested</div>
-      <div class="inv-card-value" id="inv-subscribed">—</div>
-      <div class="inv-card-sub">net of initial fee</div>
-    </div>
-    <div class="inv-card blue">
-      <div class="inv-card-label">Current NAV</div>
-      <div class="inv-card-value" id="inv-nav">—</div>
-      <div class="inv-card-sub">value end of 2025</div>
-    </div>
-    <div class="inv-card green">
-      <div class="inv-card-label">Net Return</div>
-      <div class="inv-card-value" id="inv-return">—</div>
-      <div class="inv-card-sub" id="inv-roi-sub">—</div>
-    </div>
-    <div class="inv-card amber">
-      <div class="inv-card-label">Distributions Received</div>
-      <div class="inv-card-value" id="inv-distrib">—</div>
-      <div class="inv-card-sub">total paid to date</div>
-    </div>
-  </div>
+  <!-- ══ TAB 1: MY POSITION + CASH FLOW ══ -->
+  <div id="tab-content-myview">
 
-  <!-- Return metrics detail -->
-  <div class="inv-detail-grid">
-    <div class="inv-detail">
-      <h3>📈 Return Metrics</h3>
-      <table class="inv-table">
-        <tr><td>Total Return (2025)</td><td id="d-roi">—</td></tr>
-        <tr><td>IRR (since Jan 2025)</td><td id="d-irr">—</td></tr>
-        <tr><td>Net Return ($)</td><td id="d-net-return">—</td></tr>
-        <tr><td>Distributions to Date</td><td id="d-distrib-total">—</td></tr>
-        <tr><td>Balance Beginning 2026</td><td id="d-begin2026">—</td></tr>
-      </table>
+    <!-- Position KPI cards -->
+    <div class="section-label">Your Position — As of December 31, 2025</div>
+    <div class="inv-grid">
+      <div class="inv-card navy">
+        <div class="inv-card-label">Amount Invested</div>
+        <div class="inv-card-value" id="inv-subscribed">—</div>
+        <div class="inv-card-sub">net of initial fee</div>
+      </div>
+      <div class="inv-card blue">
+        <div class="inv-card-label">Current NAV</div>
+        <div class="inv-card-value" id="inv-nav">—</div>
+        <div class="inv-card-sub">value end of 2025</div>
+      </div>
+      <div class="inv-card green">
+        <div class="inv-card-label">Net Return</div>
+        <div class="inv-card-value" id="inv-return">—</div>
+        <div class="inv-card-sub" id="inv-roi-sub">—</div>
+      </div>
+      <div class="inv-card amber">
+        <div class="inv-card-label">Distributions Received</div>
+        <div class="inv-card-value" id="inv-distrib">—</div>
+        <div class="inv-card-sub">total paid to date</div>
+      </div>
     </div>
-    <div class="inv-detail">
-      <h3>📋 Investment Summary</h3>
-      <table class="inv-table">
-        <tr><td>Amount Subscribed</td><td id="d-subscribed">—</td></tr>
-        <tr><td>Balance Beginning 2025</td><td id="d-begin2025">—</td></tr>
-        <tr><td>NAV as of Dec 31, 2025</td><td id="d-nav2025">—</td></tr>
-        <tr><td>Distribution Approved</td><td id="d-distrib-app">—</td></tr>
-        <tr><td>Distribution Amount</td><td id="d-distrib-amt">—</td></tr>
-      </table>
+
+    <!-- Return metrics detail -->
+    <div class="inv-detail-grid">
+      <div class="inv-detail">
+        <h3>📈 Return Metrics</h3>
+        <table class="inv-table">
+          <tr><td>Total Return (2025)</td><td id="d-roi">—</td></tr>
+          <tr><td>IRR (since Jan 2025)</td><td id="d-irr">—</td></tr>
+          <tr><td>Net Return ($)</td><td id="d-net-return">—</td></tr>
+          <tr><td>Distributions to Date</td><td id="d-distrib-total">—</td></tr>
+          <tr><td>Balance Beginning 2026</td><td id="d-begin2026">—</td></tr>
+        </table>
+      </div>
+      <div class="inv-detail">
+        <h3>📋 Investment Summary</h3>
+        <table class="inv-table">
+          <tr><td>Amount Subscribed</td><td id="d-subscribed">—</td></tr>
+          <tr><td>Balance Beginning 2025</td><td id="d-begin2025">—</td></tr>
+          <tr><td>NAV as of Dec 31, 2025</td><td id="d-nav2025">—</td></tr>
+          <tr><td>Distribution Approved</td><td id="d-distrib-app">—</td></tr>
+          <tr><td>Distribution Amount</td><td id="d-distrib-amt">—</td></tr>
+        </table>
+      </div>
     </div>
-  </div>
 
-  </div><!-- end tab-content-position -->
-
-  <!-- ══ TAB: CASH FLOW ══ -->
-  <div id="tab-content-cashflow" style="display:none;">
-    <div class="section-label">Cash Flow &amp; Distributions — Fiscal Year 2025</div>
+    <!-- Divider into Cash Flow section -->
+    <div class="divider" style="margin:20px 0;"></div>
+    <div class="section-label">💰 Cash Flow &amp; Distributions — Fiscal Year 2025</div>
 
     <!-- CF KPI cards -->
     <div class="inv-grid" id="cf-kpi-row" style="margin-bottom:22px;"></div>
@@ -440,7 +439,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
       </div>
     </div>
 
-    <!-- Detail table -->
+    <!-- Transaction table -->
     <div class="card" style="margin-bottom:22px;">
       <div class="card-title">📋 Transaction Detail</div>
       <div style="overflow-x:auto;">
@@ -451,10 +450,12 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
         </table>
       </div>
     </div>
-  </div><!-- end tab-content-cashflow -->
 
-  <div class="divider"></div>
-  <div class="section-label">Fund Overview</div>
+  </div><!-- end tab-content-myview -->
+
+  <!-- ══ TAB 2: FUND OVERVIEW (fund-section moved here by JS) ══ -->
+  <div id="tab-content-fundoverview" style="display:none;"></div>
+
 </div>
 
 <!-- ══ FUND PORTFOLIO OVERVIEW (visible to all) ══════════════════════════ -->
@@ -721,7 +722,7 @@ const MONTH_FULL  = ['January','February','March','April','May','June','July','A
 
 // ══ TAB SWITCHER ══════════════════════════════════════════════════════════════
 window.__switchTab = function(tab) {
-  ['position','cashflow'].forEach(t => {
+  ['myview','fundoverview'].forEach(t => {
     document.getElementById('tab-content-'+t).style.display = t===tab ? 'block' : 'none';
     document.getElementById('tab-'+t).classList.toggle('active', t===tab);
   });
@@ -914,8 +915,13 @@ function __render(pass) {
     set('d-distrib-app', inv.distribApproved === 'Y' ? '✅ Approved' : '—');
     set('d-distrib-amt', inv.distribAmt > 0 ? fmt$(inv.distribAmt) : '—');
 
-    // Render cashflow tab
+    // Render cashflow section
     __renderCashflow(pass, inv);
+
+    // Move fund-section into Tab 2 for investor view
+    const fundEl = document.getElementById('fund-section');
+    const tabFund = document.getElementById('tab-content-fundoverview');
+    if(fundEl && tabFund) tabFund.appendChild(fundEl);
   }
 
   // ── ADMIN: ALL INVESTORS TABLE ──────────────────────────────────────────
