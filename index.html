@@ -127,6 +127,55 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
 .disclaimer{margin-top:28px;padding:14px 18px;background:#f8fafc;border:1px solid var(--border);border-radius:10px;font-size:0.7rem;color:var(--gray);line-height:1.6;}
 .footer{text-align:center;padding:18px;font-size:0.7rem;color:#94a3b8;border-top:1px solid var(--border);margin-top:28px;}
 .divider{height:1px;background:var(--border);margin:28px 0;}
+
+/* ── INVESTOR TABS ── */
+.inv-tabs{display:flex;gap:10px;margin-bottom:22px;border-bottom:2px solid var(--border);padding-bottom:0;}
+.inv-tab{padding:10px 20px;font-size:0.8rem;font-weight:600;color:var(--gray);background:none;border:none;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:color .2s,border-color .2s;border-radius:0;}
+.inv-tab:hover{color:var(--navy);}
+.inv-tab.active{color:var(--blue);border-bottom-color:var(--blue);}
+
+/* ── CASHFLOW TIMELINE ── */
+.cf-timeline-wrap{overflow-x:auto;padding-bottom:6px;}
+.cf-timeline{display:flex;align-items:flex-start;gap:0;position:relative;min-width:500px;}
+.cf-timeline::before{content:'';position:absolute;top:22px;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--navy),var(--blue));z-index:0;}
+.cf-tl-item{flex:1;display:flex;flex-direction:column;align-items:center;position:relative;z-index:1;}
+.cf-tl-dot{width:12px;height:12px;border-radius:50%;border:2.5px solid #fff;margin-bottom:8px;flex-shrink:0;}
+.cf-tl-dot.invest{background:var(--red);box-shadow:0 0 0 2px var(--red);}
+.cf-tl-dot.distrib{background:var(--green);box-shadow:0 0 0 2px var(--green);}
+.cf-tl-dot.nav{background:var(--navy);box-shadow:0 0 0 2px var(--navy);}
+.cf-tl-dot.empty{background:#cbd5e1;box-shadow:0 0 0 2px #cbd5e1;}
+.cf-tl-label{font-size:0.6rem;font-weight:700;color:var(--gray);text-align:center;margin-bottom:3px;}
+.cf-tl-amount{font-size:0.65rem;font-weight:700;text-align:center;line-height:1.3;}
+.cf-tl-amount.neg{color:var(--red);}
+.cf-tl-amount.pos{color:var(--green);}
+.cf-tl-amount.nav-amt{color:var(--navy);}
+.cf-tl-sub{font-size:0.55rem;color:var(--gray);text-align:center;margin-top:2px;}
+
+/* ── CASHFLOW TABLE ── */
+.cf-table{width:100%;border-collapse:collapse;font-size:0.81rem;}
+.cf-table thead th{background:var(--navy);color:#e2e8f0;font-weight:600;padding:9px 13px;text-align:left;font-size:0.7rem;}
+.cf-table thead th:last-child{text-align:right;}
+.cf-table tbody tr{border-bottom:1px solid var(--border);}
+.cf-table tbody tr:hover{background:var(--sky);}
+.cf-table tbody td{padding:9px 13px;color:#1e293b;}
+.cf-table tbody td.amt-neg{color:var(--red);text-align:right;font-weight:700;}
+.cf-table tbody td.amt-pos{color:var(--green);text-align:right;font-weight:700;}
+.cf-table tbody td.amt-nav{color:var(--blue);text-align:right;font-weight:700;}
+.cf-table tfoot td{padding:9px 13px;font-weight:700;color:var(--navy);border-top:2px solid var(--navy);background:#f8fafc;}
+.cf-table tfoot td:last-child{text-align:right;}
+.badge-invest{background:var(--red2);color:var(--red);padding:2px 9px;border-radius:20px;font-size:0.65rem;font-weight:700;}
+.badge-distrib{background:var(--green2);color:var(--green);padding:2px 9px;border-radius:20px;font-size:0.65rem;font-weight:700;}
+.badge-nav{background:var(--sky);color:var(--blue);padding:2px 9px;border-radius:20px;font-size:0.65rem;font-weight:700;}
+
+/* ── CF TWO-COL CHARTS ── */
+.cf-two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px;}
+@media(max-width:700px){.cf-two-col{grid-template-columns:1fr;}}
+@media(max-width:600px){
+  .inv-tab{padding:8px 12px;font-size:0.72rem;}
+  .cf-table{font-size:0.72rem;}
+  .cf-table thead th{padding:7px 8px;font-size:0.62rem;}
+  .cf-table tbody td{padding:7px 8px;}
+}
 /* ── ADMIN INVESTOR TABLE ── */
 .all-inv-tbl{width:100%;border-collapse:collapse;font-size:0.78rem;}
 .all-inv-tbl thead tr{background:linear-gradient(135deg,var(--navy) 0%,#1e3a6e 100%);}
@@ -289,6 +338,14 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
     </div>
   </div>
 
+  <!-- TABS -->
+  <div class="inv-tabs">
+    <button class="inv-tab active" id="tab-position" onclick="__switchTab('position')">📊 My Position</button>
+    <button class="inv-tab" id="tab-cashflow" onclick="__switchTab('cashflow')">💰 Cash Flow &amp; Distributions</button>
+  </div>
+
+  <!-- ══ TAB: MY POSITION ══ -->
+  <div id="tab-content-position">
   <!-- Position KPI cards -->
   <div class="section-label">Your Position — As of December 31, 2025</div>
   <div class="inv-grid">
@@ -337,6 +394,46 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
       </table>
     </div>
   </div>
+
+  </div><!-- end tab-content-position -->
+
+  <!-- ══ TAB: CASH FLOW ══ -->
+  <div id="tab-content-cashflow" style="display:none;">
+    <div class="section-label">Cash Flow &amp; Distributions — Fiscal Year 2025</div>
+
+    <!-- CF KPI cards -->
+    <div class="inv-grid" id="cf-kpi-row" style="margin-bottom:22px;"></div>
+
+    <!-- Timeline -->
+    <div class="card" style="margin-bottom:22px;">
+      <div class="card-title">📅 Investment Timeline</div>
+      <div class="cf-timeline-wrap"><div class="cf-timeline" id="cf-timeline"></div></div>
+    </div>
+
+    <!-- Charts -->
+    <div class="cf-two-col">
+      <div class="card">
+        <div class="card-title">📊 Cash Flows by Month</div>
+        <div class="chart-wrap" style="height:220px;"><canvas id="chartCF"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">📈 NAV Growth (2025)</div>
+        <div class="chart-wrap" style="height:220px;"><canvas id="chartNAV"></canvas></div>
+      </div>
+    </div>
+
+    <!-- Detail table -->
+    <div class="card" style="margin-bottom:22px;">
+      <div class="card-title">📋 Transaction Detail</div>
+      <div style="overflow-x:auto;">
+        <table class="cf-table">
+          <thead><tr><th>Date</th><th>Description</th><th>Type</th><th style="text-align:right;">Amount</th><th style="text-align:right;">Cumul. Invested</th></tr></thead>
+          <tbody id="cf-tbody"></tbody>
+          <tfoot id="cf-tfoot"></tfoot>
+        </table>
+      </div>
+    </div>
+  </div><!-- end tab-content-cashflow -->
 
   <div class="divider"></div>
   <div class="section-label">Fund Overview</div>
@@ -483,6 +580,169 @@ const INVESTORS = {
     roi:0.09073, roiAnn:0.09073, irr:0.08720, distribApproved:"N", distribAmt:0, begin2026:545366.47
   }
 };
+// ══ CASHFLOW DATA ════════════════════════════════════════════════════════════
+// investments: [{month:0-11, amount, label}], month 0=Jan … 11=Dec
+// distrib: {month, amount} or null
+const CASHFLOWS = {
+  "AUP-2025": {
+    investments:[{month:0,amount:1229200.44,label:"Initial Sub."}],
+    distrib:null, irr:0.0871
+  },
+  "BLO-2025": {
+    investments:[{month:0,amount:4097334.78,label:"Initial Sub."}],
+    distrib:null, irr:0.0871
+  },
+  "ESC-2025": {
+    investments:[{month:6,amount:498750,label:"Initial Sub."}],
+    distrib:null, irr:0.08630
+  },
+  "FND-2025": {
+    investments:[{month:9,amount:150000,label:"Initial Sub."}],
+    distrib:null, irr:0.07860
+  },
+  "GPJ-2025": {
+    investments:[{month:0,amount:498750,label:"Initial Sub."}],
+    distrib:null, irr:0.09070
+  },
+  "HAW-2025": {
+    investments:[{month:6,amount:498750,label:"Initial Sub."}],
+    distrib:null, irr:0.08630
+  },
+  "VIS-2025": {
+    investments:[{month:0,amount:498750,label:"Initial Sub."}],
+    distrib:{month:11,amount:44821.50}, irr:0.08620
+  },
+  "LIV-2025": {
+    investments:[{month:9,amount:750000,label:"Initial Sub."}],
+    distrib:{month:11,amount:14319.99}, irr:0.07590
+  },
+  "MIL-2025": {
+    investments:[{month:6,amount:498750,label:"Initial Sub."}],
+    distrib:null, irr:0.08310
+  },
+  "OCN-2025": {
+    investments:[
+      {month:0,amount:500000,label:"Initial Sub."},
+      {month:3,amount:420000,label:"Add. Sub."},
+      {month:6,amount:280000,label:"Add. Sub."}
+    ],
+    distrib:{month:11,amount:83296.03}, irr:0.08450
+  },
+  "PAI-2025": {
+    investments:[{month:1,amount:3990000,label:"Initial Sub."}],
+    distrib:null, irr:0.08620
+  },
+  "PIR-2025": {
+    investments:[{month:0,amount:257500,label:"Initial Sub."}],
+    distrib:{month:11,amount:23307.20}, irr:0.08620
+  },
+  "QUE-2025": {
+    investments:[{month:0,amount:498750,label:"Initial Sub."}],
+    distrib:null, irr:0.08720
+  }
+};
+
+const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MONTH_FULL  = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+// ══ TAB SWITCHER ══════════════════════════════════════════════════════════════
+window.__switchTab = function(tab) {
+  ['position','cashflow'].forEach(t => {
+    document.getElementById('tab-content-'+t).style.display = t===tab ? 'block' : 'none';
+    document.getElementById('tab-'+t).classList.toggle('active', t===tab);
+  });
+};
+
+// ══ CASHFLOW RENDERER ════════════════════════════════════════════════════════
+let _cfChartCF = null, _cfChartNAV = null;
+function __renderCashflow(invKey, inv) {
+  const cf = CASHFLOWS[invKey];
+  if(!cf) return;
+
+  // ── KPI cards ──
+  const kpiRow = document.getElementById('cf-kpi-row');
+  const totalInvested = cf.investments.reduce((s,x)=>s+x.amount,0);
+  const distribAmt = cf.distrib ? cf.distrib.amount : 0;
+  const distribApproved = inv.distribApproved === 'Y';
+  kpiRow.innerHTML = `
+    <div class="inv-card navy"><div class="inv-card-label">Total Invested</div><div class="inv-card-value">${fmt$(totalInvested)}</div><div class="inv-card-sub">${cf.investments.length} subscription${cf.investments.length>1?'s':''} in 2025</div></div>
+    <div class="inv-card blue"><div class="inv-card-label">NAV (Dec 31, 2025)</div><div class="inv-card-value">${fmt$(inv.nav2025)}</div><div class="inv-card-sub">fund value end of year</div></div>
+    <div class="inv-card green"><div class="inv-card-label">Net Return</div><div class="inv-card-value">${fmt$(inv.netReturn)}</div><div class="inv-card-sub">ROI ${fmtPct(inv.roi)}</div></div>
+    <div class="inv-card amber"><div class="inv-card-label">Distribution</div><div class="inv-card-value">${distribApproved ? fmt$(distribAmt) : '—'}</div><div class="inv-card-sub">${distribApproved ? '✅ Approved' : 'Pending approval'}</div></div>`;
+
+  // ── Timeline ──
+  const tl = document.getElementById('cf-timeline');
+  let tlHTML = '';
+  const investMonths = new Set(cf.investments.map(x=>x.month));
+  const distribMonth = cf.distrib ? cf.distrib.month : -1;
+  for(let m=0; m<13; m++) {
+    const isDistrib = m === distribMonth;
+    const investIdx = cf.investments.findIndex(x=>x.month===m);
+    const isInvest = investIdx >= 0;
+    const isNav = m === 12;
+    let dotClass = 'empty', labelText = m<12 ? MONTH_NAMES[m] : 'Jan 2026', amountHTML = '';
+    if(isNav) {
+      dotClass='nav';
+      amountHTML=`<div class="cf-tl-amount nav-amt">${fmt$(inv.begin2026)}</div><div class="cf-tl-sub">Bal. fwd.</div>`;
+    } else if(isInvest) {
+      dotClass='invest';
+      labelText=MONTH_NAMES[m]+' 2025';
+      amountHTML=`<div class="cf-tl-amount neg">−${fmt$(cf.investments[investIdx].amount)}</div><div class="cf-tl-sub">${cf.investments[investIdx].label}</div>`;
+    } else if(isDistrib) {
+      dotClass='distrib';
+      labelText=MONTH_NAMES[m]+' 2025';
+      amountHTML=`<div class="cf-tl-amount pos">+${fmt$(cf.distrib.amount)}</div><div class="cf-tl-sub">Distribution</div>`;
+    }
+    tlHTML += `<div class="cf-tl-item"><div class="cf-tl-dot ${dotClass}"></div><div class="cf-tl-label">${labelText}</div>${amountHTML}</div>`;
+  }
+  tl.innerHTML = tlHTML;
+
+  // ── Cashflow table ──
+  const tbody = document.getElementById('cf-tbody');
+  const tfoot = document.getElementById('cf-tfoot');
+  let cumul = 0, rows = '';
+  cf.investments.forEach(x => {
+    cumul += x.amount;
+    rows += `<tr><td>${MONTH_FULL[x.month]} 1, 2025</td><td>${x.label}</td><td><span class="badge-invest">Investment</span></td><td class="amt-neg">(${fmt$(x.amount)})</td><td style="text-align:right;">${fmt$(cumul)}</td></tr>`;
+  });
+  if(cf.distrib) {
+    rows += `<tr><td>Dec 31, 2025</td><td>Approved Distribution</td><td><span class="badge-distrib">Distribution</span></td><td class="amt-pos">${fmt$(cf.distrib.amount)}</td><td style="text-align:right;">${fmt$(cumul)}</td></tr>`;
+  }
+  rows += `<tr><td>Jan 1, 2026</td><td>NAV — Balance Carried Forward</td><td><span class="badge-nav">NAV</span></td><td class="amt-nav">${fmt$(inv.begin2026)}</td><td style="text-align:right;">—</td></tr>`;
+  tbody.innerHTML = rows;
+  tfoot.innerHTML = `<tr><td colspan="3">Net Return (2025)</td><td style="color:var(--green);text-align:right;">${fmt$(inv.netReturn)}</td><td style="color:var(--green);text-align:right;">ROI ${fmtPct(inv.roi)}</td></tr>`;
+
+  // ── Charts ──
+  const months12 = MONTH_NAMES;
+  const cfData = new Array(12).fill(0);
+  cf.investments.forEach(x => { cfData[x.month] -= x.amount; });
+  if(cf.distrib) cfData[cf.distrib.month] += cf.distrib.amount;
+  const cfColors = cfData.map(v => v<0 ? '#dc2626' : v>0 ? '#16a34a' : '#e2e8f0');
+  const cfBorders = cfData.map(v => v<0 ? '#b91c1c' : v>0 ? '#15803d' : '#cbd5e1');
+
+  if(_cfChartCF) _cfChartCF.destroy();
+  _cfChartCF = new Chart(document.getElementById('chartCF'), {
+    type:'bar',
+    data:{labels:months12,datasets:[{label:'Cash Flow',data:cfData,backgroundColor:cfColors,borderColor:cfBorders,borderWidth:1.5,borderRadius:5,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{const v=c.raw;if(v===0)return ' No activity';return (v<0?' Investment: ':' Distribution: ')+'$'+Math.abs(v).toLocaleString();}}}},scales:{y:{ticks:{callback:v=>(v===0?'$0':(v<0?'−$':'$')+Math.abs(v/1000).toFixed(0)+'K')},grid:{color:'#f1f5f9'}},x:{grid:{display:false}}}}
+  });
+
+  // NAV growth
+  const mr = cf.irr / 12;
+  let nav = 0;
+  const navData = [];
+  const invByMonth = new Array(12).fill(0);
+  cf.investments.forEach(x => { invByMonth[x.month] += x.amount; });
+  for(let i=0; i<12; i++) { nav = (nav + invByMonth[i]) * (1 + mr); navData.push(Math.round(nav)); }
+
+  if(_cfChartNAV) _cfChartNAV.destroy();
+  _cfChartNAV = new Chart(document.getElementById('chartNAV'), {
+    type:'line',
+    data:{labels:months12,datasets:[{label:'NAV',data:navData,borderColor:'#2563eb',backgroundColor:'rgba(37,99,235,0.08)',borderWidth:2.5,fill:true,tension:0.4,pointBackgroundColor:'#2563eb',pointRadius:4,pointHoverRadius:6}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' NAV: $'+c.raw.toLocaleString()}}},scales:{y:{ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'K'},grid:{color:'#f1f5f9'}},x:{grid:{display:false}}}}
+  });
+}
+
 const ADMIN_PASS = "2405586";
 const GUEST_PASS = "GUEST";
 
@@ -562,6 +822,9 @@ function __render(pass) {
     set('d-nav2025',   fmt$(inv.nav2025));
     set('d-distrib-app', inv.distribApproved === 'Y' ? '✅ Approved' : '—');
     set('d-distrib-amt', inv.distribAmt > 0 ? fmt$(inv.distribAmt) : '—');
+
+    // Render cashflow tab
+    __renderCashflow(pass, inv);
   }
 
   // ── ADMIN: ALL INVESTORS TABLE ──────────────────────────────────────────
