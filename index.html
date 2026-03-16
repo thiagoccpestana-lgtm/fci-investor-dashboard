@@ -137,14 +137,14 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
 /* ── CASHFLOW TIMELINE ── */
 .cf-timeline-wrap{overflow-x:auto;padding-bottom:6px;}
 .cf-timeline{display:flex;align-items:flex-start;gap:0;position:relative;min-width:500px;}
-.cf-timeline::before{content:'';position:absolute;top:22px;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--navy),var(--blue));z-index:0;}
+.cf-timeline::before{content:'';position:absolute;top:32px;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--navy),var(--blue));z-index:0;}
 .cf-tl-item{flex:1;display:flex;flex-direction:column;align-items:center;position:relative;z-index:1;}
-.cf-tl-dot{width:12px;height:12px;border-radius:50%;border:2.5px solid #fff;margin-bottom:8px;flex-shrink:0;}
+.cf-tl-dot{width:12px;height:12px;border-radius:50%;border:2.5px solid #fff;flex-shrink:0;margin-top:2px;}
 .cf-tl-dot.invest{background:var(--red);box-shadow:0 0 0 2px var(--red);}
 .cf-tl-dot.distrib{background:var(--green);box-shadow:0 0 0 2px var(--green);}
 .cf-tl-dot.nav{background:var(--navy);box-shadow:0 0 0 2px var(--navy);}
 .cf-tl-dot.empty{background:#cbd5e1;box-shadow:0 0 0 2px #cbd5e1;}
-.cf-tl-label{font-size:0.6rem;font-weight:700;color:var(--gray);text-align:center;margin-bottom:3px;}
+.cf-tl-label{font-size:0.6rem;font-weight:700;color:var(--gray);text-align:center;margin-bottom:6px;line-height:1.2;}
 .cf-tl-amount{font-size:0.65rem;font-weight:700;text-align:center;line-height:1.3;}
 .cf-tl-amount.neg{color:var(--red);}
 .cf-tl-amount.pos{color:var(--green);}
@@ -745,7 +745,7 @@ function __renderCashflow(invKey, inv, pfx) {
       labelText=MONTH_NAMES[m]+' 2025';
       amountHTML=`<div class="cf-tl-amount pos">+${fmt$(cf.distrib.amount)}</div><div class="cf-tl-sub">Distribution</div>`;
     }
-    tlHTML += `<div class="cf-tl-item"><div class="cf-tl-dot ${dotClass}"></div><div class="cf-tl-label">${labelText}</div>${amountHTML}</div>`;
+    tlHTML += `<div class="cf-tl-item"><div class="cf-tl-label">${labelText}</div><div class="cf-tl-dot ${dotClass}"></div>${amountHTML}</div>`;
   }
   tl.innerHTML = tlHTML;
 
@@ -940,7 +940,7 @@ function __render(pass) {
   set('kpi-perf-upb', fmtM(D.performingUPB));
   set('kpi-perf-pct', (D.performingUPB/D.totalUPB*100).toFixed(1)+'% of total');
   set('kpi-rate', D.wtdAvgRate.toFixed(2)+'%');
-  set('kpi-pmt', fmtM(D.totalMonthlyPayments));
+  set('kpi-pmt', '$'+(D.totalMonthlyPayments/1000).toFixed(0)+'K');
   set('st-perf-n', D.performing+' loans');
   set('st-perf-upb', fmt$(D.performingUPB)+' UPB');
   set('st-paid-n', D.paidOff+' loans');
