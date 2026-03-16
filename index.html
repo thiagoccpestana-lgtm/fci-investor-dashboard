@@ -2,1003 +2,184 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>BGT Real Estate Opp Fund — Investor Portal</title>
-<!-- PWA -->
-<link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#1a2e4a">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="BGT Fund">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js'));}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BGT Real Estate Opp Fund Portfolio — Investor Dashboard</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-:root {
-  --navy:#1a2e4a; --blue:#2563eb; --sky:#e8f0fe;
-  --green:#16a34a; --green2:#dcfce7;
-  --amber:#d97706; --amber2:#fef3c7;
-  --red:#dc2626; --red2:#fee2e2;
-  --gray:#64748b; --border:#e2e8f0; --white:#ffffff;
-}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
-
-/* ── GATE ── */
-#gate{position:fixed;inset:0;z-index:9999;background:linear-gradient(135deg,#0f1e35 0%,#1a3a6e 100%);display:flex;align-items:center;justify-content:center;}
-#gate-box{background:#fff;border-radius:18px;padding:44px 40px 36px;width:100%;max-width:400px;box-shadow:0 30px 80px rgba(0,0,0,0.45);text-align:center;}
-#gate-logo{margin-bottom:20px;display:flex;justify-content:center;}
-#gate-title{font-size:1.15rem;font-weight:700;color:var(--navy);margin-bottom:4px;}
-#gate-sub{font-size:0.78rem;color:var(--gray);margin-bottom:26px;}
-.g-label{display:block;text-align:left;font-size:0.72rem;font-weight:600;color:#374151;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:7px;}
-.g-input{width:100%;padding:12px 16px;border-radius:10px;border:1.5px solid #d1d5db;font-size:1rem;outline:none;transition:border .2s;text-align:center;letter-spacing:4px;color:var(--navy);background:#f8fafc;}
-.g-input:focus{border-color:var(--blue);background:#fff;}
-.g-input.shake{animation:shake .4s ease;border-color:var(--red)!important;}
-@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
-#gate-btn{margin-top:16px;width:100%;padding:13px;background:linear-gradient(135deg,#1a2e4a 0%,#2563eb 100%);color:#fff;border:none;border-radius:10px;font-size:0.92rem;font-weight:700;cursor:pointer;transition:opacity .2s;}
-#gate-btn:hover{opacity:.9;}
-#gate-err{margin-top:10px;font-size:0.78rem;color:var(--red);min-height:18px;}
-#gate-footer{margin-top:20px;font-size:0.68rem;color:#9ca3af;}
-
-/* ── HEADER ── */
-.header{background:linear-gradient(135deg,var(--navy) 0%,#1e3a6e 100%);padding:24px 40px;padding-top:calc(24px + env(safe-area-inset-top));display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 20px rgba(0,0,0,.25);}
-.header-left{display:flex;align-items:center;gap:16px;}
-.header-left h1{color:#fff;font-size:1.45rem;font-weight:700;}
-.header-left p{color:#93c5fd;font-size:0.8rem;margin-top:3px;}
-.header-right{display:flex;align-items:center;gap:12px;}
-.badge{background:rgba(255,255,255,.12);color:#bfdbfe;border:1px solid rgba(255,255,255,.2);padding:6px 14px;border-radius:20px;font-size:0.76rem;display:flex;align-items:center;gap:7px;}
-.badge .dot{width:7px;height:7px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f2f5;color:#1a1a2e}
+.header{background:linear-gradient(135deg,#1F3864 0%,#2E75B6 100%);color:#fff;padding:24px 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.header-left{display:flex;align-items:center;gap:18px}
+.header h1{font-size:1.6rem;font-weight:700;letter-spacing:.5px}
+.header p{font-size:.85rem;opacity:.8;margin-top:2px}
+.badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:8px 18px;font-size:.82rem;display:flex;align-items:center;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;background:#4ade80;display:inline-block;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.logout-btn{background:rgba(255,255,255,.1);color:#bfdbfe;border:1px solid rgba(255,255,255,.2);padding:6px 14px;border-radius:20px;font-size:0.76rem;cursor:pointer;transition:background .2s;}
-.logout-btn:hover{background:rgba(255,255,255,.2);}
-
-/* ── LAYOUT ── */
-.main{max-width:1280px;margin:0 auto;padding:28px 24px;}
-.section-label{font-size:0.69rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--gray);margin-bottom:12px;}
-
-/* ── INVESTOR WELCOME BANNER ── */
-#inv-banner{background:linear-gradient(135deg,#1a2e4a 0%,#1e40af 100%);border-radius:16px;padding:28px 32px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
-#inv-banner .welcome-text h2{color:#fff;font-size:1.3rem;font-weight:700;margin-bottom:4px;}
-#inv-banner .welcome-text p{color:#93c5fd;font-size:0.82rem;}
-#inv-banner .fund-badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:10px 18px;color:#bfdbfe;font-size:0.76rem;text-align:center;}
-#inv-banner .fund-badge strong{display:block;color:#fff;font-size:1.1rem;margin-bottom:2px;}
-
-/* ── INVESTOR POSITION CARDS ── */
-.inv-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;}
-.inv-card{background:#fff;border-radius:14px;padding:20px 18px;border:1px solid var(--border);box-shadow:0 1px 6px rgba(0,0,0,.05);display:flex;flex-direction:column;gap:5px;transition:transform .15s,box-shadow .15s;}
-.inv-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.1);}
-.inv-card-label{font-size:0.69rem;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:0.6px;}
-.inv-card-value{font-size:1.45rem;font-weight:800;color:var(--navy);line-height:1;}
-.inv-card-sub{font-size:0.7rem;color:var(--gray);}
-.inv-card.green{border-top:3px solid var(--green);}
-.inv-card.blue{border-top:3px solid var(--blue);}
-.inv-card.amber{border-top:3px solid var(--amber);}
-.inv-card.navy{border-top:3px solid var(--navy);}
-.inv-card.purple{border-top:3px solid #7c3aed;}
-
-/* ── INVESTOR DETAIL GRID ── */
-.inv-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:28px;}
-
-/* ── INVESTOR DETAIL CARD ── */
-.inv-detail{background:#fff;border-radius:14px;padding:24px;border:1px solid var(--border);box-shadow:0 1px 6px rgba(0,0,0,.05);margin-bottom:28px;}
-.inv-detail h3{font-size:0.82rem;font-weight:700;color:var(--navy);margin-bottom:18px;display:flex;align-items:center;gap:8px;}
-.inv-table{width:100%;border-collapse:collapse;font-size:0.83rem;}
-.inv-table tr{border-bottom:1px solid var(--border);}
-.inv-table tr:last-child{border-bottom:none;}
-.inv-table td{padding:9px 12px;}
-.inv-table td:first-child{color:#374151;font-weight:500;width:55%;}
-.inv-table td:last-child{font-weight:700;color:var(--navy);text-align:right;}
-.tag{display:inline-block;padding:2px 10px;border-radius:20px;font-size:0.7rem;font-weight:600;}
-.tag.green{background:#dcfce7;color:#15803d;}
-.tag.blue{background:#dbeafe;color:#1d4ed8;}
-.tag.amber{background:#fef3c7;color:#92400e;}
-
-/* ── FUND OVERVIEW (shared section) ── */
-.kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:28px;}
-.kpi{background:#fff;border-radius:14px;padding:18px 16px;border:1px solid var(--border);box-shadow:0 1px 6px rgba(0,0,0,.05);display:flex;flex-direction:column;gap:5px;transition:transform .15s,box-shadow .15s;}
-.kpi:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.1);}
-.kpi-label{font-size:0.69rem;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:0.6px;}
-.kpi-value{font-size:1.45rem;font-weight:800;color:var(--navy);line-height:1;}
-.kpi-sub{font-size:0.69rem;color:var(--gray);}
-.kpi.blue{border-top:3px solid var(--blue);}
-.kpi.green{border-top:3px solid var(--green);}
-.kpi.amber{border-top:3px solid var(--amber);}
-.kpi.navy{border-top:3px solid var(--navy);}
-.status-row{display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap;}
-.status-pill{flex:1;min-width:150px;padding:14px 18px;border-radius:12px;display:flex;align-items:center;gap:12px;}
-.status-pill.performing{background:var(--green2);border:1px solid #bbf7d0;}
-.status-pill.paidoff{background:var(--sky);border:1px solid #bfdbfe;}
-.status-pill.foreclosure{background:var(--red2);border:1px solid #fecaca;}
-.status-pill .ico{font-size:1.5rem;}
-.status-pill .lbl{font-size:0.69rem;font-weight:600;text-transform:uppercase;color:var(--gray);}
-.status-pill .num{font-size:1.3rem;font-weight:800;color:var(--navy);}
-.status-pill .amt{font-size:0.74rem;color:var(--gray);}
-.charts-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:22px;}
-.charts-grid-2{display:grid;grid-template-columns:2fr 1fr;gap:18px;margin-bottom:22px;}
-.card{background:#fff;border-radius:14px;padding:20px 22px;border:1px solid var(--border);box-shadow:0 1px 6px rgba(0,0,0,.05);}
-.card-title{font-size:0.8rem;font-weight:700;color:var(--navy);margin-bottom:16px;display:flex;align-items:center;gap:7px;}
-.chart-wrap{position:relative;}
-.metrics-tbl{width:100%;border-collapse:collapse;font-size:0.81rem;}
-.metrics-tbl thead th{background:var(--navy);color:#e2e8f0;font-weight:600;padding:9px 13px;text-align:left;font-size:0.7rem;}
-.metrics-tbl tbody tr{border-bottom:1px solid var(--border);}
-.metrics-tbl tbody tr:hover{background:var(--sky);}
-.metrics-tbl tbody td{padding:8px 13px;color:#1e293b;}
-.disclaimer{margin-top:28px;padding:14px 18px;background:#f8fafc;border:1px solid var(--border);border-radius:10px;font-size:0.7rem;color:var(--gray);line-height:1.6;}
-.footer{text-align:center;padding:18px;font-size:0.7rem;color:#94a3b8;border-top:1px solid var(--border);margin-top:28px;}
-.divider{height:1px;background:var(--border);margin:28px 0;}
-
-/* ── INVESTOR TABS ── */
-.inv-tabs{display:flex;gap:10px;margin-bottom:22px;border-bottom:2px solid var(--border);padding-bottom:0;}
-.inv-tab{padding:10px 20px;font-size:0.8rem;font-weight:600;color:var(--gray);background:none;border:none;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:color .2s,border-color .2s;border-radius:0;}
-.inv-tab:hover{color:var(--navy);}
-.inv-tab.active{color:var(--blue);border-bottom-color:var(--blue);}
-
-/* ── CASHFLOW TIMELINE ── */
-.cf-timeline-wrap{overflow-x:auto;padding-bottom:6px;}
-.cf-timeline{display:flex;align-items:flex-start;gap:0;position:relative;min-width:500px;}
-.cf-timeline::before{content:'';position:absolute;top:22px;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--navy),var(--blue));z-index:0;}
-.cf-tl-item{flex:1;display:flex;flex-direction:column;align-items:center;position:relative;z-index:1;}
-.cf-tl-dot{width:12px;height:12px;border-radius:50%;border:2.5px solid #fff;margin-bottom:8px;flex-shrink:0;}
-.cf-tl-dot.invest{background:var(--red);box-shadow:0 0 0 2px var(--red);}
-.cf-tl-dot.distrib{background:var(--green);box-shadow:0 0 0 2px var(--green);}
-.cf-tl-dot.nav{background:var(--navy);box-shadow:0 0 0 2px var(--navy);}
-.cf-tl-dot.empty{background:#cbd5e1;box-shadow:0 0 0 2px #cbd5e1;}
-.cf-tl-label{font-size:0.6rem;font-weight:700;color:var(--gray);text-align:center;margin-bottom:3px;}
-.cf-tl-amount{font-size:0.65rem;font-weight:700;text-align:center;line-height:1.3;}
-.cf-tl-amount.neg{color:var(--red);}
-.cf-tl-amount.pos{color:var(--green);}
-.cf-tl-amount.nav-amt{color:var(--navy);}
-.cf-tl-sub{font-size:0.55rem;color:var(--gray);text-align:center;margin-top:2px;}
-
-/* ── CASHFLOW TABLE ── */
-.cf-table{width:100%;border-collapse:collapse;font-size:0.81rem;}
-.cf-table thead th{background:var(--navy);color:#e2e8f0;font-weight:600;padding:9px 13px;text-align:left;font-size:0.7rem;}
-.cf-table thead th:last-child{text-align:right;}
-.cf-table tbody tr{border-bottom:1px solid var(--border);}
-.cf-table tbody tr:hover{background:var(--sky);}
-.cf-table tbody td{padding:9px 13px;color:#1e293b;}
-.cf-table tbody td.amt-neg{color:var(--red);text-align:right;font-weight:700;}
-.cf-table tbody td.amt-pos{color:var(--green);text-align:right;font-weight:700;}
-.cf-table tbody td.amt-nav{color:var(--blue);text-align:right;font-weight:700;}
-.cf-table tfoot td{padding:9px 13px;font-weight:700;color:var(--navy);border-top:2px solid var(--navy);background:#f8fafc;}
-.cf-table tfoot td:last-child{text-align:right;}
-.badge-invest{background:var(--red2);color:var(--red);padding:2px 9px;border-radius:20px;font-size:0.65rem;font-weight:700;}
-.badge-distrib{background:var(--green2);color:var(--green);padding:2px 9px;border-radius:20px;font-size:0.65rem;font-weight:700;}
-.badge-nav{background:var(--sky);color:var(--blue);padding:2px 9px;border-radius:20px;font-size:0.65rem;font-weight:700;}
-
-/* ── CF TWO-COL CHARTS ── */
-.cf-two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px;}
-@media(max-width:700px){.cf-two-col{grid-template-columns:1fr;}}
-@media(max-width:600px){
-  .inv-tab{padding:8px 12px;font-size:0.72rem;}
-  .cf-table{font-size:0.72rem;}
-  .cf-table thead th{padding:7px 8px;font-size:0.62rem;}
-  .cf-table tbody td{padding:7px 8px;}
-}
-
-/* ── INVESTOR DETAIL MODAL ── */
-.inv-modal-overlay{position:fixed;inset:0;z-index:8000;background:rgba(10,20,40,0.72);display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(3px);}
-.inv-modal{background:#fff;border-radius:18px;width:100%;max-width:920px;max-height:90vh;display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(0,0,0,0.4);overflow:hidden;}
-.inv-modal-header{background:linear-gradient(135deg,var(--navy) 0%,#1e3a6e 100%);padding:20px 28px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
-.inv-modal-header h2{color:#fff;font-size:1rem;font-weight:700;margin:0;}
-.inv-modal-header p{color:#93c5fd;font-size:0.75rem;margin-top:3px;}
-.inv-modal-close{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;width:32px;height:32px;border-radius:50%;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0;}
-.inv-modal-close:hover{background:rgba(255,255,255,.25);}
-.inv-modal-body{overflow-y:auto;padding:24px 28px;flex:1;}
-.inv-name-link{cursor:pointer;color:var(--navy);text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px;transition:color .15s;}
-.inv-name-link:hover{color:var(--blue);}
-@media(max-width:600px){
-  .inv-modal{border-radius:14px;max-height:95vh;}
-  .inv-modal-header{padding:14px 16px;}
-  .inv-modal-header h2{font-size:0.88rem;}
-  .inv-modal-body{padding:14px 14px;}
-}
-/* ── ADMIN INVESTOR TABLE ── */
-.all-inv-tbl{width:100%;border-collapse:collapse;font-size:0.78rem;}
-.all-inv-tbl thead tr{background:linear-gradient(135deg,var(--navy) 0%,#1e3a6e 100%);}
-.all-inv-tbl thead th{color:#e2e8f0;font-weight:600;padding:10px 12px;text-align:right;font-size:0.68rem;letter-spacing:0.4px;white-space:nowrap;}
-.all-inv-tbl thead th:first-child{text-align:left;}
-.all-inv-tbl tbody tr{border-bottom:1px solid var(--border);transition:background .15s;}
-.all-inv-tbl tbody tr:hover{background:var(--sky);}
-.all-inv-tbl tbody td{padding:9px 12px;text-align:right;color:#1e293b;}
-.all-inv-tbl tbody td:first-child{text-align:left;font-weight:600;color:var(--navy);}
-.all-inv-tbl tfoot tr{background:#f8fafc;border-top:2px solid var(--navy);}
-.all-inv-tbl tfoot td{padding:9px 12px;text-align:right;font-weight:700;color:var(--navy);font-size:0.78rem;}
-.all-inv-tbl tfoot td:first-child{text-align:left;}
-.distrib-yes{background:#dcfce7;color:#15803d;padding:2px 8px;border-radius:20px;font-size:0.67rem;font-weight:700;}
-.distrib-no{color:#94a3b8;font-size:0.72rem;}
-
-/* ── TABLET (≤900px) ── */
-@media(max-width:900px){
-  .kpi-grid{grid-template-columns:repeat(3,1fr);}
-  .inv-grid{grid-template-columns:repeat(2,1fr);}
-  .charts-grid,.charts-grid-2{grid-template-columns:1fr;}
-  .main{padding:18px 14px;}
-  .header{padding:16px 20px;}
-  .header-left h1{font-size:1.1rem;}
-}
-
-/* ── MOBILE (≤600px) ── */
-@media(max-width:600px){
-  /* Header: tight single row — logo + title + sign out only */
-  .header{padding:10px 12px;padding-top:calc(10px + env(safe-area-inset-top));flex-direction:row;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:8px;}
-  .header-left{gap:8px;flex:1;min-width:0;overflow:hidden;}
-  .header-left > div{min-width:0;overflow:hidden;}
-  .header-left svg{width:32px;height:32px;flex-shrink:0;}
-  .header-left h1{font-size:0.82rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  #header-sub, .header-left p{display:none !important;}
-  .header-right{gap:6px;flex-shrink:0;}
-  .badge{display:none !important;}   /* hide "Data as of" — saves space */
-  .logout-btn{padding:6px 12px;font-size:0.72rem;white-space:nowrap;flex-shrink:0;}
-
-  /* Main content */
-  .main{padding:14px 12px;}
-  .section-label{font-size:0.65rem;margin-bottom:8px;}
-
-  /* Gate / login screen */
-  #gate-box{padding:32px 22px 26px;border-radius:14px;margin:16px;}
-  #gate-title{font-size:1rem;}
-  #gate-sub{font-size:0.73rem;margin-bottom:20px;}
-
-  /* Investor welcome banner */
-  #inv-banner{padding:18px 16px;border-radius:12px;margin-bottom:18px;flex-direction:column;align-items:flex-start;gap:12px;}
-  #inv-banner .welcome-text h2{font-size:1.05rem;}
-  #inv-banner .welcome-text p{font-size:0.74rem;}
-  #inv-banner .fund-badge{width:100%;display:flex;align-items:center;justify-content:space-between;padding:8px 14px;}
-  #inv-banner .fund-badge strong{display:inline;font-size:1rem;margin-bottom:0;margin-right:6px;}
-
-  /* Investor KPI cards: 2 columns */
-  .inv-grid{grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px;}
-  .inv-card{padding:14px 12px;border-radius:12px;}
-  .inv-card-value{font-size:1.15rem;}
-  .inv-card-label{font-size:0.63rem;}
-  .inv-card-sub{font-size:0.63rem;}
-
-  /* Investor detail panels: single column, no overflow */
-  .inv-detail-grid{grid-template-columns:1fr !important;gap:12px;margin-bottom:14px;}
-  .inv-detail{padding:16px;border-radius:12px;margin-bottom:0;width:100%;box-sizing:border-box;}
-  .inv-detail h3{font-size:0.78rem;margin-bottom:12px;}
-  .inv-table{font-size:0.78rem;table-layout:fixed;width:100%;}
-  .inv-table td{padding:7px 8px;word-break:break-word;}
-  .inv-table td:first-child{width:55%;}
-  .inv-table td:last-child{width:45%;}
-
-  /* Fund KPI grid: 2 columns */
-  .kpi-grid{grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px;}
-  .kpi{padding:14px 12px;border-radius:12px;}
-  .kpi-value{font-size:1.15rem;}
-  .kpi-label{font-size:0.63rem;}
-  .kpi-sub{font-size:0.63rem;}
-
-  /* Status pills: full width stack */
-  .status-row{flex-direction:column;gap:8px;margin-bottom:18px;}
-  .status-pill{min-width:unset;width:100%;padding:12px 14px;}
-  .status-pill .ico{font-size:1.2rem;}
-  .status-pill .num{font-size:1.1rem;}
-
-  /* Charts */
-  .charts-grid,.charts-grid-2{grid-template-columns:1fr;gap:12px;margin-bottom:14px;}
-  .card{padding:14px 14px;border-radius:12px;}
-  .card-title{font-size:0.74rem;margin-bottom:12px;}
-
-  /* Metrics table */
-  .metrics-tbl{font-size:0.72rem;}
-  .metrics-tbl thead th{padding:7px 8px;font-size:0.63rem;}
-  .metrics-tbl tbody td{padding:6px 8px;}
-
-  /* Admin investor table: scrollable */
-  .all-inv-tbl{font-size:0.7rem;}
-  .all-inv-tbl thead th{padding:7px 8px;font-size:0.6rem;}
-  .all-inv-tbl tbody td{padding:6px 8px;}
-
-  /* Disclaimer & footer */
-  .disclaimer{font-size:0.65rem;padding:10px 12px;}
-  .footer{font-size:0.65rem;padding:14px;}
-}
+.container{max-width:1320px;margin:0 auto;padding:24px 20px}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:28px}
+.kpi-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.06);border-left:4px solid #2E75B6;transition:transform .2s}
+.kpi-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.1)}
+.kpi-label{font-size:.75rem;text-transform:uppercase;letter-spacing:1px;color:#666;margin-bottom:6px}
+.kpi-value{font-size:1.6rem;font-weight:700;color:#1F3864}
+.kpi-card.green{border-left-color:#22c55e}
+.kpi-card.orange{border-left-color:#f59e0b}
+.kpi-card.red{border-left-color:#ef4444}
+.status-pills{display:flex;gap:12px;margin-bottom:28px;flex-wrap:wrap}
+.pill{padding:10px 20px;border-radius:10px;font-weight:600;font-size:.9rem}
+.pill.perf{background:#dcfce7;color:#166534}
+.pill.paid{background:#f3f4f6;color:#374151}
+.pill.fore{background:#fef2f2;color:#991b1b}
+.section{background:#fff;border-radius:12px;padding:24px;margin-bottom:24px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.section h2{font-size:1.1rem;font-weight:700;color:#1F3864;margin-bottom:16px;padding-bottom:8px;border-bottom:2px solid #D9E2F3}
+.charts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:24px;margin-bottom:24px}
+.chart-box{background:#fff;border-radius:12px;padding:24px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.chart-box h3{font-size:.95rem;font-weight:700;color:#1F3864;margin-bottom:12px}
+table.metrics{width:100%;border-collapse:collapse}
+table.metrics th{background:#1F3864;color:#fff;padding:10px 14px;text-align:left;font-size:.8rem;text-transform:uppercase;letter-spacing:.5px}
+table.metrics td{padding:10px 14px;border-bottom:1px solid #e5e7eb;font-size:.9rem}
+table.metrics tr:nth-child(even){background:#f9fafb}
+table.metrics td:last-child{text-align:right;font-weight:600;color:#1F3864}
+.disclaimer{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:16px 20px;margin:24px 0;font-size:.78rem;color:#92400e;line-height:1.6}
+.footer{text-align:center;padding:20px;color:#94a3b8;font-size:.78rem;border-top:1px solid #e2e8f0;margin-top:12px}
+@media(max-width:600px){.header{padding:16px 20px}.header h1{font-size:1.2rem}.kpi-value{font-size:1.3rem}.charts-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-
-<!-- ══ GATE ══════════════════════════════════════════════════════════════════ -->
-<div id="gate">
-  <div id="gate-box">
-    <div id="gate-logo">
-      <svg width="68" height="68" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" style="border-radius:6px;">
-        <rect width="64" height="64" fill="#000"/>
-        <polygon points="32,7 52,38 12,38" fill="none" stroke="#fff" stroke-width="1.8"/>
-        <polygon points="32,15 44,34 20,34" fill="none" stroke="#fff" stroke-width="1.4"/>
-        <line x1="9" y1="43" x2="55" y2="43" stroke="#fff" stroke-width="1"/>
-        <text x="32" y="52" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#fff" letter-spacing="1.5">BGT Capital</text>
-        <line x1="9" y1="57" x2="55" y2="57" stroke="#fff" stroke-width="1"/>
-      </svg>
-    </div>
-    <div id="gate-title">BGT Real Estate Opp Fund</div>
-    <div id="gate-sub">Investor Portal &nbsp;·&nbsp; Confidential Access</div>
-    <label class="g-label" for="gate-input">Enter your password</label>
-    <input id="gate-input" class="g-input" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')__login()" autocomplete="off"/>
-    <div id="gate-err"></div>
-    <button id="gate-btn" onclick="__login()">Access Portal →</button>
-    <div id="gate-footer">Authorized investors only · Contact BGT Capital for access</div>
-  </div>
-</div>
-
-<!-- ══ HEADER ════════════════════════════════════════════════════════════════ -->
 <div class="header">
-  <div class="header-left">
-    <svg width="56" height="56" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;border-radius:5px;">
-      <rect width="64" height="64" fill="#000"/>
-      <polygon points="32,7 52,38 12,38" fill="none" stroke="#fff" stroke-width="1.8"/>
-      <polygon points="32,15 44,34 20,34" fill="none" stroke="#fff" stroke-width="1.4"/>
-      <line x1="9" y1="43" x2="55" y2="43" stroke="#fff" stroke-width="1"/>
-      <text x="32" y="52" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#fff" letter-spacing="1.5">BGT Capital</text>
-      <line x1="9" y1="57" x2="55" y2="57" stroke="#fff" stroke-width="1"/>
+  <div class="header-left" style="display:flex;align-items:center;gap:18px;">
+    <svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;border-radius:5px;">
+      <rect width="64" height="64" fill="#000000"/>
+      <polygon points="32,7 52,38 12,38" fill="none" stroke="#ffffff" stroke-width="1.8"/>
+      <polygon points="32,15 44,34 20,34" fill="none" stroke="#ffffff" stroke-width="1.4"/>
+      <line x1="9" y1="43" x2="55" y2="43" stroke="#ffffff" stroke-width="1"/>
+      <text x="32" y="52" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" font-weight="700" fill="#ffffff" letter-spacing="1.5">BGT Capital</text>
+      <line x1="9" y1="57" x2="55" y2="57" stroke="#ffffff" stroke-width="1"/>
     </svg>
     <div>
-      <h1>BGT Real Estate Opp Fund</h1>
-      <p id="header-sub">Investor Portal &nbsp;·&nbsp; Confidential</p>
+      <h1>BGT Real Estate Opp Fund Portfolio</h1>
+      <p>Investor Dashboard &nbsp;&middot;&nbsp; Confidential</p>
     </div>
   </div>
-  <div class="header-right">
-    <div class="badge"><span class="dot"></span>Data as of <span id="asOf"></span></div>
-    <button class="logout-btn" onclick="__logout()">Sign Out</button>
+  <div class="badge">
+    <span class="dot"></span>
+    Data as of <span id="asOf"></span>
   </div>
 </div>
 
-<div class="main">
-
-<!-- ══ INVESTOR PERSONAL VIEW (hidden for admin) ══════════════════════════ -->
-<div id="inv-section" style="display:none;">
-  <div id="inv-banner">
-    <div class="welcome-text">
-      <h2 id="inv-name">Welcome</h2>
-      <p>Your personal investment summary &nbsp;·&nbsp; BGT Real Estate Opportunity Fund</p>
-    </div>
-  </div>
-
-  <!-- TABS -->
-  <div class="inv-tabs">
-    <button class="inv-tab active" id="tab-myview" onclick="__switchTab('myview')">📊 My Position &amp; Cash Flow</button>
-    <button class="inv-tab" id="tab-fundoverview" onclick="__switchTab('fundoverview')">🏦 Fund Overview</button>
-  </div>
-
-  <!-- ══ TAB 1: MY POSITION + CASH FLOW ══ -->
-  <div id="tab-content-myview">
-
-    <!-- KPI cards (from cashflow section — best format) -->
-    <div class="section-label">Your Position — As of December 31, 2025</div>
-    <div class="inv-grid" id="cf-kpi-row" style="margin-bottom:22px;"></div>
-
-    <!-- Return metrics detail -->
-    <div class="inv-detail-grid">
-      <div class="inv-detail">
-        <h3>📈 Return Metrics</h3>
-        <table class="inv-table">
-          <tr><td>Total Return (2025)</td><td id="d-roi">—</td></tr>
-          <tr><td>IRR (since Jan 2025)</td><td id="d-irr">—</td></tr>
-          <tr><td>Net Return ($)</td><td id="d-net-return">—</td></tr>
-          <tr><td>Distributions to Date</td><td id="d-distrib-total">—</td></tr>
-          <tr><td>Balance Beginning 2026</td><td id="d-begin2026">—</td></tr>
-        </table>
-      </div>
-      <div class="inv-detail">
-        <h3>📋 Investment Summary</h3>
-        <table class="inv-table">
-          <tr><td>Amount Subscribed</td><td id="d-subscribed">—</td></tr>
-          <tr><td>Balance Beginning 2025</td><td id="d-begin2025">—</td></tr>
-          <tr><td>NAV as of Dec 31, 2025</td><td id="d-nav2025">—</td></tr>
-          <tr><td>Distribution Approved</td><td id="d-distrib-app">—</td></tr>
-          <tr><td>Distribution Amount</td><td id="d-distrib-amt">—</td></tr>
-        </table>
-      </div>
-    </div>
-
-    <!-- Divider into Cash Flow section -->
-    <div class="divider" style="margin:20px 0;"></div>
-    <div class="section-label">💰 Cash Flow &amp; Distributions — Fiscal Year 2025</div>
-
-    <!-- Timeline -->
-    <div class="card" style="margin-bottom:22px;">
-      <div class="card-title">📅 Investment Timeline</div>
-      <div class="cf-timeline-wrap"><div class="cf-timeline" id="cf-timeline"></div></div>
-    </div>
-
-    <!-- Charts -->
-    <div class="cf-two-col">
-      <div class="card">
-        <div class="card-title">📊 Cash Flows by Month</div>
-        <div class="chart-wrap" style="height:220px;"><canvas id="chartCF"></canvas></div>
-      </div>
-      <div class="card">
-        <div class="card-title">📈 NAV Growth (2025)</div>
-        <div class="chart-wrap" style="height:220px;"><canvas id="chartNAV"></canvas></div>
-      </div>
-    </div>
-
-    <!-- Transaction table -->
-    <div class="card" style="margin-bottom:22px;">
-      <div class="card-title">📋 Transaction Detail</div>
-      <div style="overflow-x:auto;">
-        <table class="cf-table">
-          <thead><tr><th>Date</th><th>Description</th><th>Type</th><th style="text-align:right;">Amount</th><th style="text-align:right;">Cumul. Invested</th></tr></thead>
-          <tbody id="cf-tbody"></tbody>
-          <tfoot id="cf-tfoot"></tfoot>
-        </table>
-      </div>
-    </div>
-
-  </div><!-- end tab-content-myview -->
-
-  <!-- ══ TAB 2: FUND OVERVIEW (fund-section moved here by JS) ══ -->
-  <div id="tab-content-fundoverview" style="display:none;"></div>
-
+<div class="container">
+<div class="kpi-grid">
+  <div class="kpi-card"><div class="kpi-label">Total Loans</div><div class="kpi-value" id="kTotalLoans"></div></div>
+  <div class="kpi-card green"><div class="kpi-label">Performing</div><div class="kpi-value" id="kPerf"></div></div>
+  <div class="kpi-card orange"><div class="kpi-label">Paid Off</div><div class="kpi-value" id="kPaidOff"></div></div>
+  <div class="kpi-card red"><div class="kpi-label">Foreclosure</div><div class="kpi-value" id="kForecl"></div></div>
+  <div class="kpi-card"><div class="kpi-label">Total UPB</div><div class="kpi-value" id="kUPB"></div></div>
+  <div class="kpi-card"><div class="kpi-label">Wtd. Avg Rate</div><div class="kpi-value" id="kRate"></div></div>
+  <div class="kpi-card"><div class="kpi-label">Monthly Payments</div><div class="kpi-value" id="kPmt"></div></div>
 </div>
 
-<!-- ══ FUND PORTFOLIO OVERVIEW (visible to all) ══════════════════════════ -->
-<div id="fund-section">
-  <div id="admin-label" class="section-label">BGT Real Estate Opp Fund — Full Portfolio Overview</div>
-
-  <!-- ADMIN: All Investors Positions -->
-  <div id="all-investors-section" style="display:none;margin-bottom:28px;">
-    <div class="section-label">Investor Positions — As of December 31, 2025</div>
-    <div class="card" style="overflow-x:auto;">
-      <table class="all-inv-tbl">
-        <thead>
-          <tr>
-            <th style="text-align:left;">#</th>
-            <th style="text-align:left;">Investor</th>
-            <th>Amt. Invested</th>
-            <th>NAV (Dec 31)</th>
-            <th>Net Return</th>
-            <th>ROI</th>
-            <th>IRR (Jan 2025)</th>
-            <th>Distributions</th>
-            <th>Distrib. Approved</th>
-            <th>Balance Begin 2026</th>
-          </tr>
-        </thead>
-        <tbody id="all-inv-tbody"></tbody>
-        <tfoot id="all-inv-tfoot"></tfoot>
-      </table>
-    </div>
-  </div>
-
-  <div class="kpi-grid">
-    <div class="kpi navy"><div class="kpi-label">Total Loans</div><div class="kpi-value" id="kpi-total"></div><div class="kpi-sub">in portfolio</div></div>
-    <div class="kpi blue"><div class="kpi-label">Total UPB</div><div class="kpi-value" id="kpi-upb"></div><div class="kpi-sub">unpaid principal</div></div>
-    <div class="kpi green"><div class="kpi-label">Performing UPB</div><div class="kpi-value" id="kpi-perf-upb"></div><div class="kpi-sub" id="kpi-perf-pct"></div></div>
-    <div class="kpi blue"><div class="kpi-label">Wtd. Avg. Rate</div><div class="kpi-value" id="kpi-rate"></div><div class="kpi-sub">performing loans</div></div>
-    <div class="kpi amber"><div class="kpi-label">Monthly Collections</div><div class="kpi-value" id="kpi-pmt"></div><div class="kpi-sub">scheduled</div></div>
-  </div>
-
-  <div class="status-row">
-    <div class="status-pill performing"><div class="ico">✅</div><div><div class="lbl">Performing</div><div class="num" id="st-perf-n"></div><div class="amt" id="st-perf-upb"></div></div></div>
-    <div class="status-pill paidoff"><div class="ico">💰</div><div><div class="lbl">Paid Off</div><div class="num" id="st-paid-n"></div><div class="amt">fully resolved</div></div></div>
-    <div class="status-pill foreclosure"><div class="ico">⚠️</div><div><div class="lbl">Foreclosure</div><div class="num" id="st-fc-n"></div><div class="amt" id="st-fc-pct"></div></div></div>
-  </div>
-
-  <div class="section-label">Portfolio Analytics</div>
-  <div class="charts-grid">
-    <div class="card"><div class="card-title"><span>🥧</span> Loan Status Mix</div><div class="chart-wrap" style="height:210px"><canvas id="chartStatus"></canvas></div></div>
-    <div class="card"><div class="card-title"><span>📍</span> Geographic Distribution (UPB)</div><div class="chart-wrap" style="height:210px"><canvas id="chartGeo"></canvas></div></div>
-    <div class="card"><div class="card-title"><span>📊</span> Note Rate Distribution</div><div class="chart-wrap" style="height:210px"><canvas id="chartRate"></canvas></div></div>
-  </div>
-  <div class="charts-grid-2">
-    <div class="card"><div class="card-title"><span>📅</span> Loan Vintage — Original Balance by Year</div><div class="chart-wrap" style="height:190px"><canvas id="chartVintage"></canvas></div></div>
-    <div class="card"><div class="card-title"><span>🏠</span> Property Type (UPB)</div><div class="chart-wrap" style="height:190px"><canvas id="chartPtype"></canvas></div></div>
-  </div>
-
-  <div class="section-label">Key Metrics Summary</div>
-  <div class="card" style="margin-bottom:22px;">
-    <div style="overflow-x:auto;">
-      <table class="metrics-tbl">
-        <thead><tr><th>Metric</th><th>Value</th><th>Notes</th></tr></thead>
-        <tbody id="metrics-table"></tbody>
-      </table>
-    </div>
-  </div>
+<div class="status-pills">
+  <div class="pill perf" id="pillPerf"></div>
+  <div class="pill paid" id="pillPaid"></div>
+  <div class="pill fore" id="pillFore"></div>
 </div>
 
-<!-- ══ INVESTOR DETAIL MODAL (Admin) ════════════════════════════════════════ -->
-<div id="inv-modal-overlay" class="inv-modal-overlay" style="display:none;" onclick="if(event.target===this)__closeInvestorModal()">
-  <div class="inv-modal">
-    <div class="inv-modal-header">
-      <div>
-        <h2 id="modal-inv-name">Investor</h2>
-        <p>Cash Flow &amp; Distributions — Fiscal Year 2025</p>
-      </div>
-      <button class="inv-modal-close" onclick="__closeInvestorModal()">✕</button>
-    </div>
-    <div class="inv-modal-body">
-      <!-- KPI cards -->
-      <div class="inv-grid" id="modal-cf-kpi-row" style="margin-bottom:22px;"></div>
-      <!-- Timeline -->
-      <div class="card" style="margin-bottom:22px;">
-        <div class="card-title">📅 Investment Timeline</div>
-        <div class="cf-timeline-wrap"><div class="cf-timeline" id="modal-cf-timeline"></div></div>
-      </div>
-      <!-- Charts -->
-      <div class="cf-two-col">
-        <div class="card">
-          <div class="card-title">📊 Cash Flows by Month</div>
-          <div class="chart-wrap" style="height:210px;"><canvas id="modal-chartCF"></canvas></div>
-        </div>
-        <div class="card">
-          <div class="card-title">📈 NAV Growth (2025)</div>
-          <div class="chart-wrap" style="height:210px;"><canvas id="modal-chartNAV"></canvas></div>
-        </div>
-      </div>
-      <!-- Transaction table -->
-      <div class="card" style="margin-bottom:8px;">
-        <div class="card-title">📋 Transaction Detail</div>
-        <div style="overflow-x:auto;">
-          <table class="cf-table">
-            <thead><tr><th>Date</th><th>Description</th><th>Type</th><th style="text-align:right;">Amount</th><th style="text-align:right;">Cumul. Invested</th></tr></thead>
-            <tbody id="modal-cf-tbody"></tbody>
-            <tfoot id="modal-cf-tfoot"></tfoot>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="section">
+  <h2>Portfolio Metrics</h2>
+  <table class="metrics">
+    <thead><tr><th>Metric</th><th style="text-align:right">Value</th></tr></thead>
+    <tbody id="metricsBody"></tbody>
+  </table>
+</div>
+
+<div class="charts-grid">
+  <div class="chart-box"><h3>Loan Status Distribution</h3><canvas id="chartStatus"></canvas></div>
+  <div class="chart-box"><h3>Geographic Concentration (Top 10 States by UPB)</h3><canvas id="chartGeo"></canvas></div>
+  <div class="chart-box"><h3>Note Rate Distribution (Performing)</h3><canvas id="chartRate"></canvas></div>
+  <div class="chart-box"><h3>Vintage by Origination Year</h3><canvas id="chartVintage"></canvas></div>
+  <div class="chart-box"><h3>Property Type (Performing UPB)</h3><canvas id="chartPtype"></canvas></div>
 </div>
 
 <div class="disclaimer">
-  <strong>Confidential — For Investor Use Only.</strong> This portal presents summary information for the BGT Real Estate Opportunity Fund as of the date shown and is updated weekly. Individual loan details, borrower information, and supporting documentation are available upon request. Past performance is not indicative of future results. This material does not constitute an offer to sell or a solicitation of an offer to buy any security.
-</div>
+  <strong>Confidential — BGT Real Estate Opportunity Fund</strong><br>
+  This dashboard is intended solely for authorized investors and stakeholders of the BGT Real Estate Opportunity Fund.
+  The information contained herein is derived from FCI Servicing data and is provided for informational purposes only.
+  It does not constitute an offer to sell or a solicitation of an offer to buy any securities.
+  Past performance is not indicative of future results. All data is subject to change without notice.
 </div>
 
-<div class="footer">BGT Real Estate Opp Fund &nbsp;·&nbsp; BGT Capital &nbsp;·&nbsp; Powered by FCI Servicing &nbsp;·&nbsp; Auto-refreshed weekly</div>
+<div class="footer">
+  BGT Real Estate Opp Fund Portfolio &middot; BGT Capital &middot; Powered by FCI Servicing &middot; Auto-refreshed weekly
+</div>
+</div>
 
 <script>
-// ══ INVESTOR DATA ════════════════════════════════════════════════════════════
-const INVESTORS = {
-  "AUP-2025": {
-    name:"Au Passage Ltd.", subscribed:1229200.44, distrib:32281.14, netBalance:1196919.30,
-    begin2025:1232281.14, nav2025:1342909.53, participation:0.0849, netReturn:110628.39,
-    roi:0.08978, roiAnn:0.08978, irr:0.0871, distribApproved:"N", distribAmt:0, begin2026:1342909.53
-  },
-  "BLO-2025": {
-    name:"Bank Lombard Odier & Co. Ltd.", subscribed:4097334.78, distrib:107603.82, netBalance:3989730.96,
-    begin2025:4107603.82, nav2025:4476366.22, participation:0.2829, netReturn:368762.40,
-    roi:0.08978, roiAnn:0.08978, irr:0.0871, distribApproved:"N", distribAmt:0, begin2026:4476366.22
-  },
-  "ESC-2025": {
-    name:"ESCARPAS Ltd.", subscribed:498750, distrib:0, netBalance:498750,
-    begin2025:498750, nav2025:519833.96, participation:0.03285, netReturn:21083.96,
-    roi:0.04227, roiAnn:0.08455, irr:0.08630, distribApproved:"N", distribAmt:0, begin2026:519833.96
-  },
-  "FND-2025": {
-    name:"Fundo BLP BGT Real Estate", subscribed:150000, distrib:0, netBalance:150000,
-    begin2025:150000, nav2025:152864.00, participation:0.00966, netReturn:2864.00,
-    roi:0.01909, roiAnn:0.07637, irr:0.07860, distribApproved:"N", distribAmt:0, begin2026:152864.00
-  },
-  "GPJ-2025": {
-    name:"GPJET Corp.", subscribed:498750, distrib:13450.45, netBalance:485299.55,
-    begin2025:500000, nav2025:545366.47, participation:0.03446, netReturn:45366.47,
-    roi:0.09073, roiAnn:0.09073, irr:0.08720, distribApproved:"N", distribAmt:0, begin2026:545366.47
-  },
-  "HAW-2025": {
-    name:"Hawi, Ltd.", subscribed:498750, distrib:0, netBalance:498750,
-    begin2025:498750, nav2025:519833.96, participation:0.03285, netReturn:21083.96,
-    roi:0.04227, roiAnn:0.08455, irr:0.08310, distribApproved:"N", distribAmt:0, begin2026:519833.96
-  },
-  "VIS-2025": {
-    name:"inVista US Real Estate Private Credit Fund Ltd.", subscribed:498750, distrib:19451.01, netBalance:479298.99,
-    begin2025:500000, nav2025:544821.50, participation:0.03443, netReturn:44821.50,
-    roi:0.08964, roiAnn:0.08964, irr:0.08620, distribApproved:"Y", distribAmt:44821.50, begin2026:500000
-  },
-  "LIV-2025": {
-    name:"LIV Fund SPC - Real Estate Lending SP", subscribed:750000, distrib:0, netBalance:750000,
-    begin2025:750000, nav2025:764320.00, participation:0.04830, netReturn:14320.00,
-    roi:0.01909, roiAnn:0.07637, irr:0.07590, distribApproved:"Y", distribAmt:14319.99, begin2026:750000
-  },
-  "MIL-2025": {
-    name:"Milmax Investments Ltd.", subscribed:498750, distrib:0, netBalance:498750,
-    begin2025:498750, nav2025:519833.96, participation:0.03285, netReturn:21083.96,
-    roi:0.04227, roiAnn:0.08455, irr:0.08310, distribApproved:"N", distribAmt:0, begin2026:519833.96
-  },
-  "OCN-2025": {
-    name:"Ocean Investing Corp.", subscribed:1197000, distrib:13450.45, netBalance:1183549.55,
-    begin2025:1200000, nav2025:1283296.03, participation:0.08110, netReturn:83296.03,
-    roi:0.06941, roiAnn:0.08750, irr:0.08450, distribApproved:"Y", distribAmt:83296.03, begin2026:1200000
-  },
-  "PAI-2025": {
-    name:"Paissandu Ltd.", subscribed:3990000, distrib:23358.32, netBalance:3966641.68,
-    begin2025:4000000, nav2025:4326379.26, participation:0.27340, netReturn:326379.26,
-    roi:0.08159, roiAnn:0.08750, irr:0.08620, distribApproved:"N", distribAmt:0, begin2026:4326379.26
-  },
-  "PIR-2025": {
-    name:"Pirita Ltd.", subscribed:257500, distrib:8187.76, netBalance:249312.24,
-    begin2025:260000, nav2025:283307.20, participation:0.01790, netReturn:23307.20,
-    roi:0.08964, roiAnn:0.08964, irr:0.08620, distribApproved:"Y", distribAmt:23307.20, begin2026:260000
-  },
-  "QUE-2025": {
-    name:"Quepar Ltd.", subscribed:498750, distrib:13450.45, netBalance:485299.55,
-    begin2025:500000, nav2025:545366.47, participation:0.03446, netReturn:45366.47,
-    roi:0.09073, roiAnn:0.09073, irr:0.08720, distribApproved:"N", distribAmt:0, begin2026:545366.47
-  }
+const D={
+  asOf:"March 16, 2026",
+  totalLoans:55,
+  performing:39,
+  paidOff:15,
+  foreclosure:1,
+  totalUPB:15564630.01,
+  performingUPB:15090948.41,
+  totalOrig:20855795.0,
+  unpaidInterest:2213.09,
+  unpaidLateCharges:1215.69,
+  totalMonthlyPayments:153485.34000000003,
+  wtdAvgRate:12.1448,
+  stateLabels:["FL", "NJ", "LA"],
+  stateUPB:[14925530.01, 487500.0, 151600.0],
+  stateCnt:[53, 1, 1],
+  rateLabels:["< 10%", "10-11%", "11-12%", "12-13%", "13-14%", "\u2265 14%"],
+  rateCounts:[0, 2, 5, 32, 0, 0],
+  vintageYears:["2024", "2025", "2026"],
+  vintageUPB:[9134175.0, 5961550.0, 79570.0],
+  ptypeLabels:["Residential Income 1-4", "Residential Condo", "PUD", "Single Family Res", "Raw Land"],
+  ptypeUPB:[11900251.76, 1265260.61, 784336.04, 735100.0, 406000.0]
 };
-// ══ CASHFLOW DATA ════════════════════════════════════════════════════════════
-// investments: [{month:0-11, amount, label}], month 0=Jan … 11=Dec
-// distrib: {month, amount} or null
-const CASHFLOWS = {
-  "AUP-2025": {
-    investments:[
-      {month:0,amount:1200000,label:"Initial Sub."},
-      {month:3,amount:19200,label:"Add. Sub."},
-      {month:6,amount:13081.14,label:"Add. Sub."}
-    ],
-    distrib:null, irr:0.08707
-  },
-  "BLO-2025": {
-    investments:[
-      {month:0,amount:4000000,label:"Initial Sub."},
-      {month:3,amount:64652.87,label:"Add. Sub."},
-      {month:6,amount:42950.95,label:"Add. Sub."}
-    ],
-    distrib:null, irr:0.08707
-  },
-  "ESC-2025": {
-    investments:[{month:6,amount:498750,label:"Initial Sub."}],
-    distrib:null, irr:0.08310
-  },
-  "FND-2025": {
-    investments:[{month:9,amount:150000,label:"Initial Sub."}],
-    distrib:null, irr:0.07589
-  },
-  "GPJ-2025": {
-    investments:[{month:0,amount:500000,label:"Initial Sub."}],
-    distrib:null, irr:0.08716
-  },
-  "HAW-2025": {
-    investments:[{month:6,amount:498750,label:"Initial Sub."}],
-    distrib:null, irr:0.08310
-  },
-  "VIS-2025": {
-    investments:[{month:0,amount:500000,label:"Initial Sub."}],
-    distrib:{month:11,amount:44821.50}, irr:0.08616
-  },
-  "LIV-2025": {
-    investments:[{month:9,amount:750000,label:"Initial Sub."}],
-    distrib:{month:11,amount:14319.99}, irr:0.07589
-  },
-  "MIL-2025": {
-    investments:[{month:6,amount:498750,label:"Initial Sub."}],
-    distrib:null, irr:0.08310
-  },
-  "OCN-2025": {
-    investments:[
-      {month:0,amount:500000,label:"Initial Sub."},
-      {month:3,amount:420000,label:"Add. Sub."},
-      {month:6,amount:280000,label:"Add. Sub."}
-    ],
-    distrib:{month:11,amount:83296.03}, irr:0.08445
-  },
-  "PAI-2025": {
-    investments:[
-      {month:0,amount:3000000,label:"Initial Sub."},
-      {month:3,amount:600000,label:"Add. Sub."},
-      {month:6,amount:400000,label:"Add. Sub."}
-    ],
-    distrib:null, irr:0.08616
-  },
-  "PIR-2025": {
-    investments:[{month:0,amount:260000,label:"Initial Sub."}],
-    distrib:{month:11,amount:23307.20}, irr:0.08616
-  },
-  "QUE-2025": {
-    investments:[{month:0,amount:500000,label:"Initial Sub."}],
-    distrib:null, irr:0.08716
-  }
-};
+const fmt$=v=>'$'+v.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0});
+const fmt$2=v=>'$'+v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+document.getElementById('asOf').textContent=D.asOf;
+document.getElementById('kTotalLoans').textContent=D.totalLoans;
+document.getElementById('kPerf').textContent=D.performing;
+document.getElementById('kPaidOff').textContent=D.paidOff;
+document.getElementById('kForecl').textContent=D.foreclosure;
+document.getElementById('kUPB').textContent=fmt$(D.totalUPB);
+document.getElementById('kRate').textContent=D.wtdAvgRate.toFixed(2)+'%';
+document.getElementById('kPmt').textContent=fmt$(D.totalMonthlyPayments);
+document.getElementById('pillPerf').textContent='Performing: '+D.performing+' loans — '+fmt$(D.performingUPB)+' UPB';
+document.getElementById('pillPaid').textContent='Paid Off: '+D.paidOff+' loans';
+document.getElementById('pillFore').textContent='Foreclosure: '+D.foreclosure+' loans';
 
-const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const MONTH_FULL  = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const metrics=[
+  ['Total Loans',D.totalLoans],
+  ['Performing Loans',D.performing],
+  ['Paid Off Loans',D.paidOff],
+  ['Foreclosure Loans',D.foreclosure],
+  ['Total Original Balance',fmt$(D.totalOrig)],
+  ['Total UPB (All)',fmt$(D.totalUPB)],
+  ['Performing UPB',fmt$(D.performingUPB)],
+  ['Unpaid Interest',fmt$2(D.unpaidInterest)],
+  ['Unpaid Late Charges',fmt$2(D.unpaidLateCharges)],
+  ['Total Monthly Payments',fmt$(D.totalMonthlyPayments)],
+  ['Wtd. Avg Note Rate',D.wtdAvgRate.toFixed(2)+'%'],
+  ['Top State by UPB',D.stateLabels[0]+' — '+fmt$(D.stateUPB[0])],
+  ['# States Represented',new Set(D.stateLabels).size],
+  ['# Property Types',D.ptypeLabels.length]
+];
+const mb=document.getElementById('metricsBody');
+metrics.forEach(([l,v])=>{const tr=document.createElement('tr');tr.innerHTML='<td>'+l+'</td><td>'+v+'</td>';mb.appendChild(tr)});
 
-// ══ TAB SWITCHER ══════════════════════════════════════════════════════════════
-window.__switchTab = function(tab) {
-  ['myview','fundoverview'].forEach(t => {
-    document.getElementById('tab-content-'+t).style.display = t===tab ? 'block' : 'none';
-    document.getElementById('tab-'+t).classList.toggle('active', t===tab);
-  });
-};
+const colors=['#22c55e','#94a3b8','#ef4444'];
+new Chart(document.getElementById('chartStatus'),{type:'doughnut',data:{labels:['Performing','Paid Off','Foreclosure'],datasets:[{data:[D.performing,D.paidOff,D.foreclosure],backgroundColor:colors,borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,plugins:{legend:{position:'bottom'}}}});
 
-// ══ CASHFLOW RENDERER ════════════════════════════════════════════════════════
-// pfx = '' for investor tab, 'modal-' for admin modal
-const _charts = {};
-function __renderCashflow(invKey, inv, pfx) {
-  pfx = pfx || '';
-  const cf = CASHFLOWS[invKey];
-  if(!cf) return;
+new Chart(document.getElementById('chartGeo'),{type:'bar',data:{labels:D.stateLabels,datasets:[{label:'UPB ($)',data:D.stateUPB,backgroundColor:'#2E75B6',borderRadius:4}]},options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false}},scales:{x:{ticks:{callback:v=>fmt$(v)}}}}});
 
-  // ── KPI cards ──
-  const kpiRow = document.getElementById(pfx+'cf-kpi-row');
-  const totalInvested = cf.investments.reduce((s,x)=>s+x.amount,0);
-  const distribAmt = cf.distrib ? cf.distrib.amount : 0;
-  const distribApproved = inv.distribApproved === 'Y';
-  kpiRow.innerHTML = `
-    <div class="inv-card navy"><div class="inv-card-label">Total Invested</div><div class="inv-card-value">${fmt$(totalInvested)}</div><div class="inv-card-sub">${cf.investments.length} subscription${cf.investments.length>1?'s':''} in 2025</div></div>
-    <div class="inv-card blue"><div class="inv-card-label">NAV (Dec 31, 2025)</div><div class="inv-card-value">${fmt$(inv.nav2025)}</div><div class="inv-card-sub">fund value end of year</div></div>
-    <div class="inv-card green"><div class="inv-card-label">Net Return</div><div class="inv-card-value">${fmt$(inv.netReturn)}</div><div class="inv-card-sub">ROI ${fmtPct(inv.roi)}</div></div>
-    <div class="inv-card amber"><div class="inv-card-label">Distribution</div><div class="inv-card-value">${distribApproved ? fmt$(distribAmt) : '—'}</div><div class="inv-card-sub">${distribApproved ? '✅ Approved' : 'Pending approval'}</div></div>`;
+new Chart(document.getElementById('chartRate'),{type:'bar',data:{labels:D.rateLabels,datasets:[{label:'# Loans',data:D.rateCounts,backgroundColor:'#1F3864',borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}}}}});
 
-  // ── Timeline ──
-  const tl = document.getElementById(pfx+'cf-timeline');
-  let tlHTML = '';
-  const distribMonth = cf.distrib ? cf.distrib.month : -1;
-  for(let m=0; m<13; m++) {
-    const isDistrib = m === distribMonth;
-    const investIdx = cf.investments.findIndex(x=>x.month===m);
-    const isInvest = investIdx >= 0;
-    const isNav = m === 12;
-    let dotClass = 'empty', labelText = m<12 ? MONTH_NAMES[m] : 'Jan 2026', amountHTML = '';
-    if(isNav) {
-      dotClass='nav';
-      amountHTML=`<div class="cf-tl-amount nav-amt">${fmt$(inv.begin2026)}</div><div class="cf-tl-sub">Bal. fwd.</div>`;
-    } else if(isInvest) {
-      dotClass='invest';
-      labelText=MONTH_NAMES[m]+' 2025';
-      amountHTML=`<div class="cf-tl-amount neg">−${fmt$(cf.investments[investIdx].amount)}</div><div class="cf-tl-sub">${cf.investments[investIdx].label}</div>`;
-    } else if(isDistrib) {
-      dotClass='distrib';
-      labelText=MONTH_NAMES[m]+' 2025';
-      amountHTML=`<div class="cf-tl-amount pos">+${fmt$(cf.distrib.amount)}</div><div class="cf-tl-sub">Distribution</div>`;
-    }
-    tlHTML += `<div class="cf-tl-item"><div class="cf-tl-dot ${dotClass}"></div><div class="cf-tl-label">${labelText}</div>${amountHTML}</div>`;
-  }
-  tl.innerHTML = tlHTML;
+new Chart(document.getElementById('chartVintage'),{type:'bar',data:{labels:D.vintageYears,datasets:[{label:'Original Balance ($)',data:D.vintageUPB,backgroundColor:['#D9E2F3','#2E75B6','#1F3864'],borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{ticks:{callback:v=>fmt$(v)}}}}});
 
-  // ── Cashflow table ──
-  const tbody = document.getElementById(pfx+'cf-tbody');
-  const tfoot = document.getElementById(pfx+'cf-tfoot');
-  let cumul = 0, rows = '';
-  cf.investments.forEach(x => {
-    cumul += x.amount;
-    rows += `<tr><td>${MONTH_FULL[x.month]} 1, 2025</td><td>${x.label}</td><td><span class="badge-invest">Investment</span></td><td class="amt-neg">(${fmt$(x.amount)})</td><td style="text-align:right;">${fmt$(cumul)}</td></tr>`;
-  });
-  if(cf.distrib) {
-    rows += `<tr><td>Dec 31, 2025</td><td>Approved Distribution</td><td><span class="badge-distrib">Distribution</span></td><td class="amt-pos">${fmt$(cf.distrib.amount)}</td><td style="text-align:right;">${fmt$(cumul)}</td></tr>`;
-  }
-  rows += `<tr><td>Jan 1, 2026</td><td>NAV — Balance Carried Forward</td><td><span class="badge-nav">NAV</span></td><td class="amt-nav">${fmt$(inv.begin2026)}</td><td style="text-align:right;">—</td></tr>`;
-  tbody.innerHTML = rows;
-  tfoot.innerHTML = `<tr><td colspan="3">Net Return (2025)</td><td style="color:var(--green);text-align:right;">${fmt$(inv.netReturn)}</td><td style="color:var(--green);text-align:right;">ROI ${fmtPct(inv.roi)}</td></tr>`;
-
-  // ── Charts ──
-  const cfData = new Array(12).fill(0);
-  cf.investments.forEach(x => { cfData[x.month] -= x.amount; });
-  if(cf.distrib) cfData[cf.distrib.month] += cf.distrib.amount;
-  const cfColors = cfData.map(v => v<0 ? '#dc2626' : v>0 ? '#16a34a' : '#e2e8f0');
-  const cfBorders = cfData.map(v => v<0 ? '#b91c1c' : v>0 ? '#15803d' : '#cbd5e1');
-
-  const cfKey = pfx+'chartCF', navKey = pfx+'chartNAV';
-  if(_charts[cfKey]) _charts[cfKey].destroy();
-  _charts[cfKey] = new Chart(document.getElementById(cfKey), {
-    type:'bar',
-    data:{labels:MONTH_NAMES,datasets:[{label:'Cash Flow',data:cfData,backgroundColor:cfColors,borderColor:cfBorders,borderWidth:1.5,borderRadius:5,borderSkipped:false}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{const v=c.raw;if(v===0)return ' No activity';return (v<0?' Investment: ':' Distribution: ')+'$'+Math.abs(v).toLocaleString();}}}},scales:{y:{ticks:{callback:v=>(v===0?'$0':(v<0?'−$':'$')+Math.abs(v/1000).toFixed(0)+'K')},grid:{color:'#f1f5f9'}},x:{grid:{display:false}}}}
-  });
-
-  // NAV growth
-  const mr = cf.irr / 12;
-  let nav = 0;
-  const navData = [];
-  const invByMonth = new Array(12).fill(0);
-  cf.investments.forEach(x => { invByMonth[x.month] += x.amount; });
-  for(let i=0; i<12; i++) { nav = (nav + invByMonth[i]) * (1 + mr); navData.push(Math.round(nav)); }
-
-  if(_charts[navKey]) _charts[navKey].destroy();
-  _charts[navKey] = new Chart(document.getElementById(navKey), {
-    type:'line',
-    data:{labels:MONTH_NAMES,datasets:[{label:'NAV',data:navData,borderColor:'#2563eb',backgroundColor:'rgba(37,99,235,0.08)',borderWidth:2.5,fill:true,tension:0.4,pointBackgroundColor:'#2563eb',pointRadius:4,pointHoverRadius:6}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' NAV: $'+c.raw.toLocaleString()}}},scales:{y:{ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'K'},grid:{color:'#f1f5f9'}},x:{grid:{display:false}}}}
-  });
-}
-
-// ══ ADMIN INVESTOR MODAL ══════════════════════════════════════════════════════
-window.__openInvestorModal = function(key) {
-  const inv = INVESTORS[key];
-  if(!inv) return;
-  document.getElementById('modal-inv-name').textContent = inv.name;
-  document.getElementById('inv-modal-overlay').style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-  // Render after a tick so the modal is visible for chart sizing
-  setTimeout(() => __renderCashflow(key, inv, 'modal-'), 30);
-};
-
-window.__closeInvestorModal = function() {
-  document.getElementById('inv-modal-overlay').style.display = 'none';
-  document.body.style.overflow = '';
-};
-
-const ADMIN_PASS = "2405586";
-const GUEST_PASS = "GUEST";
-
-// ══ FUND DATA ═════════════════════════════════════════════════════════════════
-const D = {
-  asOf:"March 09, 2026", totalLoans:50, performing:35, paidOff:14, foreclosure:1,
-  totalUPB:14808195.17, performingUPB:14334513.57, totalOrig:19827295.0,
-  unpaidInterest:2213.09, unpaidLateCharges:1215.69, totalMonthlyPayments:146440.25,
-  wtdAvgRate:12.1959,
-  stateLabels:["FL","NJ","LA"], stateUPB:[14169095.17,487500.0,151600.0], stateCnt:[48,1,1],
-  rateLabels:["< 10%","10–11%","11–12%","12–13%","13–14%","≥ 14%"], rateCounts:[0,1,1,33,0,0],
-  vintageYears:["2024","2025","2026"], vintageUPB:[9406175.0,4933050.0,79570.0],
-  ptypeLabels:["Residential Income 1-4","Residential Condo","PUD","Single Family Res"],
-  ptypeUPB:[11957316.92,1265260.61,784336.04,327600.0]
-};
-
-// ══ HELPERS ══════════════════════════════════════════════════════════════════
-const fmt$ = (n,d=0) => '$'+Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
-const fmtM = n => '$'+(n/1e6).toFixed(2)+'M';
-const fmtPct = (n,d=2) => (n*100).toFixed(d)+'%';
-const set = (id,v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
-
-// ══ AUTH ══════════════════════════════════════════════════════════════════════
-const KEY = 'bgt_user';
-
-window.__login = function() {
-  const val = document.getElementById('gate-input').value.trim();
-  const inp = document.getElementById('gate-input');
-  const err = document.getElementById('gate-err');
-  const inv = INVESTORS[val];
-  if(val === ADMIN_PASS || val === GUEST_PASS || inv) {
-    sessionStorage.setItem(KEY, val);
-    document.getElementById('gate').style.display = 'none';
-    __render(val);
-  } else {
-    inp.classList.remove('shake'); void inp.offsetWidth; inp.classList.add('shake');
-    err.textContent = 'Incorrect password. Please try again.';
-    inp.value = ''; inp.focus();
-  }
-};
-
-window.__logout = function() {
-  sessionStorage.removeItem(KEY);
-  location.reload();
-};
-
-function __render(pass) {
-  const inv = INVESTORS[pass];
-  set('asOf', D.asOf);
-
-  if(pass === GUEST_PASS) {
-    // ── GUEST / PRESENTATION VIEW ─────────────────────────────────────────
-    document.getElementById('header-sub').textContent = 'BGT Real Estate Opp Fund  ·  Fund Overview';
-    document.getElementById('admin-label').style.display = 'none';
-  }
-
-  if(inv) {
-    // ── INVESTOR VIEW ──────────────────────────────────────────────────────
-    document.getElementById('header-sub').textContent = inv.name + '  ·  Investor Portal';
-    document.getElementById('admin-label').style.display = 'none';
-    document.getElementById('inv-section').style.display = 'block';
-
-    set('inv-name', 'Welcome, ' + inv.name);
-    set('inv-subscribed', fmt$(inv.subscribed));
-    set('inv-nav', fmt$(inv.nav2025));
-    set('inv-return', fmt$(inv.netReturn));
-    set('inv-roi-sub', 'ROI ' + fmtPct(inv.roi));
-    set('inv-distrib', inv.distribApproved === 'Y' ? fmt$(inv.distribAmt) : '—');
-
-    set('d-roi',       fmtPct(inv.roi));
-    set('d-irr',       fmtPct(inv.irr));
-    set('d-net-return',fmt$(inv.netReturn));
-    set('d-distrib-total', inv.distribApproved === 'Y' ? fmt$(inv.distribAmt) : '—');
-    set('d-begin2026', fmt$(inv.begin2026));
-    set('d-subscribed', fmt$(inv.subscribed));
-    set('d-begin2025', fmt$(inv.begin2025));
-    set('d-nav2025',   fmt$(inv.nav2025));
-    set('d-distrib-app', inv.distribApproved === 'Y' ? '✅ Approved' : '—');
-    set('d-distrib-amt', inv.distribAmt > 0 ? fmt$(inv.distribAmt) : '—');
-
-    // Render cashflow section
-    __renderCashflow(pass, inv);
-
-    // Move fund-section into Tab 2 for investor view
-    const fundEl = document.getElementById('fund-section');
-    const tabFund = document.getElementById('tab-content-fundoverview');
-    if(fundEl && tabFund) tabFund.appendChild(fundEl);
-  }
-
-  // ── ADMIN: ALL INVESTORS TABLE ──────────────────────────────────────────
-  if(pass === ADMIN_PASS) {
-    document.getElementById('all-investors-section').style.display = 'block';
-    const tbody = document.getElementById('all-inv-tbody');
-    const tfoot = document.getElementById('all-inv-tfoot');
-    const keys = Object.keys(INVESTORS);
-    let totSubscribed=0,totNav=0,totReturn=0,totDistrib=0,totBegin2026=0;
-    keys.forEach((k,i) => {
-      const p = INVESTORS[k];
-      totSubscribed+=p.subscribed; totNav+=p.nav2025; totReturn+=p.netReturn;
-      totDistrib+=(p.distribApproved==='Y'?p.distribAmt:0); totBegin2026+=p.begin2026;
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td style="text-align:left;color:#94a3b8;font-weight:400">${i+1}</td>
-        <td style="text-align:left;"><span class="inv-name-link" onclick="__openInvestorModal('${k}')">${p.name}</span></td>
-        <td>${fmt$(p.subscribed)}</td>
-        <td style="font-weight:700">${fmt$(p.nav2025)}</td>
-        <td style="color:var(--green)">${fmt$(p.netReturn)}</td>
-        <td>${fmtPct(p.roi)}</td>
-        <td>${fmtPct(p.irr)}</td>
-        <td>${p.distribApproved==='Y'?fmt$(p.distribAmt):'—'}</td>
-        <td style="text-align:center">${p.distribApproved==='Y'?'<span class="distrib-yes">✓ Yes</span>':'<span class="distrib-no">—</span>'}</td>
-        <td style="font-weight:700;color:var(--navy)">${fmt$(p.begin2026)}</td>`;
-      tbody.appendChild(tr);
-    });
-    const tf = document.createElement('tr');
-    tf.innerHTML = `
-      <td></td><td style="text-align:left">Total (${keys.length} investors)</td>
-      <td>${fmt$(totSubscribed)}</td>
-      <td>${fmt$(totNav)}</td>
-      <td style="color:var(--green)">${fmt$(totReturn)}</td>
-      <td>—</td><td>—</td>
-      <td>${fmt$(totDistrib)}</td>
-      <td></td>
-      <td>${fmt$(totBegin2026)}</td>`;
-    tfoot.appendChild(tf);
-  }
-
-  // ── FUND KPIs (always shown) ─────────────────────────────────────────────
-  set('kpi-total', D.totalLoans);
-  set('kpi-upb', fmtM(D.totalUPB));
-  set('kpi-perf-upb', fmtM(D.performingUPB));
-  set('kpi-perf-pct', (D.performingUPB/D.totalUPB*100).toFixed(1)+'% of total');
-  set('kpi-rate', D.wtdAvgRate.toFixed(2)+'%');
-  set('kpi-pmt', fmtM(D.totalMonthlyPayments));
-  set('st-perf-n', D.performing+' loans');
-  set('st-perf-upb', fmt$(D.performingUPB)+' UPB');
-  set('st-paid-n', D.paidOff+' loans');
-  set('st-fc-n', D.foreclosure+' loan');
-  set('st-fc-pct', (D.foreclosure/D.totalLoans*100).toFixed(1)+'% of portfolio');
-
-  // ── METRICS TABLE ────────────────────────────────────────────────────────
-  const rows = [
-    ["Total Loans in Portfolio", D.totalLoans, "All statuses"],
-    ["Performing Loans", D.performing+' ('+(D.performing/D.totalLoans*100).toFixed(0)+'%)', "Active, current"],
-    ["Paid Off Loans", D.paidOff, "Fully resolved"],
-    ["Foreclosure", D.foreclosure, "2.0% of portfolio"],
-    ["Total Original Balance", fmt$(D.totalOrig), "At origination"],
-    ["Current UPB (All Loans)", fmt$(D.totalUPB), "Unpaid principal balance"],
-    ["Performing UPB", fmt$(D.performingUPB), "Active loans only"],
-    ["UPB as % of Original", (D.totalUPB/D.totalOrig*100).toFixed(1)+'%', "Portfolio seasoning"],
-    ["Wtd. Average Note Rate", D.wtdAvgRate.toFixed(2)+'%', "Weighted by UPB"],
-    ["Monthly Scheduled Payments", fmt$(D.totalMonthlyPayments), "Performing loans"],
-    ["Annualized Payment Income", fmt$(D.totalMonthlyPayments*12), "Based on current payments"],
-    ["Unpaid Interest", fmt$(D.unpaidInterest,2), "Accrued"],
-    ["Unpaid Late Charges", fmt$(D.unpaidLateCharges,2), "Outstanding"],
-    ["Primary State (FL)", (D.stateUPB[0]/D.totalUPB*100).toFixed(1)+'% of UPB', D.stateCnt[0]+' loans'],
-  ];
-  const tb = document.getElementById('metrics-table');
-  rows.forEach(([l,v,n]) => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td style="font-weight:500;color:#374151">${l}</td><td style="font-weight:700;color:#1e3a6e">${v}</td><td style="color:#6b7280;font-size:0.73rem">${n}</td>`;
-    tb.appendChild(tr);
-  });
-
-  // ── CHARTS ───────────────────────────────────────────────────────────────
-  const BP = ['#1e3a8a','#1d4ed8','#2563eb','#3b82f6','#60a5fa','#93c5fd'];
-  Chart.defaults.font.family = "'Segoe UI', Arial, sans-serif";
-  Chart.defaults.font.size = 11;
-
-  new Chart(document.getElementById('chartStatus'),{type:'doughnut',data:{labels:['Performing','Paid Off','Foreclosure'],datasets:[{data:[D.performing,D.paidOff,D.foreclosure],backgroundColor:['#16a34a','#2563eb','#dc2626'],borderWidth:2,borderColor:'#fff',hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw} loans`}}}}});
-
-  new Chart(document.getElementById('chartGeo'),{type:'bar',data:{labels:D.stateLabels,datasets:[{label:'UPB ($)',data:D.stateUPB,backgroundColor:BP.slice(0,D.stateLabels.length),borderRadius:6,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' $'+c.raw.toLocaleString()}}},scales:{x:{ticks:{callback:v=>'$'+(v/1e6).toFixed(1)+'M'},grid:{color:'#f1f5f9'}},y:{grid:{display:false}}}}});
-
-  new Chart(document.getElementById('chartRate'),{type:'bar',data:{labels:D.rateLabels,datasets:[{label:'# Loans',data:D.rateCounts,backgroundColor:'#3b82f6',borderRadius:6,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.raw} loan(s)`}}},scales:{y:{beginAtZero:true,ticks:{stepSize:5},grid:{color:'#f1f5f9'}},x:{grid:{display:false}}}}});
-
-  new Chart(document.getElementById('chartVintage'),{type:'bar',data:{labels:D.vintageYears,datasets:[{label:'Original Balance',data:D.vintageUPB,backgroundColor:['#1d4ed8','#2563eb','#60a5fa'],borderRadius:8,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' $'+c.raw.toLocaleString()}}},scales:{y:{ticks:{callback:v=>'$'+(v/1e6).toFixed(1)+'M'},grid:{color:'#f1f5f9'}},x:{grid:{display:false}}}}});
-
-  new Chart(document.getElementById('chartPtype'),{type:'doughnut',data:{labels:D.ptypeLabels,datasets:[{data:D.ptypeUPB,backgroundColor:['#1e3a8a','#2563eb','#60a5fa','#bfdbfe'],borderWidth:2,borderColor:'#fff',hoverOffset:5}]},options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'bottom',labels:{font:{size:10}}},tooltip:{callbacks:{label:c=>' $'+c.raw.toLocaleString()}}}}});
-}
-
-// ══ INIT ══════════════════════════════════════════════════════════════════════
-(function(){
-  const saved = sessionStorage.getItem(KEY);
-  if(saved && (saved === ADMIN_PASS || saved === GUEST_PASS || INVESTORS[saved])) {
-    document.getElementById('gate').style.display = 'none';
-    __render(saved);
-  }
-})();
+const ptypeColors=['#1F3864','#2E75B6','#5B9BD5','#8DB4E2','#D9E2F3','#A9C4E2','#7BA7D7','#4A8CC7'];
+new Chart(document.getElementById('chartPtype'),{type:'doughnut',data:{labels:D.ptypeLabels,datasets:[{data:D.ptypeUPB,backgroundColor:ptypeColors.slice(0,D.ptypeLabels.length),borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,plugins:{legend:{position:'bottom'}}}});
 </script>
 </body>
 </html>
