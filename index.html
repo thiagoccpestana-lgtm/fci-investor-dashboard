@@ -94,6 +94,24 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
 .tag.blue{background:#dbeafe;color:#1d4ed8;}
 .tag.amber{background:#fef3c7;color:#92400e;}
 
+/* ── AUM BANNER ── */
+.aum-banner{display:flex;align-items:center;gap:0;background:linear-gradient(135deg,var(--navy) 0%,#1e3a6e 60%,#163060 100%);border-radius:16px;padding:24px 28px;margin-bottom:28px;position:relative;overflow:hidden;}
+.aum-banner::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none;}
+.aum-col{flex:1;text-align:center;position:relative;z-index:1;}
+.aum-col-total{flex:1.2;background:rgba(255,255,255,0.08);border-radius:12px;padding:14px 16px;text-align:center;position:relative;z-index:1;border:1px solid rgba(255,255,255,0.12);}
+.aum-op{font-size:1.6rem;font-weight:200;color:rgba(255,255,255,0.3);padding:0 8px;flex-shrink:0;position:relative;z-index:1;}
+.aum-lbl{font-size:0.62rem;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:6px;}
+.aum-val{font-size:1.5rem;font-weight:800;color:#fff;line-height:1;letter-spacing:-0.5px;}
+.aum-col-total .aum-val{font-size:1.75rem;color:#4ade80;}
+.aum-sub{font-size:0.62rem;color:rgba(255,255,255,0.4);margin-top:5px;}
+.aum-col-total .aum-sub{color:rgba(74,222,128,0.6);}
+@media(max-width:600px){
+  .aum-banner{flex-direction:column;gap:14px;padding:18px 16px;}
+  .aum-op{display:none;}
+  .aum-val{font-size:1.25rem;}
+  .aum-col-total .aum-val{font-size:1.45rem;}
+}
+
 /* ── FUND OVERVIEW (shared section) ── */
 .kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:28px;}
 .kpi{background:#fff;border-radius:14px;padding:18px 16px;border:1px solid var(--border);box-shadow:0 1px 6px rgba(0,0,0,.05);display:flex;flex-direction:column;gap:5px;transition:transform .15s,box-shadow .15s;}
@@ -437,6 +455,28 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
 <!-- ══ FUND PORTFOLIO OVERVIEW (visible to all) ══════════════════════════ -->
 <div id="fund-section">
   <div id="admin-label" class="section-label">BGT Real Estate Opp Fund — Full Portfolio Overview</div>
+
+  <!-- AUM SUMMARY BANNER -->
+  <div class="section-label">💼 Total Assets Under Management</div>
+  <div class="aum-banner">
+    <div class="aum-col">
+      <div class="aum-lbl">Loan Portfolio</div>
+      <div class="aum-val" id="aum-loans"></div>
+      <div class="aum-sub">Active UPB · <span id="aum-asof"></span></div>
+    </div>
+    <div class="aum-op">+</div>
+    <div class="aum-col">
+      <div class="aum-lbl">Cash &amp; Liquidity</div>
+      <div class="aum-val" id="aum-cash"></div>
+      <div class="aum-sub">UBS · Feb 27, 2026</div>
+    </div>
+    <div class="aum-op">=</div>
+    <div class="aum-col-total">
+      <div class="aum-lbl">Total AUM</div>
+      <div class="aum-val" id="aum-total"></div>
+      <div class="aum-sub">Estimated · <span id="aum-asof2"></span></div>
+    </div>
+  </div>
 
   <!-- ADMIN: All Investors Positions -->
   <div id="all-investors-section" style="display:none;margin-bottom:28px;">
@@ -827,6 +867,10 @@ const D = {
   ptypeUPB:[11900251.76, 1265260.61, 1006000.0, 735100.0, 476686.74]
 };
 
+// ══ CASH / AUM DATA ══════════════════════════════════════════════════════════
+const UBS_CASH = 3503432.99;   // UBS International RMA · Feb 27, 2026
+const UBS_DATE = "Feb 27, 2026";
+
 // ══ HELPERS ══════════════════════════════════════════════════════════════════
 const fmt$ = (n,d=0) => '$'+Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
 const fmtM = n => '$'+(n/1e6).toFixed(2)+'M';
@@ -935,6 +979,14 @@ function __render(pass) {
   }
 
   // ── FUND KPIs (always shown) ─────────────────────────────────────────────
+  // ── AUM BANNER ───────────────────────────────────────────────────────────
+  const totalAUM = D.totalUPB + UBS_CASH;
+  set('aum-loans', fmtM(D.totalUPB));
+  set('aum-cash',  fmtM(UBS_CASH));
+  set('aum-total', fmtM(totalAUM));
+  set('aum-asof',  D.asOf);
+  set('aum-asof2', D.asOf);
+
   set('kpi-total', D.totalLoans);
   set('kpi-upb', fmtM(D.totalUPB));
   set('kpi-perf-upb', fmtM(D.performingUPB));
