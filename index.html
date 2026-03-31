@@ -105,11 +105,13 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
 .aum-col-total .aum-val{font-size:1.75rem;color:#4ade80;}
 .aum-sub{font-size:0.62rem;color:rgba(255,255,255,0.4);margin-top:5px;}
 .aum-col-total .aum-sub{color:rgba(74,222,128,0.6);}
+.aum-disclaimer{font-size:0.67rem;color:var(--gray);background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:8px 14px;margin-top:-18px;margin-bottom:28px;line-height:1.5;}
 @media(max-width:600px){
   .aum-banner{flex-direction:column;gap:14px;padding:18px 16px;}
   .aum-op{display:none;}
   .aum-val{font-size:1.25rem;}
   .aum-col-total .aum-val{font-size:1.45rem;}
+  .aum-disclaimer{font-size:0.64rem;margin-top:-8px;}
 }
 
 /* ── FUND OVERVIEW (shared section) ── */
@@ -470,6 +472,12 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
       <div class="aum-val" id="aum-cash"></div>
       <div class="aum-sub">UBS · Feb 27, 2026</div>
     </div>
+    <div class="aum-op">+</div>
+    <div class="aum-col">
+      <div class="aum-lbl">Capital Commitments</div>
+      <div class="aum-val" id="aum-commit"></div>
+      <div class="aum-sub">Not yet called · pending deploy</div>
+    </div>
     <div class="aum-op">=</div>
     <div class="aum-col-total">
       <div class="aum-lbl">Total AUM</div>
@@ -477,6 +485,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
       <div class="aum-sub">Estimated · <span id="aum-asof2"></span></div>
     </div>
   </div>
+  <div class="aum-disclaimer">⚠️ Capital Commitments of <span id="aum-commit-note"></span> represent new investor subscriptions not yet deployed into the loan portfolio and are not reflected in the FCI database.</div>
 
   <!-- ADMIN: All Investors Positions -->
   <div id="all-investors-section" style="display:none;margin-bottom:28px;">
@@ -856,20 +865,21 @@ const GUEST_PASS = "GUEST";
 
 // ══ FUND DATA ═════════════════════════════════════════════════════════════════
 const D = {
-  asOf:"March 30, 2026", totalLoans:56, performing:38, paidOff:17, foreclosure:1,
-  totalUPB:15514580.71, performingUPB:15040899.11, totalOrig:21455795.0,
-  unpaidInterest:1516.8, unpaidLateCharges:1215.69, totalMonthlyPayments:151641.18,
-  wtdAvgRate:12.0452,
-  stateLabels:["FL", "TX", "NJ", "LA"], stateUPB:[14275480.71, 600000.0, 487500.0, 151600.0], stateCnt:[53, 1, 1, 1],
-  rateLabels:["< 10%","10–11%","11–12%","12–13%","13–14%","≥ 14%"], rateCounts:[0, 3, 5, 30, 0, 0],
-  vintageYears:["2024", "2025", "2026"], vintageUPB:[8819336.83, 5541992.28, 679570.0],
+  asOf:"March 17, 2026", totalLoans:56, performing:39, paidOff:16, foreclosure:1,
+  totalUPB:15856980.71, performingUPB:15383299.11, totalOrig:21455795.0,
+  unpaidInterest:1516.8, unpaidLateCharges:1215.69, totalMonthlyPayments:155065.18,
+  wtdAvgRate:12.0442,
+  stateLabels:["FL", "TX", "NJ", "LA"], stateUPB:[14617880.71, 600000.0, 487500.0, 151600.0], stateCnt:[53, 1, 1, 1],
+  rateLabels:["< 10%","10–11%","11–12%","12–13%","13–14%","≥ 14%"], rateCounts:[0, 3, 5, 31, 0, 0],
+  vintageYears:["2024", "2025", "2026"], vintageUPB:[8819336.83, 5884392.28, 679570.0],
   ptypeLabels:["Residential Income 1-4", "Residential Condo", "Raw Land", "Single Family Res", "PUD"],
-  ptypeUPB:[11557851.76, 1265260.61, 1006000.0, 735100.0, 476686.74]
+  ptypeUPB:[11900251.76, 1265260.61, 1006000.0, 735100.0, 476686.74]
 };
 
 // ══ CASH / AUM DATA ══════════════════════════════════════════════════════════
-const UBS_CASH = 3503432.99;   // UBS International RMA · Feb 27, 2026
-const UBS_DATE = "Feb 27, 2026";
+const UBS_CASH   = 3503432.99;  // UBS International RMA · Feb 27, 2026
+const UBS_DATE   = "Feb 27, 2026";
+const COMMITMENTS = 2000000.00; // New capital committed, not yet called/deployed
 
 // ══ HELPERS ══════════════════════════════════════════════════════════════════
 const fmt$ = (n,d=0) => '$'+Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
@@ -980,12 +990,14 @@ function __render(pass) {
 
   // ── FUND KPIs (always shown) ─────────────────────────────────────────────
   // ── AUM BANNER ───────────────────────────────────────────────────────────
-  const totalAUM = D.totalUPB + UBS_CASH;
-  set('aum-loans', fmtM(D.totalUPB));
-  set('aum-cash',  fmtM(UBS_CASH));
-  set('aum-total', fmtM(totalAUM));
-  set('aum-asof',  D.asOf);
-  set('aum-asof2', D.asOf);
+  const totalAUM = D.totalUPB + UBS_CASH + COMMITMENTS;
+  set('aum-loans',        fmtM(D.totalUPB));
+  set('aum-cash',         fmtM(UBS_CASH));
+  set('aum-commit',       fmtM(COMMITMENTS));
+  set('aum-total',        fmtM(totalAUM));
+  set('aum-asof',         D.asOf);
+  set('aum-asof2',        D.asOf);
+  set('aum-commit-note',  fmt$(COMMITMENTS));
 
   set('kpi-total', D.totalLoans);
   set('kpi-upb', fmtM(D.totalUPB));
