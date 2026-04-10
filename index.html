@@ -518,14 +518,13 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
             <th style="text-align:left;">#</th>
             <th style="text-align:left;">Investor</th>
             <th>Amt. Invested</th>
-            <th>NAV (Jan 30)</th>
-            <th>Monthly ROI</th>
-            <th>Net Return</th>
+            <th>NAV (Jan 30, 2026)</th>
+            <th>Jan Gain ($)</th>
+            <th>Jan ROI</th>
+            <th>Begin 2026</th>
             <th>ROI (2025)</th>
-            <th>IRR (Jan 2025)</th>
+            <th>IRR</th>
             <th>Distributions</th>
-            <th>Distrib. Approved</th>
-            <th>Balance Begin 2026</th>
           </tr>
         </thead>
         <tbody id="all-inv-tbody"></tbody>
@@ -576,13 +575,15 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
     <div class="inv-modal-header">
       <div>
         <h2 id="modal-inv-name">Investor</h2>
-        <p>Cash Flow &amp; Distributions — Fiscal Year 2025</p>
+        <p>Investor Position &amp; Cash Flow — As of January 30, 2026</p>
       </div>
       <button class="inv-modal-close" onclick="__closeInvestorModal()">✕</button>
     </div>
     <div class="inv-modal-body">
       <!-- KPI cards -->
       <div class="inv-grid" id="modal-cf-kpi-row" style="margin-bottom:22px;"></div>
+      <!-- Return & Position Detail -->
+      <div class="inv-detail-grid" id="modal-detail-grid" style="margin-bottom:22px;"></div>
       <!-- Timeline -->
       <div class="card" style="margin-bottom:22px;">
         <div class="card-title">📅 Investment Timeline</div>
@@ -808,6 +809,35 @@ function __renderCashflow(invKey, inv, pfx) {
     <div class="inv-card green"><div class="inv-card-label">Jan 2026 Return</div><div class="inv-card-value">${fmtPct(inv.roiMonth||0)}</div><div class="inv-card-sub">+${fmt$(janGainKpi)} gain</div></div>
     <div class="inv-card amber"><div class="inv-card-label">Distribution (2025)</div><div class="inv-card-value">${distribApproved ? fmt$(distribAmt) : '—'}</div><div class="inv-card-sub">${distribApproved ? '✅ Paid — base adjusted' : 'No distribution'}</div></div>`;
 
+  // ── Detail grid (modal only) ──
+  const detailGrid = document.getElementById(pfx+'detail-grid');
+  if(detailGrid) {
+    const navDec25Detail = inv.begin2026 + (distribApproved ? inv.distribAmt : 0);
+    detailGrid.innerHTML = `
+      <div class="inv-detail">
+        <h3>📈 Return Metrics</h3>
+        <table class="inv-table">
+          <tr><td>Monthly ROI (Jan 2026)</td><td style="color:var(--green);font-weight:700">${fmtPct(inv.roiMonth||0)}</td></tr>
+          <tr><td>Jan 2026 Gain ($)</td><td style="color:var(--green)">${fmt$(janGainKpi)}</td></tr>
+          <tr><td>Total Return (2025)</td><td>${fmtPct(inv.roi)}</td></tr>
+          <tr><td>IRR (since Jan 2025)</td><td>${fmtPct(inv.irr)}</td></tr>
+          <tr><td>Net Return 2025 ($)</td><td style="color:var(--green)">${fmt$(inv.netReturn)}</td></tr>
+          <tr><td>Begin 2026 Balance</td><td>${fmt$(inv.begin2026)}</td></tr>
+        </table>
+      </div>
+      <div class="inv-detail">
+        <h3>📋 Investment Summary</h3>
+        <table class="inv-table">
+          <tr><td>Amount Subscribed</td><td>${fmt$(inv.subscribed)}</td></tr>
+          <tr><td>Balance Begin 2025</td><td>${fmt$(inv.begin2025)}</td></tr>
+          <tr><td>NAV Dec 31, 2025</td><td>${fmt$(navDec25Detail)}</td></tr>
+          <tr><td>NAV Jan 30, 2026</td><td style="font-weight:700;color:var(--navy)">${fmt$(inv.nav2025)}</td></tr>
+          <tr><td>Distribution Approved</td><td>${distribApproved ? '✅ Yes — '+fmt$(inv.distribAmt) : '—'}</td></tr>
+          <tr><td>Fund Participation</td><td>${(inv.participation*100).toFixed(2)}%</td></tr>
+        </table>
+      </div>`;
+  }
+
   // ── Timeline ──
   const tl = document.getElementById(pfx+'cf-timeline');
   let tlHTML = '';
@@ -1011,37 +1041,37 @@ function __render(pass) {
     const tbody = document.getElementById('all-inv-tbody');
     const tfoot = document.getElementById('all-inv-tfoot');
     const keys = Object.keys(INVESTORS);
-    let totSubscribed=0,totNav=0,totReturn=0,totDistrib=0,totBegin2026=0;
+    let totSubscribed=0,totNav=0,totReturn=0,totDistrib=0,totBegin2026=0,totJanGain=0;
     keys.forEach((k,i) => {
       const p = INVESTORS[k];
+      const janGain = p.nav2025 - p.begin2026;
       totSubscribed+=p.subscribed; totNav+=p.nav2025; totReturn+=p.netReturn;
       totDistrib+=(p.distribApproved==='Y'?p.distribAmt:0); totBegin2026+=p.begin2026;
+      totJanGain+=janGain;
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td style="text-align:left;color:#94a3b8;font-weight:400">${i+1}</td>
         <td style="text-align:left;"><span class="inv-name-link" onclick="__openInvestorModal('${k}')">${p.name}</span></td>
         <td>${fmt$(p.subscribed)}</td>
         <td style="font-weight:700">${fmt$(p.nav2025)}</td>
+        <td style="color:var(--green)">+${fmt$(janGain)}</td>
         <td style="color:var(--green)">${fmtPct(p.roiMonth||0)}</td>
-        <td style="color:var(--green)">${fmt$(p.netReturn)}</td>
+        <td style="font-weight:700;color:var(--navy)">${fmt$(p.begin2026)}</td>
         <td>${fmtPct(p.roi)}</td>
         <td>${fmtPct(p.irr)}</td>
-        <td>${p.distribApproved==='Y'?fmt$(p.distribAmt):'—'}</td>
-        <td style="text-align:center">${p.distribApproved==='Y'?'<span class="distrib-yes">✓ Yes</span>':'<span class="distrib-no">—</span>'}</td>
-        <td style="font-weight:700;color:var(--navy)">${fmt$(p.begin2026)}</td>`;
+        <td>${p.distribApproved==='Y'?fmt$(p.distribAmt)+' ✓':'—'}</td>`;
       tbody.appendChild(tr);
     });
     const tf = document.createElement('tr');
     tf.innerHTML = `
-      <td></td><td style="text-align:left">Total (${keys.length} investors)</td>
-      <td>${fmt$(totSubscribed)}</td>
-      <td>${fmt$(totNav)}</td>
-      <td>—</td>
-      <td style="color:var(--green)">${fmt$(totReturn)}</td>
+      <td></td><td style="text-align:left;font-weight:700">Total (${keys.length} investors)</td>
+      <td style="font-weight:700">${fmt$(totSubscribed)}</td>
+      <td style="font-weight:700">${fmt$(totNav)}</td>
+      <td style="color:var(--green);font-weight:700">+${fmt$(totJanGain)}</td>
+      <td style="color:var(--green)">${fmtPct(totJanGain/totBegin2026)}</td>
+      <td style="font-weight:700;color:var(--navy)">${fmt$(totBegin2026)}</td>
       <td>—</td><td>—</td>
-      <td>${fmt$(totDistrib)}</td>
-      <td></td>
-      <td>${fmt$(totBegin2026)}</td>`;
+      <td>${fmt$(totDistrib)}</td>`;
     tfoot.appendChild(tf);
   }
 
