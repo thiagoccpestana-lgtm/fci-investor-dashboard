@@ -438,14 +438,14 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
         <div class="chart-wrap" style="height:220px;"><canvas id="chartCF"></canvas></div>
       </div>
       <div class="card">
-        <div class="card-title">📈 NAV Growth (2025)</div>
+        <div class="card-title">📈 NAV Growth (2025 — Jan 2026)</div>
         <div class="chart-wrap" style="height:220px;"><canvas id="chartNAV"></canvas></div>
       </div>
     </div>
 
     <!-- Transaction table -->
     <div class="card" style="margin-bottom:22px;">
-      <div class="card-title">📋 Transaction Detail</div>
+      <div class="card-title">📋 Transaction Detail &amp; Position History</div>
       <div style="overflow-x:auto;">
         <table class="cf-table">
           <thead><tr><th>Date</th><th>Description</th><th>Type</th><th style="text-align:right;">Amount</th><th style="text-align:right;">Cumul. Invested</th></tr></thead>
@@ -595,13 +595,13 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
           <div class="chart-wrap" style="height:210px;"><canvas id="modal-chartCF"></canvas></div>
         </div>
         <div class="card">
-          <div class="card-title">📈 NAV Growth (2025)</div>
+          <div class="card-title">📈 NAV Growth (2025 — Jan 2026)</div>
           <div class="chart-wrap" style="height:210px;"><canvas id="modal-chartNAV"></canvas></div>
         </div>
       </div>
       <!-- Transaction table -->
       <div class="card" style="margin-bottom:8px;">
-        <div class="card-title">📋 Transaction Detail</div>
+        <div class="card-title">📋 Transaction Detail &amp; Position History</div>
         <div style="overflow-x:auto;">
           <table class="cf-table">
             <thead><tr><th>Date</th><th>Description</th><th>Type</th><th style="text-align:right;">Amount</th><th style="text-align:right;">Cumul. Invested</th></tr></thead>
@@ -801,11 +801,12 @@ function __renderCashflow(invKey, inv, pfx) {
   const totalInvested = cf.investments.reduce((s,x)=>s+x.amount,0);
   const distribAmt = cf.distrib ? cf.distrib.amount : 0;
   const distribApproved = inv.distribApproved === 'Y';
+  const janGainKpi = inv.nav2025 - inv.begin2026;
   kpiRow.innerHTML = `
     <div class="inv-card navy"><div class="inv-card-label">Total Invested</div><div class="inv-card-value">${fmt$(totalInvested)}</div><div class="inv-card-sub">${cf.investments.length} subscription${cf.investments.length>1?'s':''} in 2025</div></div>
-    <div class="inv-card blue"><div class="inv-card-label">NAV (Jan 30, 2026)</div><div class="inv-card-value">${fmt$(inv.nav2025)}</div><div class="inv-card-sub">fund value as of Jan 30, 2026</div></div>
-    <div class="inv-card green"><div class="inv-card-label">Monthly Return (Jan 2026)</div><div class="inv-card-value">${fmtPct(inv.roiMonth||0)}</div><div class="inv-card-sub">${fmt$(inv.nav2025 - inv.begin2026)} gain</div></div>
-    <div class="inv-card amber"><div class="inv-card-label">Distribution</div><div class="inv-card-value">${distribApproved ? fmt$(distribAmt) : '—'}</div><div class="inv-card-sub">${distribApproved ? '✅ Approved' : 'Pending approval'}</div></div>`;
+    <div class="inv-card blue"><div class="inv-card-label">NAV (Jan 30, 2026)</div><div class="inv-card-value">${fmt$(inv.nav2025)}</div><div class="inv-card-sub">from ${fmt$(inv.begin2026)} base</div></div>
+    <div class="inv-card green"><div class="inv-card-label">Jan 2026 Return</div><div class="inv-card-value">${fmtPct(inv.roiMonth||0)}</div><div class="inv-card-sub">+${fmt$(janGainKpi)} gain</div></div>
+    <div class="inv-card amber"><div class="inv-card-label">Distribution (2025)</div><div class="inv-card-value">${distribApproved ? fmt$(distribAmt) : '—'}</div><div class="inv-card-sub">${distribApproved ? '✅ Paid — base adjusted' : 'No distribution'}</div></div>`;
 
   // ── Timeline ──
   const tl = document.getElementById(pfx+'cf-timeline');
@@ -844,7 +845,18 @@ function __renderCashflow(invKey, inv, pfx) {
   if(cf.distrib) {
     rows += `<tr><td>Dec 31, 2025</td><td>Approved Distribution</td><td><span class="badge-distrib">Distribution</span></td><td class="amt-pos">${fmt$(cf.distrib.amount)}</td><td style="text-align:right;">${fmt$(cumul)}</td></tr>`;
   }
-  rows += `<tr><td>Jan 1, 2026</td><td>NAV — Balance Carried Forward</td><td><span class="badge-nav">NAV</span></td><td class="amt-nav">${fmt$(inv.begin2026)}</td><td style="text-align:right;">—</td></tr>`;
+  // NAV Dec 31, 2025
+  const navDec25 = inv.begin2026 + (inv.distribApproved==='Y' ? inv.distribAmt : 0);
+  rows += `<tr style="background:#f0f4ff"><td>Dec 31, 2025</td><td>NAV — Year End Position</td><td><span class="badge-nav">NAV</span></td><td class="amt-nav">${fmt$(navDec25)}</td><td style="text-align:right;">ROI ${fmtPct(inv.roi)}</td></tr>`;
+  // Distribution payout (if approved)
+  if(inv.distribApproved==='Y' && inv.distribAmt > 0) {
+    rows += `<tr style="background:#f0fff4"><td>Jan 1, 2026</td><td>Distribution Paid Out</td><td><span class="badge-distrib">Payout</span></td><td class="amt-pos">(${fmt$(inv.distribAmt)})</td><td style="text-align:right;">${fmt$(inv.begin2026)}</td></tr>`;
+  }
+  // Begin 2026 balance
+  rows += `<tr style="background:#f8fafc"><td>Jan 1, 2026</td><td>Balance Carried Forward into 2026</td><td><span class="badge-nav">Balance</span></td><td class="amt-nav">${fmt$(inv.begin2026)}</td><td style="text-align:right;">—</td></tr>`;
+  // Jan 30, 2026 NAV position
+  const janGain = inv.nav2025 - inv.begin2026;
+  rows += `<tr style="background:#eff6ff;font-weight:700"><td>Jan 30, 2026</td><td>Current NAV Position</td><td><span class="badge-nav" style="background:#2563eb;color:#fff;">Current</span></td><td class="amt-nav" style="color:var(--navy)">${fmt$(inv.nav2025)}</td><td style="text-align:right;color:var(--green);">+${fmt$(janGain)} (${fmtPct(inv.roiMonth||0)})</td></tr>`;
   tbody.innerHTML = rows;
   tfoot.innerHTML = `<tr><td colspan="3">Net Return (2025)</td><td style="color:var(--green);text-align:right;">${fmt$(inv.netReturn)}</td><td style="color:var(--green);text-align:right;">ROI ${fmtPct(inv.roi)}</td></tr>`;
 
@@ -863,18 +875,24 @@ function __renderCashflow(invKey, inv, pfx) {
     options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{const v=c.raw;if(v===0)return ' No activity';return (v<0?' Investment: ':' Distribution: ')+'$'+Math.abs(v).toLocaleString();}}}},scales:{y:{ticks:{callback:v=>(v===0?'$0':(v<0?'−$':'$')+Math.abs(v/1000).toFixed(0)+'K')},grid:{color:'#f1f5f9'}},x:{grid:{display:false}}}}
   });
 
-  // NAV growth
+  // NAV growth — extended through Jan 2026
   const mr = cf.irr / 12;
   let nav = 0;
   const navData = [];
   const invByMonth = new Array(12).fill(0);
   cf.investments.forEach(x => { invByMonth[x.month] += x.amount; });
   for(let i=0; i<12; i++) { nav = (nav + invByMonth[i]) * (1 + mr); navData.push(Math.round(nav)); }
+  // Add Jan 2026 actual NAV
+  navData.push(Math.round(inv.nav2025));
+  const navLabels = [...MONTH_NAMES, 'Jan 26'];
+  // Point styling: last point (Jan 26) is highlighted
+  const ptBg = navData.map((_,i) => i === navData.length-1 ? '#16a34a' : '#2563eb');
+  const ptR = navData.map((_,i) => i === navData.length-1 ? 7 : 4);
 
   if(_charts[navKey]) _charts[navKey].destroy();
   _charts[navKey] = new Chart(document.getElementById(navKey), {
     type:'line',
-    data:{labels:MONTH_NAMES,datasets:[{label:'NAV',data:navData,borderColor:'#2563eb',backgroundColor:'rgba(37,99,235,0.08)',borderWidth:2.5,fill:true,tension:0.4,pointBackgroundColor:'#2563eb',pointRadius:4,pointHoverRadius:6}]},
+    data:{labels:navLabels,datasets:[{label:'NAV',data:navData,borderColor:'#2563eb',backgroundColor:'rgba(37,99,235,0.08)',borderWidth:2.5,fill:true,tension:0.4,pointBackgroundColor:ptBg,pointRadius:ptR,pointHoverRadius:8}]},
     options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' NAV: $'+c.raw.toLocaleString()}}},scales:{y:{ticks:{callback:v=>'$'+(v/1000).toFixed(0)+'K'},grid:{color:'#f1f5f9'}},x:{grid:{display:false}}}}
   });
 }
