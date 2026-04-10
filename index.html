@@ -393,7 +393,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
   <div id="tab-content-myview">
 
     <!-- KPI cards (from cashflow section — best format) -->
-    <div class="section-label">Your Position — As of December 31, 2025</div>
+    <div class="section-label">Your Position — As of January 30, 2026</div>
     <div class="inv-grid" id="cf-kpi-row" style="margin-bottom:22px;"></div>
 
     <!-- Return metrics detail -->
@@ -401,6 +401,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
       <div class="inv-detail">
         <h3>📈 Return Metrics</h3>
         <table class="inv-table">
+          <tr><td>Monthly ROI (Jan 2026)</td><td id="d-roiMonth">—</td></tr>
           <tr><td>Total Return (2025)</td><td id="d-roi">—</td></tr>
           <tr><td>IRR (since Jan 2025)</td><td id="d-irr">—</td></tr>
           <tr><td>Net Return ($)</td><td id="d-net-return">—</td></tr>
@@ -413,7 +414,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
         <table class="inv-table">
           <tr><td>Amount Subscribed</td><td id="d-subscribed">—</td></tr>
           <tr><td>Balance Beginning 2025</td><td id="d-begin2025">—</td></tr>
-          <tr><td>NAV as of Dec 31, 2025</td><td id="d-nav2025">—</td></tr>
+          <tr><td>NAV as of Jan 30, 2026</td><td id="d-nav2025">—</td></tr>
           <tr><td>Distribution Approved</td><td id="d-distrib-app">—</td></tr>
           <tr><td>Distribution Amount</td><td id="d-distrib-amt">—</td></tr>
         </table>
@@ -509,7 +510,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
 
   <!-- ADMIN: All Investors Positions -->
   <div id="all-investors-section" style="display:none;margin-bottom:28px;">
-    <div class="section-label">Investor Positions — As of December 31, 2025</div>
+    <div class="section-label">Investor Positions — As of January 30, 2026</div>
     <div class="card" style="overflow-x:auto;">
       <table class="all-inv-tbl">
         <thead>
@@ -517,9 +518,10 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
             <th style="text-align:left;">#</th>
             <th style="text-align:left;">Investor</th>
             <th>Amt. Invested</th>
-            <th>NAV (Dec 31)</th>
+            <th>NAV (Jan 30)</th>
+            <th>Monthly ROI</th>
             <th>Net Return</th>
-            <th>ROI</th>
+            <th>ROI (2025)</th>
             <th>IRR (Jan 2025)</th>
             <th>Distributions</th>
             <th>Distrib. Approved</th>
@@ -624,68 +626,81 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
 const INVESTORS = {
   "AUP-2025": {
     name:"Au Passage Ltd.", subscribed:1229200.44, distrib:32281.14, netBalance:1196919.30,
-    begin2025:1232281.14, nav2025:1342909.53, participation:0.0849, netReturn:110628.39,
-    roi:0.08978, roiAnn:0.08978, irr:0.0871, distribApproved:"N", distribAmt:0, begin2026:1342909.53
+    begin2025:1232281.14, nav2025:1352133.84, participation:0.0849, netReturn:110628.39,
+    roi:0.08978, roiAnn:0.08978, irr:0.0871, distribApproved:"N", distribAmt:0, begin2026:1342909.53,
+    roiMonth:0.00687
   },
   "BLO-2025": {
     name:"Bank Lombard Odier & Co. Ltd.", subscribed:4097334.78, distrib:107603.82, netBalance:3989730.96,
-    begin2025:4107603.82, nav2025:4476366.22, participation:0.2829, netReturn:368762.40,
-    roi:0.08978, roiAnn:0.08978, irr:0.0871, distribApproved:"N", distribAmt:0, begin2026:4476366.22
+    begin2025:4107603.82, nav2025:4507114.22, participation:0.2829, netReturn:368762.40,
+    roi:0.08978, roiAnn:0.08978, irr:0.0871, distribApproved:"N", distribAmt:0, begin2026:4476366.22,
+    roiMonth:0.00687
   },
   "ESC-2025": {
     name:"ESCARPAS Ltd.", subscribed:498750, distrib:0, netBalance:498750,
-    begin2025:498750, nav2025:519833.96, participation:0.03285, netReturn:21083.96,
-    roi:0.04227, roiAnn:0.08455, irr:0.08630, distribApproved:"N", distribAmt:0, begin2026:519833.96
+    begin2025:498750, nav2025:523383.93, participation:0.03285, netReturn:21083.96,
+    roi:0.04227, roiAnn:0.08455, irr:0.08630, distribApproved:"N", distribAmt:0, begin2026:519833.96,
+    roiMonth:0.00683
   },
   "FND-2025": {
     name:"Fundo BLP BGT Real Estate", subscribed:150000, distrib:0, netBalance:150000,
-    begin2025:150000, nav2025:152864.00, participation:0.00966, netReturn:2864.00,
-    roi:0.01909, roiAnn:0.07637, irr:0.07860, distribApproved:"N", distribAmt:0, begin2026:152864.00
+    begin2025:150000, nav2025:153917.27, participation:0.00966, netReturn:2864.00,
+    roi:0.01909, roiAnn:0.07637, irr:0.07860, distribApproved:"N", distribAmt:0, begin2026:152864.00,
+    roiMonth:0.00689
   },
   "GPJ-2025": {
     name:"GPJET Corp.", subscribed:498750, distrib:13450.45, netBalance:485299.55,
-    begin2025:500000, nav2025:545366.47, participation:0.03446, netReturn:45366.47,
-    roi:0.09073, roiAnn:0.09073, irr:0.08720, distribApproved:"N", distribAmt:0, begin2026:545366.47
+    begin2025:500000, nav2025:549113.14, participation:0.03446, netReturn:45366.47,
+    roi:0.09073, roiAnn:0.09073, irr:0.08720, distribApproved:"N", distribAmt:0, begin2026:545366.47,
+    roiMonth:0.00687
   },
   "HAW-2025": {
     name:"Hawi, Ltd.", subscribed:498750, distrib:0, netBalance:498750,
-    begin2025:498750, nav2025:519833.96, participation:0.03285, netReturn:21083.96,
-    roi:0.04227, roiAnn:0.08455, irr:0.08310, distribApproved:"N", distribAmt:0, begin2026:519833.96
+    begin2025:498750, nav2025:523383.93, participation:0.03285, netReturn:21083.96,
+    roi:0.04227, roiAnn:0.08455, irr:0.08310, distribApproved:"N", distribAmt:0, begin2026:519833.96,
+    roiMonth:0.00683
   },
   "VIS-2025": {
     name:"inVista US Real Estate Private Credit Fund Ltd.", subscribed:498750, distrib:19451.01, netBalance:479298.99,
-    begin2025:500000, nav2025:544821.50, participation:0.03443, netReturn:44821.50,
-    roi:0.08964, roiAnn:0.08964, irr:0.08620, distribApproved:"Y", distribAmt:44821.50, begin2026:500000
+    begin2025:500000, nav2025:503412.49, participation:0.03443, netReturn:44821.50,
+    roi:0.08964, roiAnn:0.08964, irr:0.08620, distribApproved:"Y", distribAmt:44821.50, begin2026:500000,
+    roiMonth:0.00682
   },
   "LIV-2025": {
     name:"LIV Fund SPC - Real Estate Lending SP", subscribed:750000, distrib:0, netBalance:750000,
-    begin2025:750000, nav2025:764320.00, participation:0.04830, netReturn:14320.00,
-    roi:0.01909, roiAnn:0.07637, irr:0.07590, distribApproved:"Y", distribAmt:14319.99, begin2026:750000
+    begin2025:750000, nav2025:755167.69, participation:0.04830, netReturn:14320.00,
+    roi:0.01909, roiAnn:0.07637, irr:0.07590, distribApproved:"Y", distribAmt:14319.99, begin2026:750000,
+    roiMonth:0.00689
   },
   "MIL-2025": {
     name:"Milmax Investments Ltd.", subscribed:498750, distrib:0, netBalance:498750,
-    begin2025:498750, nav2025:519833.96, participation:0.03285, netReturn:21083.96,
-    roi:0.04227, roiAnn:0.08455, irr:0.08310, distribApproved:"N", distribAmt:0, begin2026:519833.96
+    begin2025:498750, nav2025:523383.93, participation:0.03285, netReturn:21083.96,
+    roi:0.04227, roiAnn:0.08455, irr:0.08310, distribApproved:"N", distribAmt:0, begin2026:519833.96,
+    roiMonth:0.00683
   },
   "OCN-2025": {
     name:"Ocean Investing Corp.", subscribed:1197000, distrib:13450.45, netBalance:1183549.55,
-    begin2025:1200000, nav2025:1283296.03, participation:0.08110, netReturn:83296.03,
-    roi:0.06941, roiAnn:0.08750, irr:0.08450, distribApproved:"Y", distribAmt:83296.03, begin2026:1200000
+    begin2025:1200000, nav2025:1208217.24, participation:0.08110, netReturn:83296.03,
+    roi:0.06941, roiAnn:0.08750, irr:0.08450, distribApproved:"Y", distribAmt:83296.03, begin2026:1200000,
+    roiMonth:0.00685
   },
   "PAI-2025": {
     name:"Paissandu Ltd.", subscribed:3990000, distrib:23358.32, netBalance:3966641.68,
-    begin2025:4000000, nav2025:4326379.26, participation:0.27340, netReturn:326379.26,
-    roi:0.08159, roiAnn:0.08750, irr:0.08620, distribApproved:"N", distribAmt:0, begin2026:4326379.26
+    begin2025:4000000, nav2025:4355924.22, participation:0.27340, netReturn:326379.26,
+    roi:0.08159, roiAnn:0.08750, irr:0.08620, distribApproved:"N", distribAmt:0, begin2026:4326379.26,
+    roiMonth:0.00683
   },
   "PIR-2025": {
     name:"Pirita Ltd.", subscribed:257500, distrib:8187.76, netBalance:249312.24,
-    begin2025:260000, nav2025:283307.20, participation:0.01790, netReturn:23307.20,
-    roi:0.08964, roiAnn:0.08964, irr:0.08620, distribApproved:"Y", distribAmt:23307.20, begin2026:260000
+    begin2025:260000, nav2025:261774.45, participation:0.01790, netReturn:23307.20,
+    roi:0.08964, roiAnn:0.08964, irr:0.08620, distribApproved:"Y", distribAmt:23307.20, begin2026:260000,
+    roiMonth:0.00682
   },
   "QUE-2025": {
     name:"Quepar Ltd.", subscribed:498750, distrib:13450.45, netBalance:485299.55,
-    begin2025:500000, nav2025:545366.47, participation:0.03446, netReturn:45366.47,
-    roi:0.09073, roiAnn:0.09073, irr:0.08720, distribApproved:"N", distribAmt:0, begin2026:545366.47
+    begin2025:500000, nav2025:549113.14, participation:0.03446, netReturn:45366.47,
+    roi:0.09073, roiAnn:0.09073, irr:0.08720, distribApproved:"N", distribAmt:0, begin2026:545366.47,
+    roiMonth:0.00687
   }
 };
 // ══ CASHFLOW DATA ════════════════════════════════════════════════════════════
@@ -788,8 +803,8 @@ function __renderCashflow(invKey, inv, pfx) {
   const distribApproved = inv.distribApproved === 'Y';
   kpiRow.innerHTML = `
     <div class="inv-card navy"><div class="inv-card-label">Total Invested</div><div class="inv-card-value">${fmt$(totalInvested)}</div><div class="inv-card-sub">${cf.investments.length} subscription${cf.investments.length>1?'s':''} in 2025</div></div>
-    <div class="inv-card blue"><div class="inv-card-label">NAV (Dec 31, 2025)</div><div class="inv-card-value">${fmt$(inv.nav2025)}</div><div class="inv-card-sub">fund value end of year</div></div>
-    <div class="inv-card green"><div class="inv-card-label">Net Return</div><div class="inv-card-value">${fmt$(inv.netReturn)}</div><div class="inv-card-sub">ROI ${fmtPct(inv.roi)}</div></div>
+    <div class="inv-card blue"><div class="inv-card-label">NAV (Jan 30, 2026)</div><div class="inv-card-value">${fmt$(inv.nav2025)}</div><div class="inv-card-sub">fund value as of Jan 30, 2026</div></div>
+    <div class="inv-card green"><div class="inv-card-label">Monthly Return (Jan 2026)</div><div class="inv-card-value">${fmtPct(inv.roiMonth||0)}</div><div class="inv-card-sub">${fmt$(inv.nav2025 - inv.begin2026)} gain</div></div>
     <div class="inv-card amber"><div class="inv-card-label">Distribution</div><div class="inv-card-value">${distribApproved ? fmt$(distribAmt) : '—'}</div><div class="inv-card-sub">${distribApproved ? '✅ Approved' : 'Pending approval'}</div></div>`;
 
   // ── Timeline ──
@@ -951,6 +966,7 @@ function __render(pass) {
     set('inv-roi-sub', 'ROI ' + fmtPct(inv.roi));
     set('inv-distrib', inv.distribApproved === 'Y' ? fmt$(inv.distribAmt) : '—');
 
+    set('d-roiMonth',  fmtPct(inv.roiMonth||0));
     set('d-roi',       fmtPct(inv.roi));
     set('d-irr',       fmtPct(inv.irr));
     set('d-net-return',fmt$(inv.netReturn));
@@ -988,6 +1004,7 @@ function __render(pass) {
         <td style="text-align:left;"><span class="inv-name-link" onclick="__openInvestorModal('${k}')">${p.name}</span></td>
         <td>${fmt$(p.subscribed)}</td>
         <td style="font-weight:700">${fmt$(p.nav2025)}</td>
+        <td style="color:var(--green)">${fmtPct(p.roiMonth||0)}</td>
         <td style="color:var(--green)">${fmt$(p.netReturn)}</td>
         <td>${fmtPct(p.roi)}</td>
         <td>${fmtPct(p.irr)}</td>
@@ -1001,6 +1018,7 @@ function __render(pass) {
       <td></td><td style="text-align:left">Total (${keys.length} investors)</td>
       <td>${fmt$(totSubscribed)}</td>
       <td>${fmt$(totNav)}</td>
+      <td>—</td>
       <td style="color:var(--green)">${fmt$(totReturn)}</td>
       <td>—</td><td>—</td>
       <td>${fmt$(totDistrib)}</td>
