@@ -393,7 +393,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
   <div id="tab-content-myview">
 
     <!-- KPI cards (from cashflow section — best format) -->
-    <div class="section-label">Your Position — As of February 27, 2026</div>
+    <div class="section-label">Your Position — As of March 31, 2026</div>
     <div class="inv-grid" id="cf-kpi-row" style="margin-bottom:22px;"></div>
 
     <!-- Return metrics detail -->
@@ -401,7 +401,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
       <div class="inv-detail">
         <h3>📈 Return Metrics</h3>
         <table class="inv-table">
-          <tr><td>Monthly ROI (Feb 2026)</td><td id="d-roiMonth">—</td></tr>
+          <tr><td>Monthly ROI (Mar 2026)</td><td id="d-roiMonth">—</td></tr>
           <tr><td>Total Return (2025)</td><td id="d-roi">—</td></tr>
           <tr><td>IRR (since Jan 2025)</td><td id="d-irr">—</td></tr>
           <tr><td>Net Return ($)</td><td id="d-net-return">—</td></tr>
@@ -414,7 +414,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
         <table class="inv-table">
           <tr><td>Amount Subscribed</td><td id="d-subscribed">—</td></tr>
           <tr><td>Balance Beginning 2025</td><td id="d-begin2025">—</td></tr>
-          <tr><td>NAV as of Feb 27, 2026</td><td id="d-nav2025">—</td></tr>
+          <tr><td>NAV as of Mar 31, 2026</td><td id="d-nav2025">—</td></tr>
           <tr><td>Distribution Approved</td><td id="d-distrib-app">—</td></tr>
           <tr><td>Distribution Amount</td><td id="d-distrib-amt">—</td></tr>
         </table>
@@ -438,7 +438,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
         <div class="chart-wrap" style="height:220px;"><canvas id="chartCF"></canvas></div>
       </div>
       <div class="card">
-        <div class="card-title">📈 NAV Growth (2025 — Feb 2026)</div>
+        <div class="card-title">📈 NAV Growth (2025 — Mar 2026)</div>
         <div class="chart-wrap" style="height:220px;"><canvas id="chartNAV"></canvas></div>
       </div>
     </div>
@@ -510,7 +510,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
 
   <!-- ADMIN: All Investors Positions -->
   <div id="all-investors-section" style="display:none;margin-bottom:28px;">
-    <div class="section-label">Investor Positions — As of February 27, 2026</div>
+    <div class="section-label">Investor Positions — As of March 31, 2026</div>
     <div class="card" style="overflow-x:auto;">
       <table class="all-inv-tbl">
         <thead>
@@ -518,9 +518,9 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
             <th style="text-align:left;">#</th>
             <th style="text-align:left;">Investor</th>
             <th>Amt. Invested</th>
-            <th>NAV (Feb 27, 2026)</th>
-            <th>Feb Gain ($)</th>
-            <th>Feb ROI</th>
+            <th>NAV (Mar 31, 2026)</th>
+            <th>Mar Gain ($)</th>
+            <th>Mar ROI</th>
             <th>Begin 2026</th>
             <th>ROI (2025)</th>
             <th>IRR</th>
@@ -575,7 +575,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
     <div class="inv-modal-header">
       <div>
         <h2 id="modal-inv-name">Investor</h2>
-        <p>Investor Position &amp; Cash Flow — As of February 27, 2026</p>
+        <p>Investor Position &amp; Cash Flow — As of March 31, 2026</p>
       </div>
       <button class="inv-modal-close" onclick="__closeInvestorModal()">✕</button>
     </div>
@@ -596,7 +596,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
           <div class="chart-wrap" style="height:210px;"><canvas id="modal-chartCF"></canvas></div>
         </div>
         <div class="card">
-          <div class="card-title">📈 NAV Growth (2025 — Feb 2026)</div>
+          <div class="card-title">📈 NAV Growth (2025 — Mar 2026)</div>
           <div class="chart-wrap" style="height:210px;"><canvas id="modal-chartNAV"></canvas></div>
         </div>
       </div>
@@ -627,81 +627,81 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
 const INVESTORS = {
   "AUP-2025": {
     name:"Au Passage Ltd.", subscribed:1229200.44, distrib:32281.14, netBalance:1196919.30,
-    begin2025:1232281.14, nav2025:1359796.86, navJan2026:1352133.84, participation:0.0849, netReturn:110628.39,
+    begin2025:1232281.14, nav2025:1368705.59, navJan2026:1352133.84, navFeb2026:1359796.86, participation:0.0849, netReturn:110628.39,
     roi:0.08978, roiAnn:0.08978, irr:0.0871, distribApproved:"N", distribAmt:0, begin2026:1342909.53,
-    roiMonth:0.00567
+    roiMonth:0.00655
   },
   "BLO-2025": {
     name:"Bank Lombard Odier & Co. Ltd.", subscribed:4097334.78, distrib:107603.82, netBalance:3989730.96,
-    begin2025:4107603.82, nav2025:4532657.63, navJan2026:4507114.22, participation:0.2829, netReturn:368762.40,
+    begin2025:4107603.82, nav2025:4562353.40, navJan2026:4507114.22, navFeb2026:4532657.63, participation:0.2829, netReturn:368762.40,
     roi:0.08978, roiAnn:0.08978, irr:0.0871, distribApproved:"N", distribAmt:0, begin2026:4476366.22,
-    roiMonth:0.00567
+    roiMonth:0.00655
   },
   "ESC-2025": {
     name:"ESCARPAS Ltd.", subscribed:498750, distrib:0, netBalance:498750,
-    begin2025:498750, nav2025:526350.13, navJan2026:523383.93, participation:0.03285, netReturn:21083.96,
+    begin2025:498750, nav2025:529798.52, navJan2026:523383.93, navFeb2026:526350.13, participation:0.03285, netReturn:21083.96,
     roi:0.04227, roiAnn:0.08455, irr:0.08630, distribApproved:"N", distribAmt:0, begin2026:519833.96,
-    roiMonth:0.00567
+    roiMonth:0.00655
   },
   "FND-2025": {
     name:"Fundo BLP BGT Real Estate", subscribed:150000, distrib:0, netBalance:150000,
-    begin2025:150000, nav2025:154789.58, navJan2026:153917.27, participation:0.00966, netReturn:2864.00,
+    begin2025:150000, nav2025:155803.68, navJan2026:153917.27, navFeb2026:154789.58, participation:0.00966, netReturn:2864.00,
     roi:0.01909, roiAnn:0.07637, irr:0.07860, distribApproved:"N", distribAmt:0, begin2026:152864.00,
-    roiMonth:0.00567
+    roiMonth:0.00655
   },
   "GPJ-2025": {
     name:"GPJET Corp.", subscribed:498750, distrib:13450.45, netBalance:485299.55,
-    begin2025:500000, nav2025:552225.16, navJan2026:549113.14, participation:0.03446, netReturn:45366.47,
+    begin2025:500000, nav2025:555843.07, navJan2026:549113.14, navFeb2026:552225.16, participation:0.03446, netReturn:45366.47,
     roi:0.09073, roiAnn:0.09073, irr:0.08720, distribApproved:"N", distribAmt:0, begin2026:545366.47,
-    roiMonth:0.00567
+    roiMonth:0.00655
   },
   "HAW-2025": {
     name:"Hawi, Ltd.", subscribed:498750, distrib:0, netBalance:498750,
-    begin2025:498750, nav2025:526350.13, navJan2026:523383.93, participation:0.03285, netReturn:21083.96,
+    begin2025:498750, nav2025:529798.52, navJan2026:523383.93, navFeb2026:526350.13, participation:0.03285, netReturn:21083.96,
     roi:0.04227, roiAnn:0.08455, irr:0.08310, distribApproved:"N", distribAmt:0, begin2026:519833.96,
-    roiMonth:0.00567
+    roiMonth:0.00655
   },
   "VIS-2025": {
     name:"inVista US Real Estate Private Credit Fund Ltd.", subscribed:498750, distrib:19451.01, netBalance:479298.99,
-    begin2025:500000, nav2025:506265.51, navJan2026:503412.49, participation:0.03443, netReturn:44821.50,
+    begin2025:500000, nav2025:509582.32, navJan2026:503412.49, navFeb2026:506265.51, participation:0.03443, netReturn:44821.50,
     roi:0.08964, roiAnn:0.08964, irr:0.08620, distribApproved:"Y", distribAmt:44821.50, begin2026:500000,
-    roiMonth:0.00567
+    roiMonth:0.00655
   },
   "LIV-2025": {
     name:"LIV Fund SPC - Real Estate Lending SP", subscribed:750000, distrib:0, netBalance:750000,
-    begin2025:750000, nav2025:759447.51, navJan2026:755167.69, participation:0.04830, netReturn:14320.00,
+    begin2025:750000, nav2025:764423.04, navJan2026:755167.69, navFeb2026:759447.51, participation:0.04830, netReturn:14320.00,
     roi:0.01909, roiAnn:0.07637, irr:0.07590, distribApproved:"Y", distribAmt:14319.99, begin2026:750000,
-    roiMonth:0.00567
+    roiMonth:0.00655
   },
   "MIL-2025": {
     name:"Milmax Investments Ltd.", subscribed:498750, distrib:0, netBalance:498750,
-    begin2025:498750, nav2025:526350.13, navJan2026:523383.93, participation:0.03285, netReturn:21083.96,
+    begin2025:498750, nav2025:529798.52, navJan2026:523383.93, navFeb2026:526350.13, participation:0.03285, netReturn:21083.96,
     roi:0.04227, roiAnn:0.08455, irr:0.08310, distribApproved:"N", distribAmt:0, begin2026:519833.96,
-    roiMonth:0.00567
+    roiMonth:0.00655
   },
   "OCN-2025": {
     name:"Ocean Investing Corp.", subscribed:1197000, distrib:13450.45, netBalance:1183549.55,
-    begin2025:1200000, nav2025:1215064.64, navJan2026:1208217.24, participation:0.08110, netReturn:83296.03,
+    begin2025:1200000, nav2025:1223025.15, navJan2026:1208217.24, navFeb2026:1215064.64, participation:0.08110, netReturn:83296.03,
     roi:0.06941, roiAnn:0.08750, irr:0.08450, distribApproved:"Y", distribAmt:83296.03, begin2026:1200000,
-    roiMonth:0.00567
+    roiMonth:0.00655
   },
   "PAI-2025": {
     name:"Paissandu Ltd.", subscribed:3990000, distrib:23358.32, netBalance:3966641.68,
-    begin2025:4000000, nav2025:4380610.80, navJan2026:4355924.22, participation:0.27340, netReturn:326379.26,
+    begin2025:4000000, nav2025:4409310.43, navJan2026:4355924.22, navFeb2026:4380610.80, participation:0.27340, netReturn:326379.26,
     roi:0.08159, roiAnn:0.08750, irr:0.08620, distribApproved:"N", distribAmt:0, begin2026:4326379.26,
-    roiMonth:0.00567
+    roiMonth:0.00655
   },
   "PIR-2025": {
     name:"Pirita Ltd.", subscribed:257500, distrib:8187.76, netBalance:249312.24,
-    begin2025:260000, nav2025:263258.02, navJan2026:261774.45, participation:0.01790, netReturn:23307.20,
+    begin2025:260000, nav2025:264982.76, navJan2026:261774.45, navFeb2026:263258.02, participation:0.01790, netReturn:23307.20,
     roi:0.08964, roiAnn:0.08964, irr:0.08620, distribApproved:"Y", distribAmt:23307.20, begin2026:260000,
-    roiMonth:0.00567
+    roiMonth:0.00655
   },
   "QUE-2025": {
     name:"Quepar Ltd.", subscribed:498750, distrib:13450.45, netBalance:485299.55,
-    begin2025:500000, nav2025:552225.16, navJan2026:549113.14, participation:0.03446, netReturn:45366.47,
+    begin2025:500000, nav2025:555843.07, navJan2026:549113.14, navFeb2026:552225.16, participation:0.03446, netReturn:45366.47,
     roi:0.09073, roiAnn:0.09073, irr:0.08720, distribApproved:"N", distribAmt:0, begin2026:545366.47,
-    roiMonth:0.00567
+    roiMonth:0.00655
   }
 };
 // ══ CASHFLOW DATA ════════════════════════════════════════════════════════════
@@ -802,11 +802,11 @@ function __renderCashflow(invKey, inv, pfx) {
   const totalInvested = cf.investments.reduce((s,x)=>s+x.amount,0);
   const distribAmt = cf.distrib ? cf.distrib.amount : 0;
   const distribApproved = inv.distribApproved === 'Y';
-  const febGainKpi = inv.nav2025 - inv.navJan2026;
+  const marGainKpi = inv.nav2025 - inv.navFeb2026;
   kpiRow.innerHTML = `
     <div class="inv-card navy"><div class="inv-card-label">Total Invested</div><div class="inv-card-value">${fmt$(totalInvested)}</div><div class="inv-card-sub">${cf.investments.length} subscription${cf.investments.length>1?'s':''} in 2025</div></div>
-    <div class="inv-card blue"><div class="inv-card-label">NAV (Feb 27, 2026)</div><div class="inv-card-value">${fmt$(inv.nav2025)}</div><div class="inv-card-sub">from ${fmt$(inv.navJan2026)} Jan NAV</div></div>
-    <div class="inv-card green"><div class="inv-card-label">Feb 2026 Return</div><div class="inv-card-value">${fmtPct(inv.roiMonth||0)}</div><div class="inv-card-sub">+${fmt$(febGainKpi)} gain</div></div>
+    <div class="inv-card blue"><div class="inv-card-label">NAV (Mar 31, 2026)</div><div class="inv-card-value">${fmt$(inv.nav2025)}</div><div class="inv-card-sub">from ${fmt$(inv.navFeb2026)} Feb NAV</div></div>
+    <div class="inv-card green"><div class="inv-card-label">Mar 2026 Return</div><div class="inv-card-value">${fmtPct(inv.roiMonth||0)}</div><div class="inv-card-sub">+${fmt$(marGainKpi)} gain</div></div>
     <div class="inv-card amber"><div class="inv-card-label">Distribution (2025)</div><div class="inv-card-value">${distribApproved ? fmt$(distribAmt) : '—'}</div><div class="inv-card-sub">${distribApproved ? '✅ Paid — base adjusted' : 'No distribution'}</div></div>`;
 
   // ── Detail grid (modal only) ──
@@ -819,8 +819,8 @@ function __renderCashflow(invKey, inv, pfx) {
       <div class="inv-detail">
         <h3>📈 Return Metrics</h3>
         <table class="inv-table">
-          <tr><td>Monthly ROI (Feb 2026)</td><td style="color:var(--green);font-weight:700">${fmtPct(inv.roiMonth||0)}</td></tr>
-          <tr><td>Feb 2026 Gain ($)</td><td style="color:var(--green)">${fmt$(febGainKpi)}</td></tr>
+          <tr><td>Monthly ROI (Mar 2026)</td><td style="color:var(--green);font-weight:700">${fmtPct(inv.roiMonth||0)}</td></tr>
+          <tr><td>Mar 2026 Gain ($)</td><td style="color:var(--green)">${fmt$(marGainKpi)}</td></tr>
           <tr><td>YTD 2026 ROI</td><td style="color:var(--green)">${fmtPct(ytdRoi)}</td></tr>
           <tr><td>Total Return (2025)</td><td>${fmtPct(inv.roi)}</td></tr>
           <tr><td>IRR (since Jan 2025)</td><td>${fmtPct(inv.irr)}</td></tr>
@@ -834,7 +834,8 @@ function __renderCashflow(invKey, inv, pfx) {
           <tr><td>Balance Begin 2025</td><td>${fmt$(inv.begin2025)}</td></tr>
           <tr><td>NAV Dec 31, 2025</td><td>${fmt$(navDec25Detail)}</td></tr>
           <tr><td>NAV Jan 30, 2026</td><td>${fmt$(inv.navJan2026)}</td></tr>
-          <tr><td>NAV Feb 27, 2026</td><td style="font-weight:700;color:var(--navy)">${fmt$(inv.nav2025)}</td></tr>
+          <tr><td>NAV Feb 27, 2026</td><td>${fmt$(inv.navFeb2026)}</td></tr>
+          <tr><td>NAV Mar 31, 2026</td><td style="font-weight:700;color:var(--navy)">${fmt$(inv.nav2025)}</td></tr>
           <tr><td>Distribution Approved</td><td>${distribApproved ? '✅ Yes — '+fmt$(inv.distribAmt) : '—'}</td></tr>
           <tr><td>Fund Participation</td><td>${(inv.participation*100).toFixed(2)}%</td></tr>
         </table>
@@ -845,16 +846,20 @@ function __renderCashflow(invKey, inv, pfx) {
   const tl = document.getElementById(pfx+'cf-timeline');
   let tlHTML = '';
   const distribMonth = cf.distrib ? cf.distrib.month : -1;
-  for(let m=0; m<14; m++) {
+  for(let m=0; m<15; m++) {
     const isDistrib = m === distribMonth;
     const investIdx = cf.investments.findIndex(x=>x.month===m);
     const isInvest = investIdx >= 0;
     const isNavJan = m === 12;
     const isNavFeb = m === 13;
-    let dotClass = 'empty', labelText = m<12 ? MONTH_NAMES[m] : (m===12 ? 'Jan 2026' : 'Feb 2026'), amountHTML = '';
-    if(isNavFeb) {
+    const isNavMar = m === 14;
+    let dotClass = 'empty', labelText = m<12 ? MONTH_NAMES[m] : (m===12 ? 'Jan 2026' : (m===13 ? 'Feb 2026' : 'Mar 2026')), amountHTML = '';
+    if(isNavMar) {
       dotClass='nav';
       amountHTML=`<div class="cf-tl-amount nav-amt">${fmt$(inv.nav2025)}</div><div class="cf-tl-sub">Current NAV</div>`;
+    } else if(isNavFeb) {
+      dotClass='nav';
+      amountHTML=`<div class="cf-tl-amount nav-amt">${fmt$(inv.navFeb2026)}</div><div class="cf-tl-sub">Feb NAV</div>`;
     } else if(isNavJan) {
       dotClass='nav';
       amountHTML=`<div class="cf-tl-amount nav-amt">${fmt$(inv.navJan2026)}</div><div class="cf-tl-sub">Jan NAV</div>`;
@@ -895,9 +900,13 @@ function __renderCashflow(invKey, inv, pfx) {
   const janGain = inv.navJan2026 - inv.begin2026;
   const janRoi = janGain / inv.begin2026;
   rows += `<tr style="background:#f0f4ff"><td>Jan 30, 2026</td><td>NAV — January Position</td><td><span class="badge-nav">NAV</span></td><td class="amt-nav">${fmt$(inv.navJan2026)}</td><td style="text-align:right;color:var(--green);">+${fmt$(janGain)} (${fmtPct(janRoi)})</td></tr>`;
-  // Feb 27, 2026 NAV position (current)
-  const febGain = inv.nav2025 - inv.navJan2026;
-  rows += `<tr style="background:#eff6ff;font-weight:700"><td>Feb 27, 2026</td><td>Current NAV Position</td><td><span class="badge-nav" style="background:#2563eb;color:#fff;">Current</span></td><td class="amt-nav" style="color:var(--navy)">${fmt$(inv.nav2025)}</td><td style="text-align:right;color:var(--green);">+${fmt$(febGain)} (${fmtPct(inv.roiMonth||0)})</td></tr>`;
+  // Feb 27, 2026 NAV position
+  const febGain = inv.navFeb2026 - inv.navJan2026;
+  const febRoi = febGain / inv.navJan2026;
+  rows += `<tr style="background:#f0f4ff"><td>Feb 27, 2026</td><td>NAV — February Position</td><td><span class="badge-nav">NAV</span></td><td class="amt-nav">${fmt$(inv.navFeb2026)}</td><td style="text-align:right;color:var(--green);">+${fmt$(febGain)} (${fmtPct(febRoi)})</td></tr>`;
+  // Mar 31, 2026 NAV position (current)
+  const marGain = inv.nav2025 - inv.navFeb2026;
+  rows += `<tr style="background:#eff6ff;font-weight:700"><td>Mar 31, 2026</td><td>Current NAV Position</td><td><span class="badge-nav" style="background:#2563eb;color:#fff;">Current</span></td><td class="amt-nav" style="color:var(--navy)">${fmt$(inv.nav2025)}</td><td style="text-align:right;color:var(--green);">+${fmt$(marGain)} (${fmtPct(inv.roiMonth||0)})</td></tr>`;
   tbody.innerHTML = rows;
   tfoot.innerHTML = `<tr><td colspan="3">Net Return (2025)</td><td style="color:var(--green);text-align:right;">${fmt$(inv.netReturn)}</td><td style="color:var(--green);text-align:right;">ROI ${fmtPct(inv.roi)}</td></tr>`;
 
@@ -916,21 +925,21 @@ function __renderCashflow(invKey, inv, pfx) {
     options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{const v=c.raw;if(v===0)return ' No activity';return (v<0?' Investment: ':' Distribution: ')+'$'+Math.abs(v).toLocaleString();}}}},scales:{y:{ticks:{callback:v=>(v===0?'$0':(v<0?'−$':'$')+Math.abs(v/1000).toFixed(0)+'K')},grid:{color:'#f1f5f9'}},x:{grid:{display:false}}}}
   });
 
-  // NAV growth — extended through Feb 2026
+  // NAV growth — extended through Mar 2026
   const mr = cf.irr / 12;
   let nav = 0;
   const navData = [];
   const invByMonth = new Array(12).fill(0);
   cf.investments.forEach(x => { invByMonth[x.month] += x.amount; });
   for(let i=0; i<12; i++) { nav = (nav + invByMonth[i]) * (1 + mr); navData.push(Math.round(nav)); }
-  // Add Jan 2026 actual NAV
+  // Add Jan, Feb, Mar 2026 actual NAVs
   navData.push(Math.round(inv.navJan2026));
-  // Add Feb 2026 actual NAV
+  navData.push(Math.round(inv.navFeb2026));
   navData.push(Math.round(inv.nav2025));
-  const navLabels = [...MONTH_NAMES, 'Jan 26', 'Feb 26'];
-  // Point styling: last point (Feb 26) is highlighted green, Jan 26 also green but smaller
-  const ptBg = navData.map((_,i) => i >= navData.length-2 ? '#16a34a' : '#2563eb');
-  const ptR = navData.map((_,i) => i === navData.length-1 ? 7 : (i === navData.length-2 ? 5 : 4));
+  const navLabels = [...MONTH_NAMES, 'Jan 26', 'Feb 26', 'Mar 26'];
+  // Point styling: last 3 points (2026 actuals) highlighted green, current largest
+  const ptBg = navData.map((_,i) => i >= navData.length-3 ? '#16a34a' : '#2563eb');
+  const ptR = navData.map((_,i) => i === navData.length-1 ? 7 : (i >= navData.length-3 ? 5 : 4));
 
   if(_charts[navKey]) _charts[navKey].destroy();
   _charts[navKey] = new Chart(document.getElementById(navKey), {
@@ -961,15 +970,15 @@ const GUEST_PASS = "GUEST";
 
 // ══ FUND DATA ═════════════════════════════════════════════════════════════════
 const D = {
-  asOf:"May 11, 2026", totalLoans:60, performing:40, paidOff:19, foreclosure:1,
-  totalUPB:16945891.41, performingUPB:16472209.81, totalOrig:23487820.0,
-  unpaidInterest:1516.0, unpaidLateCharges:2520.99, totalMonthlyPayments:168157.73,
-  wtdAvgRate:12.0998,
-  stateLabels:["FL", "TX", "NJ", "LA"], stateUPB:[15671735.66, 600000.0, 487500.0, 186655.75], stateCnt:[57, 1, 1, 1],
-  rateLabels:["< 10%","10–11%","11–12%","12–13%","13–14%","≥ 14%"], rateCounts:[0, 3, 5, 32, 0, 0],
-  vintageYears:["2020", "2024", "2025", "2026"], vintageUPB:[228885.78, 8952107.17, 5575224.45, 1715992.41],
-  ptypeLabels:["Residential Income 1-4", "Residential Condo", "Raw Land", "PUD", "Single Family Res"],
-  ptypeUPB:[12018989.57, 2148776.24, 1004854.38, 705433.87, 594155.75]
+  asOf:"April 06, 2026", totalLoans:57, performing:39, paidOff:17, foreclosure:1,
+  totalUPB:16405983.72, performingUPB:15932302.12, totalOrig:22339795.0,
+  unpaidInterest:1516.8, unpaidLateCharges:1291.95, totalMonthlyPayments:161479.31,
+  wtdAvgRate:12.0968,
+  stateLabels:["FL", "TX", "NJ", "LA"], stateUPB:[15159127.97, 600000.0, 487500.0, 159355.75], stateCnt:[54, 1, 1, 1],
+  rateLabels:["< 10%","10–11%","11–12%","12–13%","13–14%","≥ 14%"], rateCounts:[0, 3, 5, 31, 0, 0],
+  vintageYears:["2024", "2025", "2026"], vintageUPB:[8819112.11, 5549620.01, 1563570.0],
+  ptypeLabels:["Residential Income 1-4", "Residential Condo", "Raw Land", "Single Family Res", "PUD"],
+  ptypeUPB:[12441708.1, 1265120.48, 1006000.0, 742855.75, 476617.79]
 };
 
 // ══ CASH / AUM DATA ══════════════════════════════════════════════════════════
@@ -1054,20 +1063,20 @@ function __render(pass) {
     const tbody = document.getElementById('all-inv-tbody');
     const tfoot = document.getElementById('all-inv-tfoot');
     const keys = Object.keys(INVESTORS);
-    let totSubscribed=0,totNav=0,totReturn=0,totDistrib=0,totBegin2026=0,totFebGain=0,totNavJan=0;
+    let totSubscribed=0,totNav=0,totReturn=0,totDistrib=0,totBegin2026=0,totMonthGain=0,totNavPrev=0;
     keys.forEach((k,i) => {
       const p = INVESTORS[k];
-      const febGain = p.nav2025 - p.navJan2026;
+      const monthGain = p.nav2025 - p.navFeb2026;
       totSubscribed+=p.subscribed; totNav+=p.nav2025; totReturn+=p.netReturn;
       totDistrib+=(p.distribApproved==='Y'?p.distribAmt:0); totBegin2026+=p.begin2026;
-      totFebGain+=febGain; totNavJan+=p.navJan2026;
+      totMonthGain+=monthGain; totNavPrev+=p.navFeb2026;
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td style="text-align:left;color:#94a3b8;font-weight:400">${i+1}</td>
         <td style="text-align:left;"><span class="inv-name-link" onclick="__openInvestorModal('${k}')">${p.name}</span></td>
         <td>${fmt$(p.subscribed)}</td>
         <td style="font-weight:700">${fmt$(p.nav2025)}</td>
-        <td style="color:var(--green)">+${fmt$(febGain)}</td>
+        <td style="color:var(--green)">+${fmt$(monthGain)}</td>
         <td style="color:var(--green)">${fmtPct(p.roiMonth||0)}</td>
         <td style="font-weight:700;color:var(--navy)">${fmt$(p.begin2026)}</td>
         <td>${fmtPct(p.roi)}</td>
@@ -1080,8 +1089,8 @@ function __render(pass) {
       <td></td><td style="text-align:left;font-weight:700">Total (${keys.length} investors)</td>
       <td style="font-weight:700">${fmt$(totSubscribed)}</td>
       <td style="font-weight:700">${fmt$(totNav)}</td>
-      <td style="color:var(--green);font-weight:700">+${fmt$(totFebGain)}</td>
-      <td style="color:var(--green)">${fmtPct(totFebGain/totNavJan)}</td>
+      <td style="color:var(--green);font-weight:700">+${fmt$(totMonthGain)}</td>
+      <td style="color:var(--green)">${fmtPct(totMonthGain/totNavPrev)}</td>
       <td style="font-weight:700;color:var(--navy)">${fmt$(totBegin2026)}</td>
       <td>—</td><td>—</td>
       <td>${fmt$(totDistrib)}</td>`;
