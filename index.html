@@ -970,7 +970,7 @@ const GUEST_PASS = "GUEST";
 
 // ══ FUND DATA ═════════════════════════════════════════════════════════════════
 const D = {
-  asOf:"April 06, 2026", totalLoans:57, performing:39, paidOff:17, foreclosure:1,
+  asOf:"April 06, 2026", totalLoans:57, performing:39, paidOff:18, foreclosure:0,
   totalUPB:16405983.72, performingUPB:15932302.12, totalOrig:22339795.0,
   unpaidInterest:1516.8, unpaidLateCharges:1291.95, totalMonthlyPayments:161479.31,
   wtdAvgRate:12.0968,
@@ -1119,7 +1119,7 @@ function __render(pass) {
   set('st-perf-n', D.performing+' loans');
   set('st-perf-upb', fmt$(D.performingUPB)+' UPB');
   set('st-paid-n', D.paidOff+' loans');
-  set('st-fc-n', D.foreclosure+' loan');
+  set('st-fc-n', D.foreclosure+' loans');
   set('st-fc-pct', (D.foreclosure/D.totalLoans*100).toFixed(1)+'% of portfolio');
 
   // ── METRICS TABLE ────────────────────────────────────────────────────────
@@ -1127,7 +1127,7 @@ function __render(pass) {
     ["Total Loans in Portfolio", D.totalLoans, "All statuses"],
     ["Performing Loans", D.performing+' ('+(D.performing/D.totalLoans*100).toFixed(0)+'%)', "Active, current"],
     ["Paid Off Loans", D.paidOff, "Fully resolved"],
-    ["Foreclosure", D.foreclosure, "2.0% of portfolio"],
+    ["Foreclosure", D.foreclosure, "0.0% of portfolio"],
     ["Total Original Balance", fmt$(D.totalOrig), "At origination"],
     ["Current UPB (All Loans)", fmt$(D.totalUPB), "Unpaid principal balance"],
     ["Performing UPB", fmt$(D.performingUPB), "Active loans only"],
