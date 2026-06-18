@@ -505,7 +505,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
       <li>Capital Not Called or Settled of <span id="aum-commit-note"></span> represents investor subscriptions <strong>not yet called or settled as of the database date</strong> and are not reflected in the FCI loan database.</li>
       <li>Loans purchased but not yet fully boarded on the BGT servicing platform will <strong>not appear in the portfolio data</strong> on this page until the boarding process is complete.</li>
       <li>The Line of Credit of <span id="aum-loc-note"></span> is a cash management facility only and does <strong>not represent investor capital</strong> or deployed assets.</li>
-      <li>Two loans serviced by <strong>Superior Loan Servicing (SLS)</strong> — #399508812 (1910 Glencoe Rd LLC, FL) and #399303240 (Amarka House LLC, FL) — appear in the FCI feed as <strong>&ldquo;Transfer out&rdquo; with a $0 balance</strong>. Their true outstanding principal ($760,000 and $228,885.78; <strong>$988,885.78</strong> total) is reflected here in loan counts, UPB, and the state breakdown, but is <strong>not</strong> included in the interest-rate, vintage, or property-type charts, which cover FCI-performing loans only.</li>
+      <li>Two loans serviced by <strong>Superior Loan Servicing (SLS)</strong> — #399508812 (1910 Glencoe Rd LLC, FL) and #399303240 (Amarka House LLC, FL) — appear in the FCI data feed as <strong>&ldquo;Transfer out&rdquo; with a $0 balance</strong>. Their combined current principal of <strong>$1,102,522.86</strong> (per the FCI servicer portal) is reflected here in UPB, loan counts, and the state breakdown, but <strong>not</strong> in the interest-rate, vintage, or property-type charts, which cover FCI-performing loans only.</li>
     </ol>
   </div>
 
@@ -983,10 +983,10 @@ const GUEST_PASS = "GUEST";
 // ══ FUND DATA ═════════════════════════════════════════════════════════════════
 const D = {
   asOf:"June 18, 2026", totalLoans:65, performing:43, paidOff:22, foreclosure:0,
-  totalUPB:16685398.92, performingUPB:16685398.92, totalOrig:24561820.0,
+  totalUPB:16799036.0, performingUPB:16799036.0, totalOrig:24561820.0,
   unpaidInterest:8652.0, unpaidLateCharges:2520.99, totalMonthlyPayments:162256.72,
   wtdAvgRate:12.1047,
-  stateLabels:["FL", "TX", "NJ", "LA", "GA"], stateUPB:[15362722.34, 600000.0, 487500.0, 186655.75, 48520.83], stateCnt:[61, 1, 1, 1, 1],
+  stateLabels:["FL", "TX", "NJ", "LA", "GA"], stateUPB:[15476359.42, 600000.0, 487500.0, 186655.75, 48520.83], stateCnt:[61, 1, 1, 1, 1],
   rateLabels:["< 10%","10–11%","11–12%","12–13%","13–14%","≥ 14%"], rateCounts:[0, 3, 5, 33, 0, 0],
   vintageYears:["2019", "2020", "2024", "2025", "2026"], vintageUPB:[255298.56, 224242.8, 7926372.27, 5574846.85, 1715752.66],
   ptypeLabels:["Residential Income 1-4", "Residential Condo", "Raw Land", "Single Family Res", "PUD"],
