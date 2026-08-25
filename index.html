@@ -505,7 +505,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
       <li>Capital Not Called or Settled of <span id="aum-commit-note"></span> represents investor subscriptions <strong>not yet called or settled as of the database date</strong> and are not reflected in the FCI loan database.</li>
       <li>Loans purchased but not yet fully boarded on the BGT servicing platform will <strong>not appear in the portfolio data</strong> on this page until the boarding process is complete.</li>
       <li>The Line of Credit of <span id="aum-loc-note"></span> is a cash management facility only and does <strong>not represent investor capital</strong> or deployed assets.</li>
-      <li>The FCI-serviced book is shown at the <strong>FCI feed UPB of $16,488,325.58</strong>. The reconciling offset to FCI’s servicer portal was <strong>retired on August 25, 2026</strong> once the previously unboarded loans appeared in the feed. One loan serviced by <strong>Superior Loan Servicing (SLS)</strong> — #399303240 (Amarka House LLC, FL, PUD, 12.00%, $228,885.78) — is <strong>added on top</strong>, for a fund total of <strong>$16,717,211.36</strong>. It is carried in the FCI feed as “Transfer out” at zero balance, so there is no double count, and it now feeds the <strong>interest-rate, vintage and property-type charts</strong> as well as UPB, loan counts and the state breakdown. #399508812 (1910 Glencoe Rd LLC) was <strong>paid off at SLS</strong> and is excluded from UPB and all charts, counting only in the paid-off tally.</li>
+      <li>The FCI-serviced book is shown at the <strong>FCI servicer UPB of $16,488,325.58</strong>, reconciled to the FCI website loan export dated August 25, 2026; the former portal offset was <strong>retired</strong> once the previously unboarded loans appeared in the feed. Added on top: <strong>#399303240 (Amarka House LLC, FL, PUD, 12.00%, $228,885.78)</strong>, serviced by <strong>Superior Loan Servicing (SLS)</strong> and carried in the FCI feed as “Transfer out” at zero balance so there is no double count — it feeds the interest-rate, vintage and property-type charts as well as UPB, loan counts and the state breakdown; and <strong>one loan purchased and paid in full for $165,000 that is not yet boarded at FCI</strong>, which lifts total UPB and the loan count only and is <strong>excluded from the state, interest-rate, vintage and property-type charts</strong> until it boards. Fund total <strong>$16,882,211.36</strong>. #399508812 (1910 Glencoe Rd LLC) was <strong>paid off at SLS</strong> and counts only in the paid-off tally. Note: FCI’s export flags <strong>#399298500 ($175,627.69, 24 days late)</strong> as delinquent while the FCI API reports it as performing; it is retained in the performing figures shown here.</li>
     </ol>
   </div>
 
@@ -1088,8 +1088,8 @@ const GUEST_PASS = "GUEST";
 
 // ══ FUND DATA ═════════════════════════════════════════════════════════════════
 const D = {
-  asOf:"August 25, 2026", totalLoans:73, performing:35, paidOff:37, foreclosure:1,
-  totalUPB:16717211.36, performingUPB:16378211.36, totalOrig:33405228.0,
+  asOf:"August 25, 2026", totalLoans:74, performing:36, paidOff:37, foreclosure:1,
+  totalUPB:16882211.36, performingUPB:16543211.36, totalOrig:33405228.0,
   unpaidInterest:7520.47, unpaidLateCharges:2781.89, totalMonthlyPayments:159951.98,
   wtdAvgRate:12.0909,
   stateLabels:["FL", "NJ", "TX", "SC", "LA", "GA"], stateUPB:[13983040.38, 1387293.74, 600000.0, 491619.0, 209318.25, 45939.99], stateCnt:[67, 2, 1, 1, 1, 1],
