@@ -379,7 +379,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
   <div id="inv-banner">
     <div class="welcome-text">
       <h2 id="inv-name">Welcome</h2>
-      <p>Your personal investment summary &nbsp;·&nbsp; BGT Real Estate Opportunity Fund</p>
+      <p id="inv-banner-sub">Your personal investment summary &nbsp;·&nbsp; BGT Real Estate Opportunity Fund</p>
     </div>
   </div>
 
@@ -393,7 +393,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
   <div id="tab-content-myview">
 
     <!-- KPI cards (from cashflow section — best format) -->
-    <div class="section-label">Your Position — As of June 30, 2026</div>
+    <div class="section-label" id="inv-position-label">Your Position — As of June 30, 2026</div>
     <div class="inv-grid" id="cf-kpi-row" style="margin-bottom:22px;"></div>
 
     <!-- Return metrics detail -->
@@ -1181,6 +1181,20 @@ function __render(pass) {
     set('d-nav2025',   fmt$(inv.nav2025));
     set('d-distrib-app', inv.distribApproved === 'Y' ? '✅ Approved' : '—');
     set('d-distrib-amt', inv.distribAmt > 0 ? fmt$(inv.distribAmt) : '—');
+
+    // ── New investors: no NAV history yet — show real position, never zeros ──
+    if(inv.newEntrant) {
+      ['d-roiMonth','d-roi','d-irr','d-net-return','d-distrib-total','d-begin2026',
+       'd-begin2025','d-nav2025','d-distrib-app','d-distrib-amt'].forEach(id => set(id, '—'));
+      set('d-subscribed', inv.subscribed > 0 ? fmt$(inv.subscribed) : '—');
+      set('inv-position-label', 'Your Position — As of ' + D.asOf);
+      const funded    = (inv.julSub || 0) > 0;
+      const committed = unsettledTotal(pass);
+      set('inv-banner-sub',
+        funded
+          ? 'Capital funded ' + fmtDate(inv.since) + '  ·  First NAV pending the July 2026 administrator statement'
+          : 'Committed ' + fmtDate(inv.since) + '  ·  ' + fmt$(committed) + ' not yet called  ·  BGT Real Estate Opportunity Fund');
+    }
 
     // Render cashflow section
     __renderCashflow(pass, inv);
