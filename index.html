@@ -505,7 +505,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
       <li>Capital Not Called or Settled of <span id="aum-commit-note"></span> represents investor subscriptions <strong>not yet called or settled as of the database date</strong> and are not reflected in the FCI loan database.</li>
       <li>Loans purchased but not yet fully boarded on the BGT servicing platform will <strong>not appear in the portfolio data</strong> on this page until the boarding process is complete.</li>
       <li>The Line of Credit of <span id="aum-loc-note"></span> is a cash management facility only and does <strong>not represent investor capital</strong> or deployed assets.</li>
-      <li>The FCI-serviced book is shown at the <strong>FCI servicer portal UPB of $16,799,036</strong>. Two additional loans serviced by <strong>Superior Loan Servicing (SLS)</strong> — #399508812 (1910 Glencoe Rd LLC, FL, $760,000) and #399303240 (Amarka House LLC, FL, $228,885.78) — are <strong>added on top</strong> ($988,885.78 combined), for a fund total of <strong>$17,787,921.78</strong>. The SLS loans appear in UPB, loan counts, and the state breakdown, but <strong>not</strong> in the interest-rate, vintage, or property-type charts, which cover FCI-performing loans only.</li>
+      <li>The FCI-serviced book is shown at the <strong>FCI feed UPB of $16,488,325.58</strong>. The reconciling offset to FCI’s servicer portal was <strong>retired on August 25, 2026</strong> once the previously unboarded loans appeared in the feed. One loan serviced by <strong>Superior Loan Servicing (SLS)</strong> — #399303240 (Amarka House LLC, FL, PUD, 12.00%, $228,885.78) — is <strong>added on top</strong>, for a fund total of <strong>$16,717,211.36</strong>. It is carried in the FCI feed as “Transfer out” at zero balance, so there is no double count, and it now feeds the <strong>interest-rate, vintage and property-type charts</strong> as well as UPB, loan counts and the state breakdown. #399508812 (1910 Glencoe Rd LLC) was <strong>paid off at SLS</strong> and is excluded from UPB and all charts, counting only in the paid-off tally.</li>
     </ol>
   </div>
 
@@ -1088,19 +1088,19 @@ const GUEST_PASS = "GUEST";
 
 // ══ FUND DATA ═════════════════════════════════════════════════════════════════
 const D = {
-  asOf:"August 17, 2026", totalLoans:72, performing:36, paidOff:35, foreclosure:1,
-  totalUPB:16110706.98, performingUPB:15771706.98, totalOrig:30515228.0,
-  unpaidInterest:7520.47, unpaidLateCharges:2657.53, totalMonthlyPayments:129883.27,
-  wtdAvgRate:11.9032,
-  stateLabels:["FL", "NJ", "TX", "SC", "LA", "GA"], stateUPB:[13395632.0, 1387293.74, 600000.0, 472523.0, 209318.25, 45939.99], stateCnt:[66, 2, 1, 1, 1, 1],
-  rateLabels:["< 10%","10–11%","11–12%","12–13%","13–14%","≥ 14%"], rateCounts:[2, 3, 7, 22, 0, 0],
-  vintageYears:["2019", "2020", "2024", "2025", "2026"], vintageUPB:[254434.27, 221567.68, 2266202.71, 3972741.83, 6965351.85],
-  ptypeLabels:["Residential Income 1-4", "Residential Condo", "Raw Land", "Single Family Res", "PUD"],
-  ptypeUPB:[6030951.66, 5551552.76, 1004854.38, 616818.25, 476121.29]
+  asOf:"August 25, 2026", totalLoans:73, performing:35, paidOff:37, foreclosure:1,
+  totalUPB:16717211.36, performingUPB:16378211.36, totalOrig:33405228.0,
+  unpaidInterest:7520.47, unpaidLateCharges:2781.89, totalMonthlyPayments:159951.98,
+  wtdAvgRate:12.0909,
+  stateLabels:["FL", "NJ", "TX", "SC", "LA", "GA"], stateUPB:[13983040.38, 1387293.74, 600000.0, 491619.0, 209318.25, 45939.99], stateCnt:[67, 2, 1, 1, 1, 1],
+  rateLabels:["< 10%","10–11%","11–12%","12–13%","13–14%","≥ 14%"], rateCounts:[2, 3, 7, 23, 0, 0],
+  vintageYears:["2019", "2020", "2024", "2025", "2026"], vintageUPB:[254434.27, 450453.46, 1826202.71, 3972673.07, 9874447.85],
+  ptypeLabels:["Residential Income 1-4", "Residential Condo", "Raw Land", "PUD", "Single Family Res"],
+  ptypeUPB:[8499978.9, 5551552.76, 1004854.38, 705007.07, 616818.25]
 };
 
 // ══ CASH / AUM DATA ══════════════════════════════════════════════════════════
-const UBS_CASH    = 3500000.00;  // UBS International RMA · July 17, 2026
+const UBS_CASH    = 2000000.00;  // UBS International RMA · August 25, 2026
 const UBS_DATE    = "July 17, 2026";
 // Capital Not Called or Settled — every subscription that is committed and/or
 // called but has NOT settled. Excluded from subscribed capital, NAV, participation
