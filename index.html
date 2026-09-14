@@ -506,6 +506,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
       <li>Loans purchased but not yet fully boarded on the BGT servicing platform will <strong>not appear in the portfolio data</strong> on this page until the boarding process is complete.</li>
       <li>The Line of Credit is a <strong>$1,900,000.00</strong> cash management facility, of which <span id="aum-loc-note"></span> is currently drawn ($900,000.00 still available). The drawn proceeds are held in cash and are <strong>already included in Cash &amp; Liquidity</strong> above, so the facility is not added a second time in Total AUM. It does <strong>not represent investor capital</strong> or deployed assets.</li>
       <li><strong>Two-servicer structure.</strong> As of September 14, 2026 the loan book is split between two servicers. <strong>Superior Loan Servicing (SLS, acct SLS-1847)</strong> services <strong>32 loans totalling $12,348,300.73</strong> per the SLS &ldquo;Portfolio at a Glance&rdquo; export dated September 14, 2026. <strong>FCI</strong> services <strong>2 loans totalling $3,228,337.67</strong> per the FCI API: #399687608 (Kamaredine Properties, LLC, $2,889,337.67, performing), #399532953 (Blessed To Be A Blessings Properties LLC, $339,000.00, in foreclosure). The SLS loans remain in the FCI feed as &ldquo;Transfer out&rdquo; at zero balance, so their loan-level attributes (interest rate, origination vintage, property type and state) are sourced from FCI while current balances are sourced from the SLS export &mdash; <strong>there is no double count</strong>, and SLS loans now feed the interest-rate, vintage and property-type charts. The former FCI portal offset of <strong>$1,102,522.86 has been retired</strong>, as has the standalone #399303240 (Amarka House LLC) add-on, which now appears inside the SLS export. Added on top: <strong>2 loans totalling approximately $800,000.00 still in the boarding process</strong>, reported on a separate <strong>In Boarding</strong> basis &mdash; they lift total UPB and the loan count only and are <strong>excluded from the performing count and from the state, interest-rate, vintage and property-type charts</strong> until they board. <strong>#399508812 (1910 Glencoe Rd LLC)</strong> was <strong>paid off at SLS</strong> and counts only in the paid-off tally. Fund loan total <strong>$16,376,638.40</strong>. Note: <strong>#399298500 (Floridian LLC, $175,627.69)</strong> shows a next due date of August 1, 2026 in the SLS export and is one payment behind; it is retained in the performing figures shown here. Unpaid interest and late charges reflect FCI&rsquo;s last-known figures at transfer and are not refreshed by SLS; scheduled monthly collections exclude 5 SLS loans for which FCI carries no payment amount.</li>
+    <li><strong>1S 2026 interest distribution of $118,524.38</strong> has been approved for the investors who elected to receive their first-half 2026 interest in cash (Ocean Investing Corp. $51,572.60 &middot; 4.298%; LIV Fund SPC – Real Estate Lending SP $32,250.81 &middot; 4.300%; GPJET Corp. $23,587.21 &middot; 4.325%; Pirita Ltd. $11,113.76 &middot; 4.274%), calculated on the NAV movement from December 31, 2025 to June 30, 2026. The payment is <strong>pending as of September 2026</strong> and has not yet left the account, so <strong>Cash &amp; Liquidity above is shown before this distribution</strong>. Prior-year (2025) distributions are reported separately and are unaffected.</li>
     </ol>
   </div>
 
@@ -867,6 +868,7 @@ function __renderCashflow(invKey, inv, pfx) {
       : `<div class="inv-card blue"><div class="inv-card-label">NAV (June 30, 2026)</div><div class="inv-card-value">${fmt$(inv.nav2025)}</div><div class="inv-card-sub">from ${fmt$(inv.navMay2026)} May NAV</div></div>
          <div class="inv-card green"><div class="inv-card-label">June 2026 Return</div><div class="inv-card-value">${fmtPct(inv.roiMonth||0)}</div><div class="inv-card-sub">+${fmt$(mayGainKpi)} gain</div></div>`}
     <div class="inv-card amber"><div class="inv-card-label">Distribution (2025)</div><div class="inv-card-value">${distribApproved ? fmt$(distribAmt) : '—'}</div><div class="inv-card-sub">${distribApproved ? '✅ Paid — base adjusted' : 'No distribution'}</div></div>
+    ${DISTRIB_1S26.items[invKey] ? `<div class="inv-card amber" style="border-color:#0e7490"><div class="inv-card-label">${DISTRIB_1S26.period} Interest Distribution</div><div class="inv-card-value" style="color:#0e7490">${fmt$(DISTRIB_1S26.items[invKey].amount)}</div><div class="inv-card-sub">${fmtPct(DISTRIB_1S26.items[invKey].roi)} period return · ⏳ ${DISTRIB_1S26.status}</div></div>` : ''}
     ${unsettledTotal(invKey) > 0 ? `<div class="inv-card amber" style="border-color:#b45309"><div class="inv-card-label">Capital Not Called or Settled</div><div class="inv-card-value" style="color:#b45309">${fmt$(unsettledTotal(invKey))}</div><div class="inv-card-sub">${unsettledFor(invKey).length} item${unsettledFor(invKey).length>1?'s':''} · excluded from NAV</div></div>` : ''}`;
 
   // ── Detail grid (modal only) ──
@@ -1116,6 +1118,22 @@ const COMMITMENTS = CAPITAL_UNSETTLED.reduce((s,c) => s + c.amount, 0);  // Capi
 const LOC_FACILITY = 1900000.00;  // Inter facility size
 const LOC_DRAWN    = 1000000.00;  // drawn — proceeds already inside UBS_CASH
 const LINE_CREDIT = 0;  // excluded from the AUM sum to avoid double counting the draw
+
+
+// ══ 1S 2026 INTEREST DISTRIBUTION ═══════════════════════════════════════════
+// Investors who elected to receive their 1H-2026 interest in cash.
+// Basis: NAV movement 31-Dec-2025 → 30-Jun-2026. Separate from the 2025
+// distribution fields (distrib / distribAmt), which are left intact.
+const DISTRIB_1S26 = {
+  period:"1S 2026", payDate:"September 2026", status:"Pending payment",
+  items:{
+  "OCN-2025": {amount:51572.60, roi:0.042977, name:"Ocean Investing Corp."},
+  "LIV-2025": {amount:32250.81, roi:0.043001, name:"LIV Fund SPC – Real Estate Lending SP"},
+  "GPJ-2025": {amount:23587.21, roi:0.043250, name:"GPJET Corp."},
+  "PIR-2025": {amount:11113.76, roi:0.042745, name:"Pirita Ltd."},
+  }
+};
+const DISTRIB_1S26_TOTAL = Object.values(DISTRIB_1S26.items).reduce((s,x)=>s+x.amount,0);
 
 // ══ HELPERS ══════════════════════════════════════════════════════════════════
 const fmt$ = (n,d=0) => '$'+Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
