@@ -478,7 +478,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
     <div class="aum-col">
       <div class="aum-lbl">Cash &amp; Liquidity</div>
       <div class="aum-val" id="aum-cash"></div>
-      <div class="aum-sub">UBS · June 18, 2026</div>
+      <div class="aum-sub">UBS · September 14, 2026</div>
     </div>
     <div class="aum-op">+</div>
     <div class="aum-col">
@@ -486,11 +486,11 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
       <div class="aum-val" id="aum-commit"></div>
       <div class="aum-sub">Called or not yet settled</div>
     </div>
-    <div class="aum-op">+</div>
+    <div class="aum-op">·</div>
     <div class="aum-col aum-col-credit">
       <div class="aum-lbl">Line of Credit</div>
       <div class="aum-val" id="aum-loc"></div>
-      <div class="aum-sub">Cash mgmt. only</div>
+      <div class="aum-sub">Drawn of $1.9M · $0.9M available</div>
     </div>
     <div class="aum-op">=</div>
     <div class="aum-col-total">
@@ -502,10 +502,10 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f1f5f9;color:#0f172a;}
   <div class="aum-disclaimer">
     <strong>Notes &amp; Disclaimers:</strong>
     <ol class="aum-disc-list">
-      <li>Capital Not Called or Settled of <span id="aum-commit-note"></span> represents investor subscriptions <strong>not yet called or settled as of the database date</strong> and are not reflected in the FCI loan database.</li>
+      <li>All committed capital has been <strong>called and settled</strong> as of September 14, 2026. Capital Not Called or Settled is <span id="aum-commit-note"></span>; any future subscription is excluded from subscribed capital, NAV and participation until the cash actually lands.</li>
       <li>Loans purchased but not yet fully boarded on the BGT servicing platform will <strong>not appear in the portfolio data</strong> on this page until the boarding process is complete.</li>
-      <li>The Line of Credit of <span id="aum-loc-note"></span> is a cash management facility only and does <strong>not represent investor capital</strong> or deployed assets.</li>
-      <li>The FCI-serviced book is shown at the <strong>FCI servicer UPB of $16,488,325.58</strong>, reconciled to the FCI website loan export dated August 25, 2026; the former portal offset was <strong>retired</strong> once the previously unboarded loans appeared in the feed. Added on top: <strong>#399303240 (Amarka House LLC, FL, PUD, 12.00%, $228,885.78)</strong>, serviced by <strong>Superior Loan Servicing (SLS)</strong> and carried in the FCI feed as “Transfer out” at zero balance so there is no double count — it feeds the interest-rate, vintage and property-type charts as well as UPB, loan counts and the state breakdown; and <strong>one loan purchased and paid in full for $165,000 that is not yet boarded at FCI</strong>, which lifts total UPB and the loan count only and is <strong>excluded from the state, interest-rate, vintage and property-type charts</strong> until it boards. Fund total <strong>$16,882,211.36</strong>. #399508812 (1910 Glencoe Rd LLC) was <strong>paid off at SLS</strong> and counts only in the paid-off tally. Note: FCI’s export flags <strong>#399298500 ($175,627.69, 24 days late)</strong> as delinquent while the FCI API reports it as performing; it is retained in the performing figures shown here.</li>
+      <li>The Line of Credit is a <strong>$1,900,000.00</strong> cash management facility, of which <span id="aum-loc-note"></span> is currently drawn ($900,000.00 still available). The drawn proceeds are held in cash and are <strong>already included in Cash &amp; Liquidity</strong> above, so the facility is not added a second time in Total AUM. It does <strong>not represent investor capital</strong> or deployed assets.</li>
+      <li><strong>Two-servicer structure.</strong> As of September 14, 2026 the loan book is split between two servicers. <strong>Superior Loan Servicing (SLS, acct SLS-1847)</strong> services <strong>32 loans totalling $12,348,300.73</strong> per the SLS &ldquo;Portfolio at a Glance&rdquo; export dated September 14, 2026. <strong>FCI</strong> services <strong>2 loans totalling $3,228,337.67</strong> per the FCI API: #399687608 (Kamaredine Properties, LLC, $2,889,337.67, performing), #399532953 (Blessed To Be A Blessings Properties LLC, $339,000.00, in foreclosure). The SLS loans remain in the FCI feed as &ldquo;Transfer out&rdquo; at zero balance, so their loan-level attributes (interest rate, origination vintage, property type and state) are sourced from FCI while current balances are sourced from the SLS export &mdash; <strong>there is no double count</strong>, and SLS loans now feed the interest-rate, vintage and property-type charts. The former FCI portal offset of <strong>$1,102,522.86 has been retired</strong>, as has the standalone #399303240 (Amarka House LLC) add-on, which now appears inside the SLS export. Added on top: <strong>2 loans totalling approximately $800,000.00 still in the boarding process</strong>, reported on a separate <strong>In Boarding</strong> basis &mdash; they lift total UPB and the loan count only and are <strong>excluded from the performing count and from the state, interest-rate, vintage and property-type charts</strong> until they board. <strong>#399508812 (1910 Glencoe Rd LLC)</strong> was <strong>paid off at SLS</strong> and counts only in the paid-off tally. Fund loan total <strong>$16,376,638.40</strong>. Note: <strong>#399298500 (Floridian LLC, $175,627.69)</strong> shows a next due date of August 1, 2026 in the SLS export and is one payment behind; it is retained in the performing figures shown here. Unpaid interest and late charges reflect FCI&rsquo;s last-known figures at transfer and are not refreshed by SLS; scheduled monthly collections exclude 5 SLS loans for which FCI carries no payment amount.</li>
     </ol>
   </div>
 
@@ -1088,30 +1088,24 @@ const GUEST_PASS = "GUEST";
 
 // ══ FUND DATA ═════════════════════════════════════════════════════════════════
 const D = {
-  asOf:"September 14, 2026", totalLoans:73, performing:3, paidOff:38, foreclosure:1,
-  totalUPB:5319746.31, performingUPB:4980746.31, totalOrig:33405228.0,
-  unpaidInterest:7520.47, unpaidLateCharges:2781.89, totalMonthlyPayments:31946.58,
-  wtdAvgRate:12.99,
-  stateLabels:["FL", "GA", "NJ", "TX", "SC", "LA"], stateUPB:[5319746.31, 0.0, 0.0, 0.0, 0.0, 0.0], stateCnt:[67, 1, 2, 1, 1, 1],
-  rateLabels:["< 10%","10–11%","11–12%","12–13%","13–14%","≥ 14%"], rateCounts:[0, 0, 0, 1, 0, 0],
-  vintageYears:["2026"], vintageUPB:[2889337.67],
-  ptypeLabels:["Residential Income 1-4"],
-  ptypeUPB:[2889337.67]
+  asOf:"September 14, 2026", totalLoans:75, performing:33, paidOff:39, foreclosure:1,
+  totalUPB:16376638.4, performingUPB:15237638.4, totalOrig:33405228.0,
+  unpaidInterest:7520.47, unpaidLateCharges:2781.89, totalMonthlyPayments:128792.89,
+  wtdAvgRate:12.1073,
+  stateLabels:["FL", "NJ", "TX", "SC", "LA", "GA"], stateUPB:[12796167.42, 1387293.74, 600000.0, 537919.0, 209318.25, 45939.99], stateCnt:[67, 2, 1, 1, 1, 1],
+  rateLabels:["< 10%","10–11%","11–12%","12–13%","13–14%","≥ 14%"], rateCounts:[2, 3, 7, 21, 0, 0],
+  vintageYears:["2019", "2020", "2024", "2025", "2026"], vintageUPB:[254434.27, 449915.48, 1342740.49, 3532673.07, 9657875.09],
+  ptypeLabels:["Residential Income 1-4", "Residential Condo", "Raw Land", "PUD", "Single Family Res"],
+  ptypeUPB:[7622154.35, 5289342.33, 1004854.38, 704469.09, 616818.25]
 };
 
 // ══ CASH / AUM DATA ══════════════════════════════════════════════════════════
-const UBS_CASH    = 2000000.00;  // UBS International RMA · August 25, 2026
-const UBS_DATE    = "July 17, 2026";
+const UBS_CASH    = 5420000.00;  // UBS International RMA · September 14, 2026 · incl. all called capital settled + $1,000,000.00 Inter draw
+const UBS_DATE    = "September 14, 2026";
 // Capital Not Called or Settled — every subscription that is committed and/or
 // called but has NOT settled. Excluded from subscribed capital, NAV, participation
 // and the FCI loan database until the cash actually lands.
-const CAPITAL_UNSETTLED = [
-  {key:"AUP-2025", investor:"Au Passage Ltd.",      type:"Commitment — Uncalled", amount:141978.90,  date:"2026-06-25", ref:"Form B · e3e3ae64"},
-  {key:"AUP-2025", investor:"Au Passage Ltd.",      type:"Commitment — Uncalled", amount:238654.94,  date:"2026-07-02", ref:"Form B · 6d6bb797"},
-  {key:"EP-2026",  investor:"EP Investments Corp.", type:"Commitment — Uncalled", amount:2000000.00, date:"2026-07-27", ref:"Form A Exh. II · C08F507D"},
-  {key:"QUE-2025", investor:"Quepar Ltd.",          type:"Called — Unsettled",    amount:120000.00,  date:"2026-07-03", ref:"4th Capital Call"},
-  {key:"QUE-2025", investor:"Quepar Ltd.",          type:"Called — Unsettled",    amount:148160.00,  date:"2026-07-03", ref:"4th Capital Call"}
-];
+const CAPITAL_UNSETTLED = [];  // all committed capital called and settled · September 14, 2026
 function fmtDate(iso){
   const [y,m,d] = iso.split('-').map(Number);
   return MONTH_FULL[m-1] + ' ' + d + ', ' + y;
@@ -1119,7 +1113,9 @@ function fmtDate(iso){
 function unsettledFor(key){ return CAPITAL_UNSETTLED.filter(c => c.key === key); }
 function unsettledTotal(key){ return unsettledFor(key).reduce((s,c) => s + c.amount, 0); }
 const COMMITMENTS = CAPITAL_UNSETTLED.reduce((s,c) => s + c.amount, 0);  // Capital not called or settled
-const LINE_CREDIT = 1900000.00;  // Line of credit — cash management facility only
+const LOC_FACILITY = 1900000.00;  // Inter facility size
+const LOC_DRAWN    = 1000000.00;  // drawn — proceeds already inside UBS_CASH
+const LINE_CREDIT = 0;  // excluded from the AUM sum to avoid double counting the draw
 
 // ══ HELPERS ══════════════════════════════════════════════════════════════════
 const fmt$ = (n,d=0) => '$'+Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
@@ -1253,12 +1249,12 @@ function __render(pass) {
   set('aum-loans',        fmtM(D.totalUPB));
   set('aum-cash',         fmtM(UBS_CASH));
   set('aum-commit',       fmtM(COMMITMENTS));
-  set('aum-loc',          fmtM(LINE_CREDIT));
+  set('aum-loc',          fmtM(LOC_DRAWN));
   set('aum-total',        fmtM(totalAUM));
   set('aum-asof',         D.asOf);
   set('aum-asof2',        D.asOf);
   set('aum-commit-note',  fmt$(COMMITMENTS));
-  set('aum-loc-note',     fmt$(LINE_CREDIT));
+  set('aum-loc-note',     fmt$(LOC_DRAWN));
 
   set('kpi-total', D.totalLoans);
   set('kpi-upb', fmtM(D.totalUPB));
