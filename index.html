@@ -685,7 +685,7 @@ const INVESTORS = {
   "MAY-2026": {
     name:"Mayfair Inc. Holding Co. Ltd.", subscribed:498750.00, distrib:0, netBalance:498750.00,
     begin2025:0, nav2025:0, navMay2026:0, junSub:0, julSub:498750.00, julSubDate:"2026-07-03", navJan2026:0, navFeb2026:0, navMar2026:0, navApr2026:0,
-    participation:0.02733, netReturn:0, roi:0, roiAnn:0, irr:0, distribApproved:"N", distribAmt:0, begin2026:0, roiMonth:0, fundedJul:1, since:"2026-07-03",
+    participation:0.02733, netReturn:0, roi:0, roiAnn:0, irr:0.0889, distribApproved:"N", distribAmt:0, begin2026:0, roiMonth:0, fundedJul:1, since:"2026-07-03",
     navJul2026:502019.37, sharesJul2026:427.6197, julGain:3269.37, roiMonthJul:0.006555, participationJul:0.02733
   },
   "MIL-2025": {
@@ -771,7 +771,7 @@ const CASHFLOWS = {
   },
   "MAY-2026": {
     investments:[{month:18,amount:498750,dateLabel:"July 3, 2026",label:"Initial Sub. (1st Capital Call)"}],
-    distrib:null, irr:0
+    distrib:null, irr:0.08890
   },
   "MIL-2025": {
     investments:[{month:6,amount:498750,label:"Initial Sub."}],
@@ -806,8 +806,8 @@ const CASHFLOWS = {
 
 // ══ CAPITAL CALL LEDGER ══════════════════════════════════════════════════════
 // Letter-level record of the June 25, 2026 capital call notices (due July 3, 2026).
-// `fundedDate` drives XIRR. Historical calls (Au Passage 1-6, Paissandu 1-5,
-// Quepar 1-3) still need their actual funding dates before XIRR is authoritative.
+// Reference only: funded calls flow into IRR via INVESTORS.julSub (see irrLedger),
+// so this ledger is not summed again.
 const CAPITAL_CALLS = [
   {key:"AUP-2025", callNo:7, amount:48212.11,  noticeDate:"2026-06-25", dueDate:"2026-07-03", fundedDate:"2026-07-03", status:"Funded"},
   {key:"AUP-2025", callNo:7, amount:95548.66,  noticeDate:"2026-06-25", dueDate:"2026-07-03", fundedDate:"2026-07-03", status:"Funded"},
@@ -834,20 +834,39 @@ function xirr(cf, guess) {
   return (lo+hi)/2;
 }
 
-// Builds an investor's dated cashflow series. Returns null when any leg is
-// missing a real date, so a partial history can never be shown as a true XIRR.
-function investorXirr(key, inv) {
-  const legs = (CAPITAL_CALLS.filter(c => c.key===key && c.fundedDate))
-    .map(c => ({date:c.fundedDate, amount:-c.amount}));
+// IRR valuation date = latest administrator NAV statement. Roll forward (and
+// add navAug2026 etc.) when a new month-end NAV is loaded.
+const IRR_VALUATION = {date:"2026-07-31", nav:inv => inv.navJul2026};
+
+// Dated cashflow ledger for an investor, Jan 2025 → IRR_VALUATION.date:
+// 2025 subscriptions (1st of month), approved 2025 distributions (Dec 31, 2025),
+// June 2026 subscription (Jun 1), July 2026 capital call (julSubDate), and the
+// closing NAV as the terminal inflow. Calls not yet funded and distributions
+// not yet paid (e.g. 1S 2026, still inside NAV) are excluded.
+function irrLedger(key, inv) {
   const cf = CASHFLOWS[key];
-  if(!cf) return null;
-  const undated = cf.investments.filter(x => !x.fundedDate);
-  if(undated.length) return null;            // historical dates not yet supplied
-  cf.investments.forEach(x => legs.push({date:x.fundedDate, amount:-x.amount}));
-  legs.sort((a,b) => a.date < b.date ? -1 : 1);
-  legs.push({date:"2026-07-31", amount:inv.navJul2026 || (inv.nav2025 + (inv.julSub||0))});
-  return xirr(legs);
+  const legs = [];
+  if(!cf) return legs;
+  cf.investments.filter(x => x.month < 12).forEach(x =>
+    legs.push({date:`2025-${String(x.month+1).padStart(2,'0')}-01`, amount:-x.amount}));
+  if(inv.distribApproved==='Y' && inv.distribAmt > 0) legs.push({date:"2025-12-31", amount:inv.distribAmt});
+  if((inv.junSub||0) > 0) legs.push({date:"2026-06-01", amount:-inv.junSub});
+  if((inv.julSub||0) > 0) legs.push({date:inv.julSubDate, amount:-inv.julSub});
+  const nav = IRR_VALUATION.nav(inv) || 0;
+  if(nav > 0) legs.push({date:IRR_VALUATION.date, amount:nav});
+  return legs.sort((a,b) => a.date < b.date ? -1 : 1);
 }
+
+function investorXirr(key, inv) {
+  return xirr(irrLedger(key, inv));
+}
+
+// Replace the stored IRRs with the ledger XIRR (null = not yet funded).
+Object.keys(INVESTORS).forEach(k => {
+  const r = investorXirr(k, INVESTORS[k]);
+  INVESTORS[k].irr = r;
+  if(CASHFLOWS[k]) CASHFLOWS[k].irr = r || 0;
+});
 
 const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTH_FULL  = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -902,7 +921,7 @@ function __renderCashflow(invKey, inv, pfx) {
           <tr><td>June 2026 Gain ($)</td><td>${fmt$(mayGainKpi)}</td></tr>
           <tr><td>YTD 2026 ROI</td><td style="color:var(--green)">${fmtPct(ytdRoi)}</td></tr>
           <tr><td>Total Return (2025)</td><td>${fmtPct(inv.roi)}</td></tr>
-          <tr><td>IRR (since Jan 2025)</td><td>${fmtPct(inv.irr)}</td></tr>
+          <tr><td>IRR (since Jan 2025)</td><td>${fmtIrr(inv.irr)}</td></tr>
           <tr><td>Begin 2026 Balance</td><td>${fmt$(inv.begin2026)}</td></tr>
         </table>
       </div>
@@ -1168,6 +1187,7 @@ const DISTRIB_1S26_TOTAL = Object.values(DISTRIB_1S26.items).reduce((s,x)=>s+x.a
 const fmt$ = (n,d=0) => '$'+Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
 const fmtM = n => '$'+(n/1e6).toFixed(2)+'M';
 const fmtPct = (n,d=2) => (n*100).toFixed(d)+'%';
+const fmtIrr = n => n == null ? '—' : fmtPct(n);
 const set = (id,v) => { const el=document.getElementById(id); if(el) el.textContent=v; };
 
 // ══ AUTH ══════════════════════════════════════════════════════════════════════
@@ -1215,7 +1235,7 @@ function __render(pass) {
 
     set('d-roiMonth',  fmtPct(inv.roiMonthJul||0));
     set('d-roi',       fmtPct(inv.roi));
-    set('d-irr',       fmtPct(inv.irr));
+    set('d-irr',       fmtIrr(inv.irr));
     set('d-net-return',fmt$(inv.netReturn));
     set('d-distrib-total', inv.distribApproved === 'Y' ? fmt$(inv.distribAmt) : '—');
     set('d-begin2026', fmt$(inv.begin2026));
@@ -1271,7 +1291,7 @@ function __render(pass) {
         <td style="color:var(--green)">${fmtPct(p.roiMonthJul||0)}</td>
         <td style="font-weight:700;color:var(--navy)">${fmt$(p.begin2026)}</td>
         <td>${fmtPct(p.roi)}</td>
-        <td>${fmtPct(p.irr)}</td>
+        <td>${fmtIrr(p.irr)}</td>
         <td>${p.distribApproved==='Y'?fmt$(p.distribAmt)+' ✓':'—'}</td>
         <td style="color:#b45309;font-weight:${unsettledTotal(k)>0?'700':'400'}">${unsettledTotal(k)>0?fmt$(unsettledTotal(k)):'—'}</td>`;
       tbody.appendChild(tr);
